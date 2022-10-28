@@ -105,6 +105,8 @@ final class Web_To_App
             //new ajax\cart\Frontend();
         }
 
+        new WebToApp\API();
+
     }
 
     /**
