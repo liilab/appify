@@ -25,11 +25,13 @@
  * Domain Path:       /languages
  */
 
+use WebToApp\API;
+
 if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
-//require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * The main plugin class
@@ -98,6 +100,7 @@ final class Web_To_App
 
         if ( is_admin() ) {
             //new ajax\cart\Admin();
+            //new WebToApp\API();
         } else {
             //new ajax\cart\Frontend();
         }
