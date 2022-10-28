@@ -134,5 +134,5 @@ function Web_To_App()
     return Web_To_App::init();
 }
 
-// kick-off the plugin
+// kick-off the plugi
 Web_To_App();
