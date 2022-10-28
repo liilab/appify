@@ -1,0 +1,19 @@
+{
+    "name": "satsa/test.tsabbir.com",
+    "description": "Web to app maker",
+    "type": "wordpress-plugin",
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Sabbir Ahmed Talukdar",
+            "email": "satsabbir11@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "WebToApp\\": "includes/"
+        }
+    }
+}
