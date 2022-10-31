@@ -25,7 +25,6 @@
  * Domain Path:       /languages
  */
 
-use WebToApp\API;
 
 if ( !defined( 'ABSPATH' ) ) {
     exit;
@@ -98,13 +97,6 @@ final class Web_To_App
     public function init_plugin()
     {
 
-        if ( is_admin() ) {
-            //new ajax\cart\Admin();
-            //new WebToApp\API();
-        } else {
-            //new ajax\cart\Frontend();
-        }
-
         new WebToApp\API();
 
     }
@@ -123,6 +115,7 @@ final class Web_To_App
         }
 
         update_option( 'wta_version', WTA_VERSION );
+
     }
 }
 
