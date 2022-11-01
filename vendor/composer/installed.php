@@ -3,7 +3,7 @@
         'name' => 'satsa/test.tsabbir.com',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f5e615a751c407914bff4cfc2bfde375a35b4662',
+        'reference' => 'd6600a974271946057aca3243fe50e79db6a4430',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'satsa/test.tsabbir.com' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f5e615a751c407914bff4cfc2bfde375a35b4662',
+            'reference' => 'd6600a974271946057aca3243fe50e79db6a4430',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
