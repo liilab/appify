@@ -98,6 +98,7 @@ final class Web_To_App
     {
 
         new WebToApp\API();
+        new WebToApp\User();
 
     }
 
