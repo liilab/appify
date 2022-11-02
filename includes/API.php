@@ -11,7 +11,7 @@ class API
 
     public function register_api()
     {
-        $webtoapp = new API\Webtoapp();
+        $webtoapp = new API\Product_Details();
         $webtoapp->register_routes();
     }
 }

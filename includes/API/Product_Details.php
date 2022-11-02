@@ -2,10 +2,16 @@
 
 namespace WebToApp\API;
 
-class Webtoapp extends \WP_REST_Controller {
-	function __construct() {
+class Product_Details extends \WP_REST_Controller {
+	public $user_token;
+	public $user;
+
+	public function __construct() {
 		$this->namespace = 'web-to-app/v1';
 		$this->rest_base = 'products';
+
+		$this->user = wp_get_current_user();
+		$this->user_token = \WebToApp\User\Token::get_user_access_token($this->user->ID);
 	}
 
 	public function register_routes() {
@@ -73,6 +79,8 @@ class Webtoapp extends \WP_REST_Controller {
 	}
 
 	public function format_wc_product( \WC_Product $product ): array {
+
+		
 
 		$data = [
 			'id'                          => $product->get_id(),
