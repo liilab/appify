@@ -86,8 +86,6 @@ class Product_Details extends \WP_REST_Controller
 	public function format_wc_product(\WC_Product $product): array
 	{
 
-
-
 		$data = [
 			'id'                          => $product->get_id(),
 			'name'                        => $product->get_name(),
@@ -124,7 +122,7 @@ class Product_Details extends \WP_REST_Controller
 			'display_rating'              => 'attention here!',
 			'average_rating'              => $product->get_average_rating(),
 			'rating_count'                => $product->get_rating_count(),
-			'images'                      => $product->get_gallery_image_ids(),
+			'images'                      => array(), //$product->get_gallery_image_ids(),
 			'thumbnail'                   => $product->get_image_id(),
 			'thumbnail_meta'              => 'attention here!',
 			'images_meta'                 => 'attention here!',
@@ -140,8 +138,213 @@ class Product_Details extends \WP_REST_Controller
 			'product_widgets'             => $product,
 		];
 
+		$images              = $this->get_images( $product, $expanded =false, $product->ID );            
+        $data['images']      = $images['images'];
+        $data['images_meta'] = $this->get_images_meta( $images['attachment_ids'] );
+		$thumbnail = $this->get_thumbnail( $product );
+
+        if(empty($data['images'])){
+            $data['images'] = array($thumbnail['url']);
+            $size = $thumbnail['size'];  
+            $data['images_meta'][] = array('caption'=>'','size'=>$size);         
+        } 
+
 		return $data;
 	}
+
+	public function get_thumbnail( $product ) {
+
+        
+        $size='medium';
+
+        $size = apply_filters( 'appmaker_wc_product_image_size', $size );
+        $thumbnail_id = get_post_thumbnail_id( $product->is_type( 'variation' ) ? $product->variation_id : $product->ID);
+        $image = wp_get_attachment_image_src( $thumbnail_id,  $size  );
+        if ( empty( $image ) ) {
+            $image =  array(
+                "url" => $this->ensure_absolute_link( wc_placeholder_img_src() ),
+                "size" => wc_get_image_size( $size )
+            );
+        } else {
+            $thumb_post = get_post($thumbnail_id);
+            $image['url'] = $this->ensure_absolute_link( $image[0] );
+            if( !empty($image[1]) && !empty($image[2])  ) {               
+                $image['size']  = array(
+                        'width'  => $image[1],
+                        'height' => $image[2],
+                    );
+            }else {
+                $image['size'] = $this->get_image_dimensions($thumb_post ,$size ,true );
+            }
+
+        }
+        $image = apply_filters('appmaker_wc_product_image_url',$image,$size);
+        return $image;
+    }
+
+	public function ensure_absolute_link( $url )
+    {
+        if (! preg_match('~^(?:f|ht)tps?://~i', $url) ) {
+            $url = get_site_url(null, $url);
+        }
+        if (substr($url, 0, 2) === '//' ) {
+            $url = 'https:' . $url;
+        }
+        return $url;
+    }
+
+	protected function get_images_meta( $attachment_ids ) {
+        $data = array();
+        foreach ( $attachment_ids as $id ) {
+            $attachment = get_post( $id );
+            $data[]     = array(
+                'caption' => function_exists( 'wp_get_attachment_caption' ) && wp_get_attachment_caption( $id ) ? $attachment->post_excerpt : '',
+                'size'  => $this->get_image_dimensions($attachment)
+            );
+        }
+
+        return $data;
+    }
+
+	public static function get_image_dimensions( $item, $size = false, $thumbnail = false ) {
+
+		$cacheEnabled = false;
+		if ( is_string( $item ) ) {
+			$id   = attachment_url_to_postid( $item );
+			$item = get_post( $id );
+		}
+		if ( ! is_a( $item, 'WP_Post' ) ) {
+			return false;
+		}
+		if( $size === false ){
+			$size='medium';
+		}		
+		$image_url = wp_get_attachment_image_src( $item->ID,  $size  );
+	
+		if( is_array( $image_url ) && ! empty( $image_url[1] )  ) {
+			if( empty( $image_url[2] ) ) {
+				$image_url[2] = 1;
+			}
+			return array(
+					'width'  => $image_url[1],
+					'height' => $image_url[2],
+				);
+		}
+
+		$size_array = array();
+
+		if ( $cacheEnabled ) {
+			$cache_key = 'appmaker_wc_image_dimension_item_' . $item->ID;
+			$response  = get_transient( $cache_key );
+			if ( ! empty( $response ) ) {
+				return $response;
+			}
+		} else {
+			$meta = wp_get_attachment_metadata( $item->ID );
+		}
+
+		if ( empty( $meta ) ) {
+			$attachment_path = get_attached_file( $item->ID );
+			$attach_data     = wp_generate_attachment_metadata( $item->ID, $attachment_path );
+			wp_update_attachment_metadata( $item->ID, $attach_data );
+			// Wrap the data in a response object
+			$meta = wp_get_attachment_metadata( $item->ID );
+		}
+		if ( isset( $meta['sizes'] ) && is_array( $meta['sizes'] ) && ! empty( $meta['sizes'] ) && ! empty( $size ) ) {
+			foreach ( $meta['sizes'] as $meta_size_id => $meta_size ) {
+				if ( $meta_size_id == $size && isset( $meta_size['width'], $meta_size['height'] ) ) {
+					$size_array = array(
+						'width'  => $meta_size['width'],
+						'height' => $meta_size['height'],
+					);
+				}
+			}
+		}
+
+		if ( empty( $size_array ) ) {
+			if ( isset( $meta['width'], $meta['height'] ) && ! $thumbnail ) {
+
+				$size_array = array(
+					'width'  => $meta['width'],
+					'height' => $meta['height'],
+				);
+			} else {
+				$size_array = array(
+					'width'  => 300,
+					'height' => 300,
+				);
+			}
+		}
+
+		if ( $cacheEnabled ) {
+			$cache_key = 'appmaker_wc_image_dimension_item_' . $item->ID;
+			set_transient( $cache_key, $size_array, 60 * 60 * 24 * 30 );
+		}
+		return $size_array;
+	}
+
+	protected function get_images( $product, $merge_images = false, $merge_id = 0 ) {
+        $images         = array();
+        $attachment_ids = array();
+
+        if($merge_images){
+
+            if ( $product->is_type( 'variation' ) ) {
+                if ( has_post_thumbnail( $product->get_variation_id() ) ) {
+    
+                    // Add variation image if set.
+                    $attachment_ids[] = get_post_thumbnail_id( $product->get_variation_id() );
+                } elseif ( has_post_thumbnail($product->ID ) ) {
+                    // Otherwise use the parent product featured image if set.
+                    $attachment_ids[] = get_post_thumbnail_id( $product->ID );
+                }
+            } else {
+                // Add featured image.
+                if ( has_post_thumbnail( $product->ID ) ) {
+                    $attachment_ids[] = get_post_thumbnail_id( $product->ID );
+                }
+                // Add gallery images.
+                if ( method_exists( $product, 'get_gallery_image_ids' ) ) {
+                    $attachment_ids = array_merge( $attachment_ids, $product->get_gallery_image_ids() );
+                } else {
+                    $attachment_ids = array_merge( $attachment_ids, $product->get_gallery_attachment_ids() );
+                }
+            }
+    
+            // Build image data.
+            foreach ( $attachment_ids as $position => $attachment_id ) {
+                $attachment_post = get_posts( $attachment_id );
+                if ( is_null( $attachment_post ) ) {
+                    continue;
+                }
+    
+                $attachment = wp_get_attachment_image_src( $attachment_id, 'full' );
+                if ( ! is_array( $attachment ) ) {
+                    continue;
+                }
+               $image    = $this->ensure_absolute_link( current( $attachment ) );
+                $images[] = $image;
+    
+            }
+    
+            if ( true === $merge_images ) {
+                if ( ! isset( $this->product_images[ $merge_id ] ) ) {
+                    $this->product_images[ $merge_id ]    = array();
+                    $this->product_image_ids[ $merge_id ] = array();
+                }
+                $this->product_images[ $merge_id ]    = array_merge( $this->product_images[ $merge_id ], $images );
+                $this->product_image_ids[ $merge_id ] = array_merge( $this->product_image_ids[ $merge_id ], $attachment_ids );
+    
+            } elseif ( empty( $images ) ) {
+                // Set a placeholder image if the product has no images set.
+                $image    = $this->ensure_absolute_link( wc_placeholder_img_src() );
+                $images[] = $image;
+            }
+
+        }        
+        $images = apply_filters( 'appmaker_wc_product_images', $images );
+        return array( 'images' => $images, 'attachment_ids' => $attachment_ids );
+    }
 
 	public function api_permissions_check($request)
 	{
