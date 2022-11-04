@@ -43,6 +43,15 @@ class Product_Details extends \WP_REST_Controller
 		));
 	}
 
+	public function api_permissions_check($request)
+    {
+		if (current_user_can('manage_options')) {
+			return true;
+		}
+
+		return false;
+    }
+
 	public function get_items($request)
 	{
 
@@ -131,8 +140,8 @@ class Product_Details extends \WP_REST_Controller
 			'color'                       => 'attention here!',
 			'attributes'                  => 'attention here!',
 			'default_attributes'          => 'attention here!',
-			'product_in_webview'          => 'attention here!',
-			'labels'                      => 'attention here!',
+			'product_in_webview'          => $this->user->ID,//'attention here!',
+			'labels'                      => $this->user_token ,//'attention here!',
 			//			'variations'                    => $product->get_available_variations(),
 			'variations'                  => $product->get_children(),
 			'product_widgets'             => $product,
@@ -345,13 +354,4 @@ class Product_Details extends \WP_REST_Controller
         $images = apply_filters( 'appmaker_wc_product_images', $images );
         return array( 'images' => $images, 'attachment_ids' => $attachment_ids );
     }
-
-	public function api_permissions_check($request)
-	{
-		if (current_user_can('manage_options')) {
-			return true;
-		}
-
-		return true;
-	}
 }
