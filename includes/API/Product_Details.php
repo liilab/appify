@@ -2,6 +2,11 @@
 
 namespace WebToApp\API;
 
+/**
+ * Class Product_Details
+ * @package WebToApp\API
+ */
+
 class Product_Details extends \WP_REST_Controller
 {
 	public $user_token;
@@ -16,8 +21,15 @@ class Product_Details extends \WP_REST_Controller
 		$this->user_token = \WebToApp\User\Token::get_user_access_token($this->user->ID);
 	}
 
+	/**
+	 * Register the routes for the objects of the controller.
+	 */
+
 	public function register_routes()
 	{
+		/**
+		 * Get product details
+		 */
 		register_rest_route($this->namespace, '/' . $this->rest_base, array(
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
@@ -26,6 +38,10 @@ class Product_Details extends \WP_REST_Controller
 				'args'                => $this->get_collection_params(),
 			),
 		));
+
+		/**
+		 * Get product details by id
+		 */
 
 		register_rest_route($this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
 			array(
@@ -43,6 +59,14 @@ class Product_Details extends \WP_REST_Controller
 		));
 	}
 
+	/**
+	 * Check if a given request has access to get items
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 *
+	 * @return bool|\WP_Error
+	 */
+
 	public function api_permissions_check($request)
     {
 		if (current_user_can('manage_options')) {
@@ -51,6 +75,10 @@ class Product_Details extends \WP_REST_Controller
 
 		return false;
     }
+
+	/**
+	 * Get a collection of items
+	 */
 
 	public function get_items($request)
 	{
@@ -61,9 +89,9 @@ class Product_Details extends \WP_REST_Controller
 			'status' => 'publish',
 		));
 
-		$data = array_map(function ($product) {
-			return $this->format_wc_product($product);
-		}, $products);
+		foreach ($products as $product) {
+			$data[] = $this->format_wc_product($product);
+		}
 
 
 		$response = new \WP_REST_Response($data);
@@ -72,34 +100,36 @@ class Product_Details extends \WP_REST_Controller
 		return $response;
 	}
 
+	/**
+	 * Get one item from the collection
+	 */
+
 	public function get_item($request)
 	{
 		$id   = (int) $request['id'];
 		$post = get_post($id);
-
 		$product = wc_get_product($post->ID);
-
-		$products = wc_get_products(array(
-			'limit'  => -1,
-			'status' => 'publish',
-		));
-
-
-		$thumbnail_id = get_post_thumbnail_id($product->is_type('variation') ? $product->variation_id : $product->get_id());
-		$image        = wp_get_attachment_image_src($thumbnail_id, 'full');
-
-
-		return $this->format_wc_product($product);
+		$data[] = $this->format_wc_product($product);
+		$response = new \WP_REST_Response($data);
+		$response->set_status(200);
+		return $response;
 	}
 
-	public function format_wc_product(\WC_Product $product): array
+	/**
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
+
+	public function format_wc_product($product)
 	{
+		$thumbnail = $this->get_thumbnail( $product );
 
 		$data = [
 			'id'                          => $product->get_id(),
 			'name'                        => $product->get_name(),
 			'slug'                        => $product->get_slug(),
-			'permalink'                   => $product->get_permalink(),
+			'permalink'                   => $this->ensure_absolute_link($product->get_permalink()),
 			'type'                        => $product->get_type(),
 			'featured'                    => $product->get_featured(),
 			'short_description'           => $product->get_short_description(),
@@ -116,41 +146,39 @@ class Product_Details extends \WP_REST_Controller
 			'purchasable'                 => $product->is_purchasable(),
 			'downloadable'                => $product->is_downloadable(),
 			'display_add_to_cart'         => $product->is_purchasable() && $product->is_in_stock(),
-			'change_thumbnail_image_size' => 'attention here!',
 			'hide_buy_now_block'          => $product->is_type('variable'),
-			//			'buy_now_action'                => $product->is_type( 'variable' ) ? 'select_options' : 'add_to_cart',
-			'buy_now_action'              => 'attention here!',
+			'buy_now_action'              => $this->get_buy_now_action( $product ),
 			'buy_now_button_text'         => $product->is_type('variable') ? __('Select options', 'woocommerce') : __('Add to cart', 'woocommerce'),
 			'add_to_cart_button_text'     => __('Add to cart', 'woocommerce'),
-			'qty_config'                  => 'attention here',
 			'stock_quantity'              => $product->get_stock_quantity(),
 			'in_stock'                    => $product->is_in_stock(),
 			'weight'                      => $product->get_weight(),
 			'dimensions'                  => $product->get_dimensions(),
 			'reviews_allowed'             => $product->get_reviews_allowed(),
-			'display_rating'              => 'attention here!',
 			'average_rating'              => $product->get_average_rating(),
 			'rating_count'                => $product->get_rating_count(),
-			'images'                      => array(), //$product->get_gallery_image_ids(),
-			'thumbnail'                   => $product->get_image_id(),
-			'thumbnail_meta'              => 'attention here!',
-			'images_meta'                 => 'attention here!',
+			'images'                      => array(),
+			'thumbnail'                   => $thumbnail['url'],
+			'thumbnail_meta'              => $thumbnail['size'],
+			'images_meta'                 => array(),
 			'notify_backorder'            => $product->backorders_allowed(),
-			'notify_backorder_label'      => 'attention here!',
+			'notify_backorder_label'      => __( 'On backorder', 'woocommerce' ),
+			'variations'                  => $product->get_children(),
+			'product_widgets'             => $product,
+
+			'change_thumbnail_image_size' => 'attention here!',
 			'color'                       => 'attention here!',
 			'attributes'                  => 'attention here!',
 			'default_attributes'          => 'attention here!',
-			'product_in_webview'          => $this->user->ID,//'attention here!',
-			'labels'                      => $this->user_token ,//'attention here!',
-			//			'variations'                    => $product->get_available_variations(),
-			'variations'                  => $product->get_children(),
-			'product_widgets'             => $product,
+			'product_in_webview'          => 'attention here!',
+			'labels'                      => 'attention here!',
+			'qty_config'                  => 'attention here',
+			'display_rating'              => 'attention here!',
 		];
 
 		$images              = $this->get_images( $product, $expanded =false, $product->ID );            
         $data['images']      = $images['images'];
         $data['images_meta'] = $this->get_images_meta( $images['attachment_ids'] );
-		$thumbnail = $this->get_thumbnail( $product );
 
         if(empty($data['images'])){
             $data['images'] = array($thumbnail['url']);
@@ -161,12 +189,38 @@ class Product_Details extends \WP_REST_Controller
 		return $data;
 	}
 
+	/**
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
+
+	protected function get_buy_now_action( $product ) {
+        if ( $product->is_type( 'external' ) ) {
+            return array(
+                'type'   => 'OPEN_URL',
+                'params' => array( 'url' => $product->get_product_url() ),
+            );
+        } else {
+            return array(
+                'type'   => 'normal',
+                'params' => array(),
+            );
+        }
+    }
+
+	/*
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
+
 	public function get_thumbnail( $product ) {
 
         
         $size='medium';
 
-        $size = apply_filters( 'appmaker_wc_product_image_size', $size );
+        $size = apply_filters( 'wta_wc_product_image_size', $size );
         $thumbnail_id = get_post_thumbnail_id( $product->is_type( 'variation' ) ? $product->variation_id : $product->ID);
         $image = wp_get_attachment_image_src( $thumbnail_id,  $size  );
         if ( empty( $image ) ) {
@@ -187,9 +241,15 @@ class Product_Details extends \WP_REST_Controller
             }
 
         }
-        $image = apply_filters('appmaker_wc_product_image_url',$image,$size);
+        $image = apply_filters('wta_wc_product_image_url',$image,$size);
         return $image;
     }
+
+	/*
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
 
 	public function ensure_absolute_link( $url )
     {
@@ -201,6 +261,12 @@ class Product_Details extends \WP_REST_Controller
         }
         return $url;
     }
+
+	/*
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
 
 	protected function get_images_meta( $attachment_ids ) {
         $data = array();
@@ -214,6 +280,12 @@ class Product_Details extends \WP_REST_Controller
 
         return $data;
     }
+
+	/*
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
 
 	public static function get_image_dimensions( $item, $size = false, $thumbnail = false ) {
 
@@ -243,7 +315,7 @@ class Product_Details extends \WP_REST_Controller
 		$size_array = array();
 
 		if ( $cacheEnabled ) {
-			$cache_key = 'appmaker_wc_image_dimension_item_' . $item->ID;
+			$cache_key = 'wta_wc_image_dimension_item_' . $item->ID;
 			$response  = get_transient( $cache_key );
 			if ( ! empty( $response ) ) {
 				return $response;
@@ -286,11 +358,17 @@ class Product_Details extends \WP_REST_Controller
 		}
 
 		if ( $cacheEnabled ) {
-			$cache_key = 'appmaker_wc_image_dimension_item_' . $item->ID;
+			$cache_key = 'wta_wc_image_dimension_item_' . $item->ID;
 			set_transient( $cache_key, $size_array, 60 * 60 * 24 * 30 );
 		}
 		return $size_array;
 	}
+
+	/*
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
 
 	protected function get_images( $product, $merge_images = false, $merge_id = 0 ) {
         $images         = array();
@@ -351,7 +429,7 @@ class Product_Details extends \WP_REST_Controller
             }
 
         }        
-        $images = apply_filters( 'appmaker_wc_product_images', $images );
+        $images = apply_filters( 'wta_wc_product_images', $images );
         return array( 'images' => $images, 'attachment_ids' => $attachment_ids );
     }
 }
