@@ -2,6 +2,11 @@
 
 namespace WebToApp;
 
+/**
+ * Class API
+ * @package WebToApp
+ */
+
 class API
 {
     public $routes = array();
