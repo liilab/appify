@@ -56,7 +56,7 @@ class Order extends \WP_REST_Controller
 
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base.'/(?P<id>[\d]+)',
+            '/' . $this->rest_base . '/(?P<id>[\d]+)',
             array(
                 array(
                     'methods'             => \WP_REST_Server::READABLE,
@@ -67,7 +67,7 @@ class Order extends \WP_REST_Controller
         );
     }
 
-    
+
     /**
      * Create order.
      *
@@ -77,6 +77,7 @@ class Order extends \WP_REST_Controller
      */
     public function create_order($request)
     {
+
         $params = $request->get_params();
 
         $user_id = \WebToApp\User\Token::get_user_id_by_token($params['customer_token']);
@@ -88,7 +89,7 @@ class Order extends \WP_REST_Controller
             ), 401);
             return;
         }
-        
+
         $order = wc_create_order();
         $order->set_customer_id($user_id);
 
@@ -154,13 +155,13 @@ class Order extends \WP_REST_Controller
      */
     public function order_details($request)
     {
-        $query = new \WC_Order_Query( array(
+        $query = new \WC_Order_Query(array(
             'limit' => -1,
             'orderby' => 'date',
             'order' => 'DESC',
             // 'return' => 'ids',
-        ) );
-        $orders = $query-> get_orders();
+        ));
+        $orders = $query->get_orders();
 
         return rest_ensure_response($orders);
     }
@@ -175,7 +176,6 @@ class Order extends \WP_REST_Controller
 
     public function order_detail($request)
     {
-
     }
 
     /**
@@ -188,10 +188,13 @@ class Order extends \WP_REST_Controller
 
     public function api_permissions_check($request)
     {
-        if (current_user_can('manage_options')) {
-            return true;
-        }
+        $token = $request->get_header('access_token');
 
-        return false;
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
+
+        if (empty($user_id) || empty($token)) {
+            return new \WP_Error('rest_forbidden', esc_html__('Token header is required.', 'web-to-app'), array('status' => 401));
+        }
+        return true;
     }
 }
