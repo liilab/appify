@@ -78,21 +78,20 @@ class Order extends \WP_REST_Controller
     public function create_order($request)
     {
 
-        $params = $request->get_params();
+        $token = $request->get_header('access_token');
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
 
-        $user_id = \WebToApp\User\Token::get_user_id_by_token($params['customer_token']);
-
-        if (empty($user_id)) {
+        if (empty($user_id) || empty($token)) {
             return new \WP_REST_Response(array(
                 'status' => 'error',
-                'message' => 'Invalid customer token'
+                'message' => 'Invalid token'
             ), 401);
-            return;
         }
 
         $order = wc_create_order();
         $order->set_customer_id($user_id);
 
+        $params = $request->get_params();
         $order_items = $params['order_items'];
 
         foreach ($order_items as $item) {
@@ -129,20 +128,81 @@ class Order extends \WP_REST_Controller
      * @return \WP_Error|bool
      */
 
-    public function get_order_items($items)
+    public function prepare_order_for_response($order, $request)
     {
 
-        $order_items = array();
+        $user_can_cancel  = current_user_can('cancel_order', $order->get_id());
+        $statuses_for_cancel = apply_filters('woocommerce_valid_order_statuses_for_cancel', array(
+            'pending',
+            'failed',
 
-        foreach ($items as $item) {
-            $order_items[] = array(
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-            );
-        }
+        ), $order);
+        $statuses_for_cancel = apply_filters('wta_wc_valid_order_statuses_for_cancel', $statuses_for_cancel);
+        $order_can_cancel = $order->has_status($statuses_for_cancel);
+        $order_can_repeat  = $order->has_status(apply_filters('woocommerce_valid_order_statuses_for_order_again', array('completed')));
+        $order_needs_payment   = $order->needs_payment();
 
-        return $order_items;
+        $enable_order_repeat = true; // need to add option to enable/disable order repeat
+        $show_payment_in_order = true; // need to add option to enable/disable payment in order
+
+        // $line_item = array(
+        //     'id'           => $order->get_id(),
+        //     'name'         => $order->name,
+        //     'featured_src' => $featured_src,
+        //     'sku'          => $product_sku,
+        //     'product_id'   => (int) $product_id,
+        //     'variation_id' => (int) $variation_id,
+        //     'quantity'     => wc_stock_amount($item['qty']),
+        //     'tax_class'    => !empty($item['tax_class']) ? $item['tax_class'] : '',
+        //     'price'        => $order->get_item_total($item, false, false),
+        //     'subtotal'     => $order->get_line_subtotal($item, false, false),
+        //     'subtotal_tax' =>  $item['line_subtotal_tax'],
+        //     'total'        => $order->get_line_total($item, false, false),
+        //     'total_tax'    =>  $item['line_tax'],
+        //     'taxes'        => array(),
+        // );
+
+
+        $data = array(
+            'id' => $order->get_id(),
+            'status_label' => $this->get_order_status_label($order->get_status()),
+            'status' => $order->get_status(),
+            'order_key'     => $this->get_order_key($order),
+            'number'        => $order->get_order_number(),
+            'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
+            'version'       => method_exists($order, 'get_version') ? $order->get_version() : $order->order_version,
+            'date_created'  => $this->wc_rest_prepare_date_response($order->post_date_gmt),
+            'date_modified' => $this->wc_rest_prepare_date_response($order->post_modified_gmt),
+            'discount_total' =>  $order->get_total_discount(),
+            //'discount_'         => wc_format_decimal( $order->cart_discount_tax, $dp ),
+            'shipping_total' =>  $order->get_total_shipping(),
+            'shipping_tax'   =>  $order->get_shipping_tax(),
+            'cart_tax'       =>  $order->get_cart_tax(),
+            'subtotal'       =>  $order->get_subtotal(),
+            'total'          =>  $order->get_total(),
+            'total_tax'      =>  $order->get_total_tax(),
+
+            'billing'              => $order->get_address('billing'),
+            'shipping'             => $order->get_address('shipping'),
+            'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
+            'date_completed'       => $this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
+            'line_items'           => array(),
+            'tax_lines'            => array(),
+            'shipping_lines'       => array(),
+            'fee_lines'            => array(),
+            'coupon_lines'         => array(),
+            'refunds'              => array(),
+            'can_cancel_order'     => $user_can_cancel && $order_can_cancel,
+            'can_repeat_order'     => $order_can_repeat && $enable_order_repeat,
+            'repeat_order_title'   => __('Order again', 'woocommerce'),
+            'should_make_payment'  => $show_payment_in_order && $order_needs_payment,
+            'payment_url'          => $order->get_checkout_payment_url(),
+            'show_tax'             => wc_tax_enabled(),
+        );
+
+       // $data['line_items'][] = $line_item;
+           
+            return $data;
     }
 
 
@@ -155,15 +215,27 @@ class Order extends \WP_REST_Controller
      */
     public function order_details($request)
     {
-        $query = new \WC_Order_Query(array(
-            'limit' => -1,
-            'orderby' => 'date',
-            'order' => 'DESC',
-            // 'return' => 'ids',
-        ));
-        $orders = $query->get_orders();
 
-        return rest_ensure_response($orders);
+        $token = $request->get_header('access_token');
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
+
+        if (empty($user_id) || empty($token)) {
+            return new \WP_REST_Response(array(
+                'status' => 'error',
+                'message' => 'Invalid token'
+            ), 401);
+        }
+
+        $orders = wc_get_orders(array(
+            'customer' => $user_id,
+            'limit' => -1
+        ));
+
+        foreach ($orders as $order) {
+            $response[] = $this->prepare_order_for_response($order, $request);
+        }
+
+        return rest_ensure_response($response);
     }
 
     /**
@@ -176,6 +248,89 @@ class Order extends \WP_REST_Controller
 
     public function order_detail($request)
     {
+        $token = $request->get_header('access_token');
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
+
+        if (empty($user_id) || empty($token)) {
+            return new \WP_REST_Response(array(
+                'status' => 'error',
+                'message' => 'Invalid token'
+            ), 401);
+        }
+
+        $order_id = $request->get_param('id');
+
+        $order = wc_get_order($order_id);
+
+        $response = $this->prepare_order_for_response($order, $request);
+
+        return rest_ensure_response($response);
+    }
+
+
+
+
+
+    /**
+     * Parses and formats a MySQL datetime (Y-m-d H:i:s) for ISO8601/RFC3339.
+     *
+     * Requered WP 4.4 or later.
+     * See https://developer.wordpress.org/reference/functions/mysql_to_rfc3339/
+     *
+     * @since 2.6.0
+     *
+     * @param string $date
+     *
+     * @return string|null ISO8601/RFC3339 formatted datetime.
+     */
+    static function wc_rest_prepare_date_response($date)
+    {
+        // Check if mysql_to_rfc3339 exists first!
+        if (!function_exists('mysql_to_rfc3339')) {
+            return null;
+        }
+
+        // Return null if $date is empty/zeros.
+        if ('0000-00-00 00:00:00' === $date || empty($date)) {
+            return null;
+        }
+
+        // Return the formatted datetime.
+        return mysql_to_rfc3339($date);
+    }
+
+    /**
+     * @param WC_Order $order
+     *
+     * @return mixed
+     */
+    public function get_order_key($order)
+    {
+        if (method_exists($order, 'get_order_key')) {
+            return $order->get_order_key();
+        } else {
+            return $order->order_key;
+        }
+    }
+
+    /**
+     * Get order status.
+     *
+     * @return string
+     */
+    protected function get_order_status_label($order_status)
+    {
+        $order_statuses = array();
+
+        foreach (wc_get_order_statuses() as $key => $status) {
+            $key                    = str_replace('wc-', '', $key);
+            $order_statuses[$key] = $status;
+        }
+        if (isset($order_statuses[$order_status])) {
+            return $order_statuses[$order_status];
+        } else {
+            return '';
+        }
     }
 
     /**
@@ -193,7 +348,7 @@ class Order extends \WP_REST_Controller
         $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
 
         if (empty($user_id) || empty($token)) {
-            return new \WP_Error('rest_forbidden', esc_html__('Token header is required.', 'web-to-app'), array('status' => 401));
+            return new \WP_Error('rest_forbidden', esc_html__('token header is required.', 'web-to-app'), array('status' => 401));
         }
         return true;
     }
