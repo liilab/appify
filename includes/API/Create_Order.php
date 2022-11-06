@@ -94,6 +94,8 @@ class Create_Order extends \WP_REST_Controller
             'order'  => $order->get_id(),
         );
 
+        //return $request->get_headers();
+
         return rest_ensure_response($response);
     }
 
