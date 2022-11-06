@@ -3,11 +3,11 @@
 namespace WebToApp\API;
 
 /**
- * Class Product_Details
+ * Class Product
  * @package WebToApp\API
  */
 
-class Product_Details extends \WP_REST_Controller
+class Product extends \WP_REST_Controller
 {
 	public $user_token;
 	public $user;
