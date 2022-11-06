@@ -39,11 +39,14 @@ class Token
 
     public static function get_user_id_by_token($token)
     {
+		if (empty($token)) {
+			return null;
+		}
         $user_id = get_users(array(
             'meta_key' => 'wta_wc_access_token',
             'meta_value' => $token,
             'fields' => 'ID'
         ));
-        return empty($user_id) ? null : $user_id[0];
+        return empty($user_id)  ? null : $user_id[0];
     }
 }

@@ -79,15 +79,7 @@ class Order extends \WP_REST_Controller
     {
         $params = $request->get_params();
 
-        $user_id = \WebToApp\User\Token::get_user_id_by_token($params['customer_token']);
-
-        if (empty($user_id)) {
-            return new \WP_REST_Response(array(
-                'status' => 'error',
-                'message' => 'Invalid customer token'
-            ), 401);
-            return;
-        }
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($request->get_header('access_token'));
         
         $order = wc_create_order();
         $order->set_customer_id($user_id);
@@ -188,10 +180,12 @@ class Order extends \WP_REST_Controller
 
     public function api_permissions_check($request)
     {
-        if (current_user_can('manage_options')) {
-            return true;
-        }
+        $token = $request->get_header('access_token');
 
-        return false;
+		if (empty(\WebToApp\User\Token::get_user_id_by_token($token))){
+			return false;
+		}
+
+        return true;
     }
 }
