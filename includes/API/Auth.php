@@ -53,7 +53,37 @@ class Auth extends \WP_REST_Controller
      */
     public function auth($request)
     {
+		$params = $request->get_params();
 
+		$username = $params['username'];
+		$password = $params['password'];
+
+		$user = wp_authenticate($username, $password);
+
+		if (is_wp_error($user)) {
+			return new \WP_REST_Response(array(
+				'status' => 'error',
+				'message' => 'Invalid username or password',
+			), 401);
+		}
+
+		$token = \WebToApp\User\Token::get_user_access_token($user->ID);
+
+		$data = [
+			'status' => '1',
+			'access_token' => $token,
+			'user_id' => $user->ID,
+			'user' => [
+				'id' => $user->ID,
+				'nicename' => $user->user_nicename,
+				'email' => $user->user_email,
+				'status' => $user->user_status,
+				'display_name' => $user->display_name,
+				'avatar' => get_avatar_url($user->ID),
+			],
+		];
+
+		return new \WP_REST_Response($data, 200);
     }
 
     /**
@@ -70,6 +100,6 @@ class Auth extends \WP_REST_Controller
             return true;
         }
 
-        return false;
+        return true;
     }
 }
