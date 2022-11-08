@@ -137,6 +137,7 @@ class Order extends \WP_REST_Controller
             'failed',
 
         ), $order);
+
         $statuses_for_cancel = apply_filters('wta_wc_valid_order_statuses_for_cancel', $statuses_for_cancel);
         $order_can_cancel = $order->has_status($statuses_for_cancel);
         $order_can_repeat  = $order->has_status(apply_filters('woocommerce_valid_order_statuses_for_order_again', array('completed')));
@@ -145,21 +146,29 @@ class Order extends \WP_REST_Controller
         $enable_order_repeat = true; // need to add option to enable/disable order repeat
         $show_payment_in_order = true; // need to add option to enable/disable payment in order
 
+        // $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($order->get_id()));
+
+        // $product = wc_get_product($order->get_product_id());
+        // $product_sku = $product->get_sku();
+        // $product_id = $product->get_id();
+        // $variation_id = $order->get_variation_id();
+
+
         // $line_item = array(
         //     'id'           => $order->get_id(),
         //     'name'         => $order->name,
-        //     'featured_src' => $featured_src,
+        //     'featured_src' => $featured_image,
         //     'sku'          => $product_sku,
         //     'product_id'   => (int) $product_id,
         //     'variation_id' => (int) $variation_id,
-        //     'quantity'     => wc_stock_amount($item['qty']),
-        //     'tax_class'    => !empty($item['tax_class']) ? $item['tax_class'] : '',
-        //     'price'        => $order->get_item_total($item, false, false),
-        //     'subtotal'     => $order->get_line_subtotal($item, false, false),
-        //     'subtotal_tax' =>  $item['line_subtotal_tax'],
-        //     'total'        => $order->get_line_total($item, false, false),
-        //     'total_tax'    =>  $item['line_tax'],
-        //     'taxes'        => array(),
+        //     // 'quantity'     => wc_stock_amount($item['qty']),
+        //     // 'tax_class'    => !empty($item['tax_class']) ? $item['tax_class'] : '',
+        //     // 'price'        => $order->get_item_total($item, false, false),
+        //     // 'subtotal'     => $order->get_line_subtotal($item, false, false),
+        //     // 'subtotal_tax' =>  $item['line_subtotal_tax'],
+        //     // 'total'        => $order->get_line_total($item, false, false),
+        //     // 'total_tax'    =>  $item['line_tax'],
+        //     // 'taxes'        => array(),
         // );
 
 
@@ -202,7 +211,7 @@ class Order extends \WP_REST_Controller
 
        // $data['line_items'][] = $line_item;
            
-            return $data;
+        return $data;
     }
 
 
@@ -228,15 +237,39 @@ class Order extends \WP_REST_Controller
 
         $orders = wc_get_orders(array(
             'customer' => $user_id,
-            'limit' => -1
+            'limit' => -1,
+            'orderby' => 'date',
+            'order' => 'DESC',
         ));
 
+        $data = array();
         foreach ($orders as $order) {
-            $response[] = $this->prepare_order_for_response($order, $request);
+            
+            $data[] = $this->prepare_order_data($order);
         }
 
-        return rest_ensure_response($response);
+        return new \WP_REST_Response($data, 200);
+        
     }
+
+    /**
+     * Order details.
+     *
+     * @param \WP_REST_Request $request Full data about the request.
+     *
+     * @return \WP_REST_Response
+     */
+
+     public function prepare_order_data($order)
+     {
+        $data = array(
+            'id'=> $order->get_id(),
+            'total'=> $order->get_total(),
+            'status'=> $order->get_status(),
+            'total_items'=> $order->get_item_count(),
+        );
+        return $data;
+     }
 
     /**
      * Order detail.
