@@ -8,10 +8,62 @@ class Address
     public function register_routes()
     {
         register_rest_route('web-to-app/v1', '/address', array(
-            'methods' => 'GET',
+            'methods' => \WP_REST_Server::READABLE,
             'callback' => array($this, 'get_address'),
             'permission_callback' => array($this, 'api_permissions_check'),
         ));
+
+        register_rest_route('web-to-app/v1', '/address', array(
+            'methods' => \WP_REST_Server::CREATABLE,
+            'callback' => array($this, 'create_address'),
+            'permission_callback' => array($this, 'api_permissions_check'),
+        ));
+
+        register_rest_route('web-to-app/v1', '/address', array(
+            'methods' => \WP_REST_Server::EDITABLE,
+            'callback' => array($this, 'create_address'),
+            'permission_callback' => array($this, 'api_permissions_check'),
+        ));
+    }
+
+    public function create_address($request)
+    {
+        $token = $request->get_header('access_token');
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
+        $billing_address = $request['billing_address'][0];
+        $shipping_address = $request['shipping_address'][0];
+
+        $customer = new \WC_Customer();
+        $customer->set_id($user_id);
+
+        $customer->set_billing_first_name($billing_address['first_name']);
+        $customer->set_billing_last_name($billing_address['last_name']);
+        $customer->set_billing_company($billing_address['company']);
+        $customer->set_billing_address_1($billing_address['address_1']);
+        $customer->set_billing_address_2($billing_address['address_2']);
+        $customer->set_billing_city($billing_address['city']);
+        $customer->set_billing_state($billing_address['state']);
+        $customer->set_billing_postcode($billing_address['postcode']);
+        $customer->set_billing_country($billing_address['country']);
+        $customer->set_billing_email($billing_address['email']);
+        $customer->set_billing_phone($billing_address['phone']);
+
+        $customer->set_shipping_first_name($shipping_address['first_name']);
+        $customer->set_shipping_last_name($shipping_address['last_name']);
+        $customer->set_shipping_company($shipping_address['company']);
+        $customer->set_shipping_address_1($shipping_address['address_1']);
+        $customer->set_shipping_address_2($shipping_address['address_2']);
+        $customer->set_shipping_city($shipping_address['city']);
+        $customer->set_shipping_state($shipping_address['state']);
+        $customer->set_shipping_postcode($shipping_address['postcode']);
+        $customer->set_shipping_country($shipping_address['country']);
+
+        $customer->save();
+
+        return new \WP_REST_Response(array(
+            'status' => 'success',
+            'message' => 'Address updated successfully'
+        ), 200);
     }
 
     public function get_address($request)
