@@ -109,15 +109,29 @@ class Order extends \WP_REST_Controller
         $order->calculate_totals();
         $order->update_status('pending');
 
+        $params = $request->get_params();
+
+        $shipping_address = $params['shipping_address'][0];
+        $billing_address = $params['billing_address'][0];
+
+        if(!empty($billing_address)){
+            $order->set_address($billing_address, 'billing');
+        }
+
+        if(!empty($shipping_address)){
+            $order->set_address($shipping_address, 'shipping');
+        }
+        else if(!empty($billing_address)){
+            $order->set_address($billing_address, 'shipping');
+        }
+
         $response = array(
             'status' => 'success',
             'order'  => $order->get_id(),
             'user_id'   => $order->get_customer_id()
         );
 
-        //return $request->get_headers();
-
-        return rest_ensure_response($response);
+       return rest_ensure_response($response);
     }
 
     /**
