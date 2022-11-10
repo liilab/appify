@@ -35,12 +35,32 @@ class Auth extends \WP_REST_Controller
             '/' . $this->rest_base,
             array(
                 array(
-                    'methods'             => \WP_REST_Server::CREATABLE,
-                    'callback'            => array($this, 'auth'),
-                    'permission_callback' => array($this, 'api_permissions_check'),
+                    'methods'             => \WP_REST_Server::READABLE,
+                    'callback'            => array($this, 'auth_check'),
                 ),
             )
         );
+
+        register_rest_route(
+            $this->namespace,
+            '/' . $this->rest_base,
+            array(
+                array(
+                    'methods'             => \WP_REST_Server::CREATABLE,
+                    'callback'            => array($this, 'auth_create'),
+                ),
+            )
+        );
+    }
+
+    public function auth_create($request)
+    {
+        $username = $request['username'];
+        $password = $request['password'];
+
+       wp_create_user($username, $password);
+
+        return new \WP_REST_Response(array('status' => 'ok'), 200);
     }
 
 
@@ -51,7 +71,7 @@ class Auth extends \WP_REST_Controller
      *
      * @return \WP_REST_Response
      */
-    public function auth($request)
+    public function auth_check($request)
     {
 		$params = $request->get_params();
 
