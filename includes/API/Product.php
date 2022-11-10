@@ -73,7 +73,7 @@ class Product extends \WP_REST_Controller
 			return true;
 		}
 
-		return false;
+		return true;
     }
 
 	/**
