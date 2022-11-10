@@ -88,6 +88,7 @@ class Address
         $billing_address_1  = $customer->get_billing_address_1();
         $billing_address_2  = $customer->get_billing_address_2();
         $billing_city       = $customer->get_billing_city();
+        $billing_email     = $customer->get_billing_email();
         $billing_state      = $customer->get_billing_state();
         $billing_postcode   = $customer->get_billing_postcode();
         $billing_country    = $customer->get_billing_country();
@@ -117,6 +118,7 @@ class Address
             'company' => $billing_company,
             'address_1' => $billing_address_1,
             'address_2' => $billing_address_2,
+            'email' => $billing_email,
             'city' => $billing_city,
             'state' => $billing_state,
             'postcode' => $billing_postcode,
