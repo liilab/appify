@@ -34,7 +34,6 @@ class Product extends \WP_REST_Controller
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array($this, 'get_items'),
-				'permission_callback' => array($this, 'api_permissions_check'),
 				'args'                => $this->get_collection_params(),
 			),
 		));
@@ -47,7 +46,6 @@ class Product extends \WP_REST_Controller
 			array(
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array($this, 'get_item'),
-				'permission_callback' => array($this, 'api_permissions_check'),
 				'args'                => array(
 					'context' => $this->get_context_param(array('default' => 'view')),
 					'id'      => [
@@ -69,10 +67,6 @@ class Product extends \WP_REST_Controller
 
 	public function api_permissions_check($request)
     {
-		if (current_user_can('manage_options')) {
-			return true;
-		}
-
 		return true;
     }
 
