@@ -281,6 +281,9 @@ class Order extends \WP_REST_Controller
             'total'=> $order->get_total(),
             'status'=> $order->get_status(),
             'total_items'=> $order->get_item_count(),
+            'currency'=> $order->get_currency(),
+            'date_created'=> $order->get_date_created(),
+            'order_key'=> $order->get_order_key(),
         );
         return $data;
      }
