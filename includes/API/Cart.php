@@ -52,14 +52,8 @@ class Cart extends \WP_REST_Controller
 
 		foreach ($cart as $key => $value) {
 			$data[] = array(
-				'product_id' => $value['product_id'],
-				'quantity' => $value['quantity'],
-				'variation_id' => $value['variation_id'],
-				'variation' => $value['variation'],
-				'line_subtotal' => $value['line_subtotal'],
-				'line_subtotal_tax' => $value['line_subtotal_tax'],
-				'line_total' => $value['line_total'],
-				'line_tax' => $value['line_tax'],
+				'key' => $key,
+				'value' => $value,
 			);
 		}
 
