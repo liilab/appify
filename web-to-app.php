@@ -100,6 +100,12 @@ final class Web_To_App
         new WebToApp\API();
         new WebToApp\User();
 
+        // if ( is_admin() ) {
+            new WebToApp\Admin();
+        //}
+
+        new WebToApp\Frontend();
+
     }
 
     /**
