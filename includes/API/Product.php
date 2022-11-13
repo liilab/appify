@@ -107,20 +107,66 @@ class Product extends \WP_REST_Controller
 		$data['variations'] = $this->get_variation_data($product);
 		$data['description'] = $product->get_description();
 		$data['short_description'] = $product->get_short_description();
-		$data['specifications'] = $product->get_attribute('specifications');
+		$data['specifications'] = $this->get_display_attributes($product);
 		$data['related'] = $this->get_related_products($product);
 		$data['reviews'] = $this->get_reviews($product);
 
-			//'variations' => 
-			// 'description' => $product->get_description(),
-			// 'specifications' => $product->get_attribute('specifications'),
-			// //'reviews' => $this->get_reviews($product),
-			// 'related' => $this->get_related_products($product),
-
-		//];
 		$response = new \WP_REST_Response($data);
 		$response->set_status(200);
 		return $response;
+	}
+
+
+	/**
+	 * @param WC_Product|WC_Product_Simple $product
+	 *
+	 * @return array
+	 */
+	protected function get_display_attributes($product)
+	{
+		$attributes = $this->get_attributes($product, false, true);
+		$attributes = apply_filters('woocommerce_display_product_attributes', $attributes, $product);
+
+		$return     = array();
+
+		if ($product->enable_dimensions_display()) {
+			$addional_attributes = array();
+			if ($product->has_weight()) {
+				$addional_attributes[] = array(
+					'name'    => __('Weight', 'woocommerce'),
+					'options' => array(array('name' => wc_format_localized_decimal($product->get_weight()) . ' ' . esc_attr(get_option('woocommerce_weight_unit')))),
+				);
+			}
+			if ($product->has_dimensions()) {
+				$addional_attributes[] = array(
+					'name'    => __('Dimensions', 'woocommerce'),
+					'options' => array(array('name' => $product->get_dimensions())),
+				);
+			}
+			$attributes = array_merge($addional_attributes, $attributes);
+		}
+
+		foreach ($attributes as $attribute) {
+			if (isset($attribute['options']) && is_array($attribute['options'])) {
+				$value = '';
+				foreach ($attribute['options'] as $option) {
+					$value .= $option['name'] . ', ';
+				}
+
+				$return[] = array(
+					'label' => wc_attribute_label($attribute['name']),
+					'value' => html_entity_decode(trim($value, " \t\n\r \v,")),
+				);
+			}
+			if (isset($attribute['label']) && isset($attribute['value'])) {
+				$return[] = array(
+					'label' => wc_attribute_label($attribute['label']),
+					'value' => html_entity_decode(trim($attribute['value'], " \t\n\r \v,")),
+				);
+			}
+		}
+
+		return $return;
 	}
 
 	public function get_related_products($product)
@@ -135,17 +181,25 @@ class Product extends \WP_REST_Controller
 
 	public function get_reviews($product)
 	{
-		$reviews = $product->get_reviews();
-		$reviews_data = [];
-		foreach ($reviews as $review) {
-			$reviews_data[] = [
-				'rating' => $review->get_rating(),
-				'review' => $review->get_review(),
-				'author' => $review->get_author(),
-				'date' => $review->get_date_created(),
-			];
+		$comment = get_comments(array(
+			'post_id' => $product->get_id(),
+			'status' => 'approve',
+			'number' => 3,
+		));
+
+		$reviews = [];
+
+		foreach ($comment as $c) {
+			$reviews[] = array(
+				'id' => $c->comment_ID,
+				'review' => $c->comment_content,
+				'rating' => get_comment_meta($c->comment_ID, 'rating', true),
+				'name' => $c->comment_author,
+				'avatar' => get_avatar_url($c->comment_author_email),
+			);
 		}
-		return $reviews_data;
+
+		return $reviews;
 	}
 
 	protected function get_variation_data($product)
@@ -293,7 +347,7 @@ class Product extends \WP_REST_Controller
 			'type'                        => $product->get_type(),
 			'featured'                    => $product->get_featured(),
 			'short_description'           => $product->get_short_description(),
-			'sku'                         => $product->get_short_description(),
+			'sku'                         => $product->get_sku(),
 			'currency'                    => get_woocommerce_currency(),
 			'currency_symbol'             => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
 			'price'                       => $product->get_price(),
@@ -330,7 +384,7 @@ class Product extends \WP_REST_Controller
 			//'variations'                  => $product->get_children(),
 			'attributes'                  => array_values($attributes),
 			'default_attributes'          => array_values($attributes),
-			'labels'                      => 'attention here///////',
+			//'labels'                      => 'attention here///////',
 		];
 
 		$images              = $this->get_images($product, $expanded = false, $product->ID);
@@ -753,7 +807,8 @@ class Product extends \WP_REST_Controller
 	protected function get_images($product, $merge_images = false, $merge_id = 0)
 	{
 		$attachment_ids = $product->get_gallery_image_ids();
-		$images         = array();
+		$images['img']         = array();
+		$images['img_meta']         = array();
 
 		foreach ($attachment_ids as $id) {
 			$attachment = get_post($id);
