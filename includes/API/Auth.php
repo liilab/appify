@@ -57,18 +57,17 @@ class Auth extends \WP_REST_Controller
     {
         $username = $request['username'];
         $password = $request['password'];
+        $email = $request['email'];
 
         $user_id = username_exists($username);
 
-        if (!$user_id && false == email_exists($username)) {
-            $user_id = wp_create_user($username, $password, $username);
+        if (!$user_id && false == email_exists($email)) {
+            $user_id = wp_create_user($username, $password, $email);
             if (is_wp_error($user_id)) {
                 return new \WP_Error('error', $user_id->get_error_message(), array('status' => 500));
-            } else {
-                return new \WP_REST_Response(array('status' => 'success'), 200);
             }
         } else {
-            return new \WP_Error('error', 'Username already exists.', array('status' => 500));
+            return new \WP_Error('error', 'User already exists.', array('status' => 500));
         }
 
         $user = wp_authenticate($username, $password);
@@ -100,8 +99,6 @@ class Auth extends \WP_REST_Controller
         ];
 
         return new \WP_REST_Response($data, 200);
-
-        return new \WP_REST_Response(array('status' => 'ok'), 200);
     }
 
 
