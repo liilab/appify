@@ -6,36 +6,52 @@ namespace WebToApp\API;
 class Cart extends \WP_REST_Controller
 {
 
-    /**
-     * Endpoint namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'web-to-app/v1';
+	/**
+	 * Endpoint namespace.
+	 *
+	 * @var string
+	 */
+	protected $namespace = 'web-to-app/v1';
 
-    /**
-     * Route base.
-     *
-     * @var string
-     */
-    protected $rest_base = 'cart';
+	/**
+	 * Route base.
+	 *
+	 * @var string
+	 */
+	protected $rest_base = 'cart';
 
-    /**
-     * Register the routes for products.
-     */
-    public function register_routes()
-    {
-        register_rest_route(
-            $this->namespace,
-            '/' . $this->rest_base,
-            array(
-                array(
-                    'methods'             => \WP_REST_Server::READABLE,
-                    'callback'            => array($this, 'get_cart_items'),
-                ),
-            )
-        );
-    }
+	/**
+	 * Register the routes for products.
+	 */
+	public function register_routes()
+	{
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				array(
+					'methods'             => \WP_REST_Server::READABLE,
+					'callback'            => array($this, 'get_cart_items'),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base,
+			array(
+				array(
+					'methods'             => \WP_REST_Server::CREATABLE,
+					'callback'            => array($this, 'add_to_cart'),
+				),
+			)
+		);
+	}
+
+	public function add_to_cart( $request ) {
+		$product_id = $request->get_param( 'product_id' );
+		$quantity = $request->get_param( 'quantity' );
+	}
 
 
 	public function get_cart_items()
@@ -43,12 +59,14 @@ class Cart extends \WP_REST_Controller
 
 		$session = new \WC_Session_Handler();
 		$session->init();
-	
+
 		$cart = $session->get('cart');
-	
+
 		$cart = maybe_unserialize($cart);
 
 		$data = array();
+
+		//$session_data = $session->get_session_data();
 
 		foreach ($cart as $key => $value) {
 			$product = wc_get_product($value['product_id']);
@@ -73,8 +91,6 @@ class Cart extends \WP_REST_Controller
 				)
 			);
 		}
-
 		return $data;
 	}
-   
 }
