@@ -58,7 +58,48 @@ class Auth extends \WP_REST_Controller
         $username = $request['username'];
         $password = $request['password'];
 
-        wp_create_user($username, $password);
+        $user_id = username_exists($username);
+
+        if (!$user_id && false == email_exists($username)) {
+            $user_id = wp_create_user($username, $password, $username);
+            if (is_wp_error($user_id)) {
+                return new \WP_Error('error', $user_id->get_error_message(), array('status' => 500));
+            } else {
+                return new \WP_REST_Response(array('status' => 'success'), 200);
+            }
+        } else {
+            return new \WP_Error('error', 'Username already exists.', array('status' => 500));
+        }
+
+        $user = wp_authenticate($username, $password);
+
+        if (is_wp_error($user)) {
+            return new \WP_REST_Response(array(
+                'status' => 'error',
+                'message' => 'Invalid username or password',
+            ), 401);
+        }
+
+        $token = \WebToApp\User\Token::get_user_access_token($user->ID);
+
+        $data = [
+            'status' => '1',
+            'access_token' => $token,
+            'user_id' => $user->ID,
+            'user' => [
+                'id' => $user->ID,
+                'username' => $user->user_login,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'nicename' => $user->user_nicename,
+                'email' => $user->user_email,
+                'status' => $user->user_status,
+                'display_name' => $user->display_name,
+                'avatar' => get_avatar_url($user->ID),
+            ],
+        ];
+
+        return new \WP_REST_Response($data, 200);
 
         return new \WP_REST_Response(array('status' => 'ok'), 200);
     }
@@ -73,37 +114,40 @@ class Auth extends \WP_REST_Controller
      */
     public function auth_check($request)
     {
-		$params = $request->get_params();
+        $params = $request->get_params();
 
-		$username = $params['username'];
-		$password = $params['password'];
+        $username = $params['username'];
+        $password = $params['password'];
 
-		$user = wp_authenticate($username, $password);
+        $user = wp_authenticate($username, $password);
 
-		if (is_wp_error($user)) {
-			return new \WP_REST_Response(array(
-				'status' => 'error',
-				'message' => 'Invalid username or password',
-			), 401);
-		}
+        if (is_wp_error($user)) {
+            return new \WP_REST_Response(array(
+                'status' => 'error',
+                'message' => 'Invalid username or password',
+            ), 401);
+        }
 
-		$token = \WebToApp\User\Token::get_user_access_token($user->ID);
+        $token = \WebToApp\User\Token::get_user_access_token($user->ID);
 
-		$data = [
-			'status' => '1',
-			'access_token' => $token,
-			'user_id' => $user->ID,
-			'user' => [
-				'id' => $user->ID,
-				'nicename' => $user->user_nicename,
-				'email' => $user->user_email,
-				'status' => $user->user_status,
-				'display_name' => $user->display_name,
-				'avatar' => get_avatar_url($user->ID),
-			],
-		];
+        $data = [
+            'status' => '1',
+            'access_token' => $token,
+            'user_id' => $user->ID,
+            'user' => [
+                'id' => $user->ID,
+                'username' => $user->user_login,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'nicename' => $user->user_nicename,
+                'email' => $user->user_email,
+                'status' => $user->user_status,
+                'display_name' => $user->display_name,
+                'avatar' => get_avatar_url($user->ID),
+            ],
+        ];
 
-		return new \WP_REST_Response($data, 200);
+        return new \WP_REST_Response($data, 200);
     }
 
     /**
