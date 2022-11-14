@@ -35,22 +35,6 @@ class Cart extends \WP_REST_Controller
 				),
 			)
 		);
-
-		register_rest_route(
-			$this->namespace,
-			'/' . $this->rest_base,
-			array(
-				array(
-					'methods'             => \WP_REST_Server::CREATABLE,
-					'callback'            => array($this, 'add_to_cart'),
-				),
-			)
-		);
-	}
-
-	public function add_to_cart( $request ) {
-		$product_id = $request->get_param( 'product_id' );
-		$quantity = $request->get_param( 'quantity' );
 	}
 
 
@@ -65,8 +49,6 @@ class Cart extends \WP_REST_Controller
 		$cart = maybe_unserialize($cart);
 
 		$data = array();
-
-		//$session_data = $session->get_session_data();
 
 		foreach ($cart as $key => $value) {
 			$product = wc_get_product($value['product_id']);
