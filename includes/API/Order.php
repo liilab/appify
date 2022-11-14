@@ -114,24 +114,23 @@ class Order extends \WP_REST_Controller
         $shipping_address = $params['shipping_address'][0];
         $billing_address = $params['billing_address'][0];
 
-        if(!empty($billing_address)){
+        if (!empty($billing_address)) {
             $order->set_address($billing_address, 'billing');
         }
 
-        if(!empty($shipping_address)){
+        if (!empty($shipping_address)) {
             $order->set_address($shipping_address, 'shipping');
-        }
-        else if(!empty($billing_address)){
+        } else if (!empty($billing_address)) {
             $order->set_address($billing_address, 'shipping');
         }
 
-        $response = array(
-            'status' => 'success',
-            'order'  => $order->get_id(),
-            'user_id'   => $order->get_customer_id()
-        );
+        $order_id = $order->get_id();
 
-       return rest_ensure_response($response);
+        $order = wc_get_order($order_id);
+
+        $response = $this->prepare_order_for_response($order, $request);
+
+        return rest_ensure_response($response);
     }
 
     /**
@@ -160,44 +159,19 @@ class Order extends \WP_REST_Controller
         $enable_order_repeat = true; // need to add option to enable/disable order repeat
         $show_payment_in_order = true; // need to add option to enable/disable payment in order
 
-        // $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($order->get_id()));
-
-        // $product = wc_get_product($order->get_product_id());
-        // $product_sku = $product->get_sku();
-        // $product_id = $product->get_id();
-        // $variation_id = $order->get_variation_id();
-
-
-        // $line_item = array(
-        //     'id'           => $order->get_id(),
-        //     'name'         => $order->name,
-        //     'featured_src' => $featured_image,
-        //     'sku'          => $product_sku,
-        //     'product_id'   => (int) $product_id,
-        //     'variation_id' => (int) $variation_id,
-        //     // 'quantity'     => wc_stock_amount($item['qty']),
-        //     // 'tax_class'    => !empty($item['tax_class']) ? $item['tax_class'] : '',
-        //     // 'price'        => $order->get_item_total($item, false, false),
-        //     // 'subtotal'     => $order->get_line_subtotal($item, false, false),
-        //     // 'subtotal_tax' =>  $item['line_subtotal_tax'],
-        //     // 'total'        => $order->get_line_total($item, false, false),
-        //     // 'total_tax'    =>  $item['line_tax'],
-        //     // 'taxes'        => array(),
-        // );
-
 
         $data = array(
             'id' => $order->get_id(),
             'status_label' => $this->get_order_status_label($order->get_status()),
             'status' => $order->get_status(),
             'order_key'     => $this->get_order_key($order),
-            'number'        => $order->get_order_number(),
+            'total_items'   => $order->get_item_count(),
+            'items'         => $this->get_order_items($order),
             'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
             'version'       => method_exists($order, 'get_version') ? $order->get_version() : $order->order_version,
             'date_created'  => $this->wc_rest_prepare_date_response($order->post_date_gmt),
             'date_modified' => $this->wc_rest_prepare_date_response($order->post_modified_gmt),
             'discount_total' =>  $order->get_total_discount(),
-            //'discount_'         => wc_format_decimal( $order->cart_discount_tax, $dp ),
             'shipping_total' =>  $order->get_total_shipping(),
             'shipping_tax'   =>  $order->get_shipping_tax(),
             'cart_tax'       =>  $order->get_cart_tax(),
@@ -205,8 +179,8 @@ class Order extends \WP_REST_Controller
             'total'          =>  $order->get_total(),
             'total_tax'      =>  $order->get_total_tax(),
 
-            'billing'              => $order->get_address('billing'),
-            'shipping'             => $order->get_address('shipping'),
+            'billing'              => $this->get_address('billing', $request),
+            'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
             'date_completed'       => $this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
             'line_items'           => array(),
@@ -223,8 +197,114 @@ class Order extends \WP_REST_Controller
             'show_tax'             => wc_tax_enabled(),
         );
 
-       // $data['line_items'][] = $line_item;
-           
+        // $data['line_items'][] = $line_item;
+
+        return $data;
+    }
+
+    public function get_address($address, $request)
+    {
+        $token = $request->get_header('access_token');
+        $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
+
+        $data = array();
+
+        $customer = new \WC_Customer($user_id);
+
+        if ($address == 'billing') {
+            // Customer billing information details (from account)
+            $billing_first_name = $customer->get_billing_first_name();
+            $billing_last_name  = $customer->get_billing_last_name();
+            $billing_company    = $customer->get_billing_company();
+            $billing_address_1  = $customer->get_billing_address_1();
+            $billing_address_2  = $customer->get_billing_address_2();
+            $billing_city       = $customer->get_billing_city();
+            $billing_email     = $customer->get_billing_email();
+            $billing_state      = $customer->get_billing_state();
+            $billing_postcode   = $customer->get_billing_postcode();
+            $billing_country    = $customer->get_billing_country();
+
+            $data = array(
+                'first_name' => $billing_first_name,
+                'last_name' => $billing_last_name,
+                'company' => $billing_company,
+                'address_1' => $billing_address_1,
+                'address_2' => $billing_address_2,
+                'email' => $billing_email,
+                'city' => $billing_city,
+                'state' => $billing_state,
+                'postcode' => $billing_postcode,
+                'country' => $billing_country,
+            );
+        } else if ($address == 'shipping') {
+            // Customer shipping information details (from account)
+            $shipping_first_name = $customer->get_shipping_first_name();
+            $shipping_last_name  = $customer->get_shipping_last_name();
+            $shipping_company    = $customer->get_shipping_company();
+            $shipping_address_1  = $customer->get_shipping_address_1();
+            $shipping_address_2  = $customer->get_shipping_address_2();
+            $shipping_city       = $customer->get_shipping_city();
+            $shipping_state      = $customer->get_shipping_state();
+            $shipping_postcode   = $customer->get_shipping_postcode();
+            $shipping_country    = $customer->get_shipping_country();
+
+            $data = array(
+                'first_name' => $shipping_first_name,
+                'last_name' => $shipping_last_name,
+                'company' => $shipping_company,
+                'address_1' => $shipping_address_1,
+                'address_2' => $shipping_address_2,
+                'city' => $shipping_city,
+                'state' => $shipping_state,
+                'postcode' => $shipping_postcode,
+                'country' => $shipping_country,
+            );
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get the order for the given ID.
+     *
+     * @param int $id Order ID.
+     *
+     * @return WC_Order
+     */
+
+    public function get_order_items($order)
+    {
+
+        $items = $order->get_items();
+        $data = array();
+
+        foreach ($items as $item) {
+            $product = $item->get_product();
+            $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($product->get_id()));
+            $product_sku = $product->get_sku();
+            $product_id = $product->get_id();
+            $variation_id = $item->get_variation_id();
+
+            $line_item = array(
+                'id'           => $item->get_id(),
+                'name'         => $item->get_name(),
+                'featured_src' => $featured_image,
+                'sku'          => $product_sku,
+                'product_id'   => (int) $product_id,
+                'variation_id' => (int) $variation_id,
+                'quantity'     => wc_stock_amount($item->get_quantity()),
+                'tax_class'    => !empty($item->get_tax_class()) ? $item->get_tax_class() : '',
+                'price'        => $order->get_item_total($item, false, false),
+                'subtotal'     => $order->get_line_subtotal($item, false, false),
+                'subtotal_tax' =>  $item->get_subtotal_tax(),
+                'total'        => $order->get_line_total($item, false, false),
+                'total_tax'    =>  $item->get_total_tax(),
+                'taxes'        => array(),
+            );
+
+            $data[] = $line_item;
+        }
+
         return $data;
     }
 
@@ -258,12 +338,11 @@ class Order extends \WP_REST_Controller
 
         $data = array();
         foreach ($orders as $order) {
-            
+
             $data[] = $this->prepare_order_data($order);
         }
 
         return new \WP_REST_Response($data, 200);
-        
     }
 
     /**
@@ -274,19 +353,19 @@ class Order extends \WP_REST_Controller
      * @return \WP_REST_Response
      */
 
-     public function prepare_order_data($order)
-     {
+    public function prepare_order_data($order)
+    {
         $data = array(
-            'id'=> $order->get_id(),
-            'total'=> $order->get_total(),
-            'status'=> $order->get_status(),
-            'total_items'=> $order->get_item_count(),
-            'currency'=> $order->get_currency(),
-            'date_created'=> $order->get_date_created(),
-            'order_key'=> $order->get_order_key(),
+            'id' => $order->get_id(),
+            'total' => $order->get_total(),
+            'status' => $order->get_status(),
+            'total_items' => $order->get_item_count(),
+            'currency' => $order->get_currency(),
+            'date_created' => $order->get_date_created(),
+            'order_key' => $order->get_order_key(),
         );
         return $data;
-     }
+    }
 
     /**
      * Order detail.
