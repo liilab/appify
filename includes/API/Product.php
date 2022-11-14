@@ -77,9 +77,21 @@ class Product extends \WP_REST_Controller
 	public function get_items($request)
 	{
 
+		if (isset($request['per_page'])) {
+			$limit = $request['per_page'];
+		} else {
+			$limit = -1;
+		}
+
+		if (isset($request['page'])) {
+			$page = $request['page'];
+		} else {
+			$page = 1;
+		}
+
 		$products = wc_get_products(array(
-			'limit'  => -1,
-			'page'   => 1,
+			'limit'  => $limit,
+			'page'   => $page,
 			'status' => 'publish',
 		));
 
@@ -450,7 +462,7 @@ class Product extends \WP_REST_Controller
 				// Taxonomy-based attributes are prefixed with `pa_`, otherwise simply `attribute_`.
 				if (0 === strpos($attribute_name, 'attribute_pa_')) {
 					$attr_name = $this->get_attribute_taxonomy_label($name);
-					if ($attr_name) {    // fix for country code selector plugin which has empty attribute name 
+					if ($attr_name) {    // fix for country code selector plugin which has empty attribute name
 						$attributes[$name] = array(
 							'id'     => $name,
 							'name'   => $attr_name,
