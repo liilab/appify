@@ -32,10 +32,10 @@ class Auth extends \WP_REST_Controller
     {
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base,
+            '/' . $this->rest_base . '/signin',
             array(
                 array(
-                    'methods'             => \WP_REST_Server::READABLE,
+                    'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => array($this, 'auth_check'),
                 ),
             )
@@ -43,7 +43,7 @@ class Auth extends \WP_REST_Controller
 
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base,
+            '/' . $this->rest_base . '/register',
             array(
                 array(
                     'methods'             => \WP_REST_Server::CREATABLE,
@@ -58,7 +58,7 @@ class Auth extends \WP_REST_Controller
         $username = $request['username'];
         $password = $request['password'];
 
-       wp_create_user($username, $password);
+        wp_create_user($username, $password);
 
         return new \WP_REST_Response(array('status' => 'ok'), 200);
     }
