@@ -128,7 +128,11 @@ class Admin
                 </div>
                 <p>
                 <h2>Welcome to Web To App!</h2>
-                <a href="https://test.tsabbir.com/wp-admin/about.php">
+                <a href="
+                ' .
+            $this->getAppUrl()
+            . '
+                ">
                     Learn more about the 1.0 version</a>
                 </p>
             </div>
@@ -181,5 +185,20 @@ class Admin
                 <span id="footer-thankyou">Thank you from <a href="https://liilab.com/">LIILab</a>.</span>
             </p>
         ';
+    }
+
+    /**
+     * @return string
+     */
+
+    public function getAppUrl()
+
+    {
+
+        $menu_slug = 'web-to-app';
+
+        $url = admin_url('admin.php?page=' . $menu_slug);
+
+        return $url;
     }
 }
