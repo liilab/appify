@@ -67,10 +67,9 @@ class Address
 
         $customer->save();
 
-        return new \WP_REST_Response(array(
-            'status' => 'success',
-            'message' => 'Address updated successfully'
-        ), 200);
+        $data = $this->get_user_address_info($customer);
+
+        return new \WP_REST_Response($data, 200);
     }
 
     public function get_address($request)
@@ -78,10 +77,14 @@ class Address
         $token = $request->get_header('access_token');
         $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
 
-        $data = array();
-
         $customer = new \WC_Customer($user_id);
 
+        $data = $this->get_user_address_info($customer);
+
+        return new \WP_REST_Response($data, 200);
+    }
+
+    public function get_user_address_info($customer){
         $username     = $customer->get_username(); // Get username
         $user_email   = $customer->get_email(); // Get account email
         $first_name   = $customer->get_first_name();
