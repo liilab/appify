@@ -12,8 +12,8 @@ class Frontend
 
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
-        add_action('wp_footer', [$this, 'render_app']);
+        // add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+        // add_action('wp_footer', [$this, 'render_app']);
     }
 
     public function enqueue_scripts()
