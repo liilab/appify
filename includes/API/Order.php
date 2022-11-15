@@ -92,18 +92,20 @@ class Order extends \WP_REST_Controller
         $order->set_customer_id($user_id);
 
         $params = $request->get_params();
-        $order_items = $params['order_items'];
+        // $order_items = $params['order_items'];
 
-        foreach ($order_items as $item) {
+        foreach ($params as $item) {
             $product_id = $item['product_id'];
             $quantity = $item['quantity'];
-            $variation_id = $item['variation_id'];
-            $variation = $item['variation'];
 
-            $order->add_product(wc_get_product($product_id), $quantity, array(
-                'variation' => $variation,
-                'variation_id' => $variation_id
-            ));
+            if($product_id && $quantity) {
+                $order->add_product(wc_get_product($product_id), $quantity);
+            }else{
+                return new \WP_REST_Response(array(
+                    'status' => 'error',
+                    'message' => 'Invalid product id or quantity'
+                ), 400);
+            }
         }
 
         $order->calculate_totals();
@@ -183,12 +185,12 @@ class Order extends \WP_REST_Controller
             'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
             'date_completed'       => $this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
-            'line_items'           => array(),
-            'tax_lines'            => array(),
-            'shipping_lines'       => array(),
-            'fee_lines'            => array(),
-            'coupon_lines'         => array(),
-            'refunds'              => array(),
+            // 'line_items'           => array(),
+            // 'tax_lines'            => array(),
+            // 'shipping_lines'       => array(),
+            // 'fee_lines'            => array(),
+            // 'coupon_lines'         => array(),
+            // 'refunds'              => array(),
             'can_cancel_order'     => $user_can_cancel && $order_can_cancel,
             'can_repeat_order'     => $order_can_repeat && $enable_order_repeat,
             'repeat_order_title'   => __('Order again', 'woocommerce'),
