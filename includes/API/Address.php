@@ -67,7 +67,7 @@ class Address
 
         $customer->save();
 
-        $data = $this->get_user_address_info($customer);
+        $data = $this->get_user_address_info($user_id);
 
         return new \WP_REST_Response($data, 200);
     }
@@ -77,19 +77,22 @@ class Address
         $token = $request->get_header('access_token');
         $user_id = \WebToApp\User\Token::get_user_id_by_token($token);
 
-        $customer = new \WC_Customer($user_id);
-
-        $data = $this->get_user_address_info($customer);
+        $data = $this->get_user_address_info($user_id);
 
         return new \WP_REST_Response($data, 200);
     }
 
-    public function get_user_address_info($customer){
-        $username     = $customer->get_username(); // Get username
-        $user_email   = $customer->get_email(); // Get account email
-        $first_name   = $customer->get_first_name();
-        $last_name    = $customer->get_last_name();
-        $display_name = $customer->get_display_name();
+    public function get_user_address_info($user_id){
+
+        $customer = new \WC_Customer($user_id);
+
+        $user_info = get_userdata($user_id);
+
+        $username     = $user_info->user_login;
+        $user_email   = $user_info->user_email;
+        $first_name   = $user_info->first_name;
+        $last_name    = $user_info->last_name;
+        $display_name = $user_info->display_name;
 
         // Customer billing information details (from account)
         $billing_first_name = $customer->get_billing_first_name();
@@ -122,7 +125,7 @@ class Address
             'display_name' => $display_name,
         );
 
-        $data['billing'] = array(
+        $data['billing_address'] = array(
             'first_name' => $billing_first_name,
             'last_name' => $billing_last_name,
             'company' => $billing_company,
@@ -135,7 +138,7 @@ class Address
             'country' => $billing_country,
         );
 
-        $data['shipping'] = array(
+        $data['shipping_address'] = array(
             'first_name' => $shipping_first_name,
             'last_name' => $shipping_last_name,
             'company' => $shipping_company,
