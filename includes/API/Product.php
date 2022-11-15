@@ -116,6 +116,11 @@ class Product extends \WP_REST_Controller
 	{
 		$id   = (int) $request['id'];
 		$post = get_post($id);
+
+		if(empty($post)) {
+			return new \WP_Error('rest_post_invalid_id', __('Invalid post ID.'), array('status' => 404));
+		}
+		
 		$product = wc_get_product($post->ID);
 		$data = $this->format_wc_product($product);
 		$data['variations'] = $this->get_variation_data($product);
