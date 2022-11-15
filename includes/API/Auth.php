@@ -32,11 +32,12 @@ class Auth extends \WP_REST_Controller
     {
         register_rest_route(
             $this->namespace,
-            '/' . $this->rest_base . '/signin',
+            '/' . $this->rest_base . '/login',
             array(
                 array(
                     'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => array($this, 'auth_check'),
+                    'permission_callback' => array($this, 'auth_check_permissions'),
                 ),
             )
         );
@@ -48,6 +49,7 @@ class Auth extends \WP_REST_Controller
                 array(
                     'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => array($this, 'auth_create'),
+                    'permission_callback' => array($this, 'auth_create_permissions'),
                 ),
             )
         );
@@ -155,12 +157,8 @@ class Auth extends \WP_REST_Controller
      * @return bool|\WP_Error
      */
 
-    public function api_permissions_check($request)
+    public function auth_check_permissions($request)
     {
-        if (current_user_can('manage_options')) {
-            return true;
-        }
-
         return true;
     }
 }
