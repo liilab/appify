@@ -92,9 +92,9 @@ class Order extends \WP_REST_Controller
         $order->set_customer_id($user_id);
 
         $params = $request->get_params();
-        // $order_items = $params['order_items'];
+        $order_items = $params['items'];
 
-        foreach ($params as $item) {
+        foreach ($order_items as $item) {
             $product_id = $item['product_id'];
             $quantity = $item['quantity'];
 
