@@ -35,6 +35,7 @@ class Product extends \WP_REST_Controller
 				'methods'             => \WP_REST_Server::READABLE,
 				'callback'            => array($this, 'get_items'),
 				'args'                => $this->get_collection_params(),
+				'permission_callback' => array($this, 'get_items_permissions_check'),
 			),
 		));
 
@@ -53,6 +54,7 @@ class Product extends \WP_REST_Controller
 						'type'        => 'integer',
 					],
 				),
+				'permission_callback' => array($this, 'get_items_permissions_check'),
 			),
 		));
 	}
@@ -65,7 +67,7 @@ class Product extends \WP_REST_Controller
 	 * @return bool|\WP_Error
 	 */
 
-	public function api_permissions_check($request)
+	public function get_items_permissions_check($request)
 	{
 		return true;
 	}
@@ -120,7 +122,7 @@ class Product extends \WP_REST_Controller
 		$data['description'] = $product->get_description();
 		$data['short_description'] = $product->get_short_description();
 		$data['specifications'] = $this->get_display_attributes($product);
-		$data['related'] = $this->get_related_products($product);
+		$data['related_products'] = $this->get_related_products($product);
 		$data['reviews'] = $this->get_reviews($product);
 
 		$response = new \WP_REST_Response($data);
@@ -203,7 +205,7 @@ class Product extends \WP_REST_Controller
 
 		foreach ($comment as $c) {
 			$reviews[] = array(
-				'id' => $c->comment_ID,
+				'id' => (int)$c->comment_ID,
 				'review' => $c->comment_content,
 				'rating' => get_comment_meta($c->comment_ID, 'rating', true),
 				'name' => $c->comment_author,
@@ -223,18 +225,19 @@ class Product extends \WP_REST_Controller
 			if (!$variation->exists()) {
 				continue;
 			}
-			$variation_image = wp_get_attachment_image_src($variation->get_image_id(), 'full');
-			$thumbnail = $this->get_thumbnail($variation, $variation->get_variation_id());
 
-			$attachment = get_post($variation->get_image_id());
+			$images = array();
 
-			$image_meta = [
-				'caption' => $attachment->post_excerpt,
-				'size'    => $this->get_image_dimensions($attachment),
-			];
-			if (empty($variation_image[0])) {
-				$variation_image[0] = array($thumbnail['url']);
+			if (has_post_thumbnail($variation->get_id())) {
+				$images = wp_get_attachment_image_src(get_post_thumbnail_id($variation->get_id()), 'full')[0];
 			}
+
+			$image_meta = wp_get_attachment_metadata(get_post_thumbnail_id($variation->get_id()));
+
+			$image_meta = array(
+				'width' => $image_meta['width'],
+				'height' => $image_meta['height'],
+			);
 
 			$sale_percentage = $this->get_sale_percentage($variation);
 			$sale_price = $variation->get_sale_price();
@@ -246,18 +249,12 @@ class Product extends \WP_REST_Controller
 					'id'                    => $variation->get_variation_id(),
 					'permalink'             => $variation->get_permalink(),
 					'sku'                   => $variation->get_sku(),
-					//  'price'                 => $variation->get_price(),
 					'price'                   => $price,
-					// 'regular_price'         => $variation->get_regular_price(),
 					'regular_price'           => $regular_price,
 					'sale_price'            => $sale_price,
-					// 'price_display'         => APPMAKER_WC_Helper::get_display_price( $variation->get_price() ),
-					// 'regular_price_display' => APPMAKER_WC_Helper::get_display_price( $variation->get_regular_price() ),
 					'price_display'           => $this->get_display_price($price),
 					'regular_price_display'   => $this->get_display_price($regular_price),
 					'sale_price_display'    => $this->get_display_price($sale_price),
-					//	'date_on_sale_from'     => $variation->get_date_on_sale_from() ? date( 'Y-m-d', $variation->get_date_on_sale_from() ) : '',
-					//	'date_on_sale_to'       => $variation->get_date_on_sale_to() ? date( 'Y-m-d', $variation->get_date_on_sale_to() ) : '',
 					'on_sale'               => $variation->is_on_sale(),
 					'downloadable'          => $variation->is_downloadable(),
 					'in_stock'              => $variation->is_in_stock(),
@@ -269,15 +266,12 @@ class Product extends \WP_REST_Controller
 						'width'  => $variation->get_width(),
 						'height' => $variation->get_height(),
 					),
-					'image'                 => $variation_image[0],
+					'image'                 => $images,
 					'image_meta'           => $image_meta,
 					'attributes'            => array_values($this->get_attributes($variation)),
 				);
 			}
 		}
-		/*     $images            = $this->get_images( $variation, true, APPMAKER_WC_Helper::get_id( $product ) );
-        $data['images']      = $images['images'];
-        $data['images_meta'] = $this->get_images_meta( $images['attachment_ids'] );*/
 
 		return apply_filters('wta_wc_product_variations', $variations, $product);
 	}
@@ -327,9 +321,19 @@ class Product extends \WP_REST_Controller
 			//}
 		}
 
-		return ($maximumper <= 0 || $maximumper >= 100) ? 0 : $maximumper;
+		$percentage =  ($maximumper <= 0 || $maximumper >= 100) ? 0 : $maximumper;
+
+		$percentage = $this->tostring($percentage);
+
+		return $percentage;
 	}
 
+	public function tostring($percentage)
+	{
+		$percentage = number_format((float)$percentage, 2, '.', '');
+		$percentage = (string) $percentage;
+		return $percentage;
+	}
 	/**
 	 * Get the query params for collections
 	 *
@@ -349,6 +353,12 @@ class Product extends \WP_REST_Controller
 		);
 
 		$thumbnail = $this->get_thumbnail($product);
+		$thumbnail_meta = $this->get_thumbnail_meta($product);
+		$thumbnail_meta = array(
+			'width' => $thumbnail_meta['width'],
+			'height' => $thumbnail_meta['height'],
+		);
+
 		$attributes          = $this->get_attributes($product, true, false);
 
 		$data = [
@@ -369,8 +379,10 @@ class Product extends \WP_REST_Controller
 			'regular_price_display'       => $product->get_regular_price() . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
 			'sale_price_display'          => $product->get_sale_price() . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
 			'on_sale'                     => $product->is_on_sale(),
+			'sale_percentage'             => $this->get_sale_percentage($product),
 			'purchasable'                 => $product->is_purchasable(),
 			'downloadable'                => $product->is_downloadable(),
+			'display_add_to_cart'         => $product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple'),
 			'qty_config'                  => $default_config,
 
 
@@ -382,14 +394,14 @@ class Product extends \WP_REST_Controller
 			'stock_quantity'              => $product->get_stock_quantity(),
 			'in_stock'                    => $product->is_in_stock(),
 			'weight'                      => $product->get_weight(),
-			'dimensions'                  => $product->get_dimensions(),
+			'dimensions'                  => $this->get_product_dimensions($product),
 			'reviews_allowed'             => $product->get_reviews_allowed(),
 			'display_rating'              => (get_option('woocommerce_enable_review_rating') === 'no') ? false : true,
-			'avarage_rating'              => wc_format_decimal($product->get_average_rating(), 2),
+			'average_rating'              => wc_format_decimal($product->get_average_rating(), 2),
 			'rating_count'                => $product->get_rating_count(),
 			'images'                      => array(),
-			'thumbnail'                   => $thumbnail['url'],
-			'thumbnail_meta'              => $thumbnail['size'],
+			'thumbnail'                   => $thumbnail,
+			'thumbnail_meta'              => $thumbnail_meta,
 			'images_meta'                 => array(),
 			'notify_backorder'            => $product->backorders_allowed(),
 			'notify_backorder_label'      => __('On backorder', 'woocommerce'),
@@ -399,32 +411,68 @@ class Product extends \WP_REST_Controller
 			//'labels'                      => 'attention here///////',
 		];
 
-		$images              = $this->get_images($product, $expanded = false, $product->ID);
-		$data['images']      = $images['img'];
-		$data['images_meta'] = $images['img_meta'];
-		// $labels = array();
-		//     foreach ( $attributes_enabled_in_app as $attribute_id ) {
-		//         $product_attributes = $product->get_attributes();
-		//         foreach( $product_attributes as $id => $attribute ) {
-		//             if( $id == $attribute_id){
-		//                 $terms = wc_get_product_terms( $product_id, $attribute_id ) ;
-		//                 if($terms){
-		//                     foreach($terms as $item => $term){
-		//                          $labels[]  = array('label' => $term->name );
-		//                     }
-		//                 }
-		//             }
-		//         }
-		//     }
-		//     $data['labels'] = $labels ;
+		$images              = $this->get_images($product);
+		$images_meta         = $this->get_images_meta($product);
+
+		$data['images']      = $images;
+		$data['images_meta'] = $images_meta;
 
 		if (empty($data['images'])) {
-			$data['images'] = array($thumbnail['url']);
-			$size = $thumbnail['size'];
+			$data['images'] = array($thumbnail);
+			$size = $thumbnail_meta;
 			$data['images_meta'][] = array('caption' => '', 'size' => $size);
 		}
 
 		return $data;
+	}
+
+	public function get_images_meta($product)
+	{
+		$images_meta = array();
+		$attachment_ids = $product->get_gallery_image_ids();
+
+		foreach ($attachment_ids as $attachment_id) {
+			$attachment = get_post($attachment_id);
+			$size = wc_get_image_size('shop_single');
+			$size = array('width' => $size['width'], 'height' => $size['height']);
+			$images_meta[] = array('caption' => $attachment->post_excerpt, 'size' => $size);
+		}
+
+		return $images_meta;
+	}
+
+	public function get_thumbnail_meta($product)
+	{
+		$thumbnail_id = $product->get_image_id();
+		$thumbnail_meta = array();
+		if ($thumbnail_id) {
+			$thumbnail_meta = wp_get_attachment_metadata($thumbnail_id);
+		}
+		return $thumbnail_meta;
+	}
+
+	/**
+	 * Get the query params for collections
+	 *
+	 * @return array
+	 */
+
+	public function get_product_dimensions($product)
+	{
+		$dimensions = array(
+			'length' => '',
+			'width'  => '',
+			'height' => '',
+			'unit'   => get_option('woocommerce_dimension_unit'),
+		);
+
+		if ($product->has_dimensions()) {
+			$dimensions['length'] = wc_format_localized_decimal($product->get_length());
+			$dimensions['width']  = wc_format_localized_decimal($product->get_width());
+			$dimensions['height'] = wc_format_localized_decimal($product->get_height());
+		}
+
+		return $dimensions;
 	}
 
 	public function get_image_size($attachment_id)
@@ -673,32 +721,12 @@ class Product extends \WP_REST_Controller
 
 	public function get_thumbnail($product)
 	{
-
-
-		$size = 'medium';
-
-		$size = apply_filters('wta_wc_product_image_size', $size);
-		$thumbnail_id = get_post_thumbnail_id($product->is_type('variation') ? $product->variation_id : $product->ID);
-		$image = wp_get_attachment_image_src($thumbnail_id,  $size);
-		if (empty($image)) {
-			$image =  array(
-				"url" => $this->ensure_absolute_link(wc_placeholder_img_src()),
-				"size" => wc_get_image_size($size)
-			);
+		$thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($product->get_id()), 'full');
+		if ($thumbnail) {
+			return $thumbnail[0];
 		} else {
-			$thumb_post = get_post($thumbnail_id);
-			$image['url'] = $this->ensure_absolute_link($image[0]);
-			if (!empty($image[1]) && !empty($image[2])) {
-				$image['size']  = array(
-					'width'  => $image[1],
-					'height' => $image[2],
-				);
-			} else {
-				$image['size'] = $this->get_image_dimensions($thumb_post, $size, true);
-			}
+			return wc_placeholder_img_src();
 		}
-		$image = apply_filters('wta_wc_product_image_url', $image, $size);
-		return $image;
 	}
 
 	/*
@@ -816,19 +844,17 @@ class Product extends \WP_REST_Controller
 	 * @return array
 	 */
 
-	protected function get_images($product, $merge_images = false, $merge_id = 0)
+	protected function get_images($product)
 	{
-		$attachment_ids = $product->get_gallery_image_ids();
-		$images['img']         = array();
-		$images['img_meta']         = array();
-
-		foreach ($attachment_ids as $id) {
-			$attachment = get_post($id);
-			$images['img'][]  = $this->ensure_absolute_link(wp_get_attachment_image_src($id, 'full')[0]);
-			$images['img_meta'][] = array(
-				'caption' => $attachment->post_excerpt,
-				'size'    => $this->get_image_dimensions($attachment),
-			);
+		$images = array();
+		$gallery = $product->get_gallery_image_ids();
+		if (!empty($gallery)) {
+			foreach ($gallery as $image_id) {
+				$image = wp_get_attachment_image_src($image_id, 'full');
+				if ($image) {
+					$images[] = $image[0];
+				}
+			}
 		}
 		return $images;
 	}
