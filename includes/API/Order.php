@@ -98,9 +98,9 @@ class Order extends \WP_REST_Controller
             $product_id = $item['product_id'];
             $quantity = $item['quantity'];
 
-            if($product_id && $quantity) {
+            if ($product_id && $quantity) {
                 $order->add_product(wc_get_product($product_id), $quantity);
-            }else{
+            } else {
                 return new \WP_REST_Response(array(
                     'status' => 'error',
                     'message' => 'Invalid product id or quantity'
@@ -392,6 +392,13 @@ class Order extends \WP_REST_Controller
         $order_id = $request->get_param('id');
 
         $order = wc_get_order($order_id);
+
+        if (empty($order)) {
+            return new \WP_REST_Response(array(
+                'status' => 'error',
+                'message' => 'Order not found'
+            ), 404);
+        }
 
         $response = $this->prepare_order_for_response($order, $request);
 
