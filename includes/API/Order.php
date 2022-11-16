@@ -97,9 +97,17 @@ class Order extends \WP_REST_Controller
         foreach ($order_items as $item) {
             $product_id = $item['product_id'];
             $quantity = $item['quantity'];
+            $variation_id = $item['variation_id'];
+            $variation = $item['variation'];
 
             if ($product_id && $quantity) {
-                $order->add_product(wc_get_product($product_id), $quantity);
+                if ($variation_id) {
+                    $order->add_product(wc_get_product($variation_id), $quantity, array(
+                        'variation' => $variation
+                    ));
+                } else {
+                    $order->add_product(wc_get_product($product_id), $quantity);
+                }
             } else {
                 return new \WP_REST_Response(array(
                     'status' => 'error',
