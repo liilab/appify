@@ -57,7 +57,44 @@ class Product extends \WP_REST_Controller
 				'permission_callback' => array($this, 'get_items_permissions_check'),
 			),
 		));
+
+		/**
+		 * Add product search
+		 */
+
+		
+		register_rest_route($this->namespace, '/' . $this->rest_base . '/(?P<search>[\w]+)', array(
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array($this, 'get_search_items'),
+				'args'                => $this->get_collection_params(),
+				'permission_callback' => array($this, 'get_items_permissions_check'),
+			),
+		));
 	}
+
+	public function get_search_items($request)
+	{
+		$search = $request->get_param('search');
+
+		$products = wc_get_products(array(
+			'name' => $search,
+			'status' => 'publish',
+			'type'   => 'simple', 'variable',
+			'limit'  => -1,
+		));
+
+
+		$data = array();
+
+		foreach ($products as $product) {
+			$data[] = $this->format_wc_product($product);
+		}
+		return rest_ensure_response($data);
+	}
+
+
+
 
 	/**
 	 * Check if a given request has access to get items
@@ -95,6 +132,7 @@ class Product extends \WP_REST_Controller
 			'limit'  => $limit,
 			'page'   => $page,
 			'status' => 'publish',
+			'type'   => 'simple', 'variable'
 		));
 
 		foreach ($products as $product) {
@@ -117,10 +155,10 @@ class Product extends \WP_REST_Controller
 		$id   = (int) $request['id'];
 		$post = get_post($id);
 
-		if(empty($post)) {
+		if (empty($post)) {
 			return new \WP_Error('rest_post_invalid_id', __('Invalid post ID.'), array('status' => 404));
 		}
-		
+
 		$product = wc_get_product($post->ID);
 		$data = $this->format_wc_product($product);
 		$data['variations'] = $this->get_variation_data($product);
@@ -309,13 +347,6 @@ class Product extends \WP_REST_Controller
 			if ($maximumper != 0 && !empty($maximumper)) {
 				return $maximumper;
 			}
-			// $available_variations = method_exists( $product, 'get_available_variations' ) ? $product->get_available_variations() : array();
-			// if ( is_array( $available_variations ) ) {
-			//     for ( $i = 0; $i < count( $available_variations ); ++ $i ) {
-			//         $variation_id      = $available_variations[ $i ]['variation_id'];
-			//         $variable_product1 = new WC_Product_Variation( $variation_id );
-			//         $regular_price     = (float) $variable_product1->get_regular_price();
-			//         $sales_price       = (float) $variable_product1->get_sale_price();
 			$regular_price = $product->get_variation_regular_price();
 			$sales_price = $product->get_variation_price();
 			$percentage        = (0 != $regular_price) ? round(((($regular_price - $sales_price) / $regular_price) * 100), 1) : 0;
@@ -364,7 +395,10 @@ class Product extends \WP_REST_Controller
 			'height' => $thumbnail_meta['height'],
 		);
 
-		$attributes          = $this->get_attributes($product, true, false);
+		$attributes      = $this->get_attributes($product, true, false);
+		$price 			 = $this->get_price($product);
+		$regular_price 	 = $this->get_regular_price($product);
+		$sale_price 	 = $this->get_sale_price($product);
 
 		$data = [
 			'id'                          => $product->get_id(),
@@ -377,25 +411,18 @@ class Product extends \WP_REST_Controller
 			'sku'                         => $product->get_sku(),
 			'currency'                    => get_woocommerce_currency(),
 			'currency_symbol'             => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-			'price'                       => $product->get_price(),
-			'regular_price'               => $product->get_regular_price(),
-			'sale_price'                  => $product->get_sale_price(),
-			'price_display'               => $product->get_price() . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-			'regular_price_display'       => $product->get_regular_price() . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-			'sale_price_display'          => $product->get_sale_price() . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
+			'price'                       => $price,
+			'regular_price'               => $regular_price,
+			'sale_price'                  => $sale_price,
+			'price_display'               => $price . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
+			'regular_price_display'       => $regular_price . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
+			'sale_price_display'          => $this->get_sale_price_display($sale_price),
 			'on_sale'                     => $product->is_on_sale(),
 			'sale_percentage'             => $this->get_sale_percentage($product),
 			'purchasable'                 => $product->is_purchasable(),
 			'downloadable'                => $product->is_downloadable(),
 			'display_add_to_cart'         => $product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple'),
 			'qty_config'                  => $default_config,
-
-
-			//'display_add_to_cart'         => $product->is_purchasable() && $product->is_in_stock(),
-			//'hide_buy_now_block'          => $product->is_type('variable'),
-			//'buy_now_action'              => $this->get_buy_now_action( $product ),
-			//'buy_now_button_text'         => $product->is_type('variable') ? __('Select options', 'woocommerce') : __('Add to cart', 'woocommerce'),
-			//'add_to_cart_button_text'     => __('Add to cart', 'woocommerce'),
 			'stock_quantity'              => $product->get_stock_quantity(),
 			'in_stock'                    => $product->is_in_stock(),
 			'weight'                      => $product->get_weight(),
@@ -429,6 +456,50 @@ class Product extends \WP_REST_Controller
 		}
 
 		return $data;
+	}
+
+	public function get_sale_price_display($sale_price)
+	{
+		if ($sale_price) {
+			return $sale_price . html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8');
+		} else {
+			return '';
+		}
+	}
+
+	public function get_price($product)
+	{
+		if ($product->get_type() == 'variable') {
+			$price = $product->get_variation_price('min', true) . '-' . $product->get_variation_price('max', true);
+		} 
+		else {
+			$price = $product->get_price();
+		}
+
+		return $price;
+	}
+
+	public function get_regular_price($product)
+	{
+		if ($product->get_type() == 'variable') {
+			$price = $product->get_variation_regular_price('max', true);
+		} 
+		else {
+			$price = $product->get_regular_price();
+		}
+
+		return $price;
+	}
+
+	public function get_sale_price($product)
+	{
+		if ($product->get_type() == 'variable') {
+			$price = $product->get_variation_sale_price('min', true) . '-' . $product->get_variation_sale_price('max', true);
+		} else {
+			$price = $product->get_sale_price();
+		}
+
+		return $price;
 	}
 
 	public function get_images_meta($product)
