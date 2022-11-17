@@ -193,12 +193,6 @@ class Order extends \WP_REST_Controller
             'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
             'date_completed'       => $this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
-            // 'line_items'           => array(),
-            // 'tax_lines'            => array(),
-            // 'shipping_lines'       => array(),
-            // 'fee_lines'            => array(),
-            // 'coupon_lines'         => array(),
-            // 'refunds'              => array(),
             'can_cancel_order'     => $user_can_cancel && $order_can_cancel,
             'can_repeat_order'     => $order_can_repeat && $enable_order_repeat,
             'repeat_order_title'   => __('Order again', 'woocommerce'),
@@ -206,8 +200,6 @@ class Order extends \WP_REST_Controller
             'payment_url'          => $order->get_checkout_payment_url(),
             'show_tax'             => wc_tax_enabled(),
         );
-
-        // $data['line_items'][] = $line_item;
 
         return $data;
     }
