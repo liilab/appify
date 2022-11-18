@@ -15,7 +15,7 @@ class API
     {
         add_action('rest_api_init', [$this, 'register_api']);
 
-        $this->routes = ['Auth', 'Product', 'Order', 'Address', 'StoreInfo'];
+        $this->routes = ['Auth', 'Product', 'Order', 'Address', 'StoreInfo', 'Cart'];
     }
 
     public function register_api()

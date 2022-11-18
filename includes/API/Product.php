@@ -90,19 +90,39 @@ class Product extends \WP_REST_Controller
 			$page = 1;
 		}
 
-		if(isset($request['search'])) {
+		if (isset($request['search'])) {
 			$search = $request['search'];
 		} else {
 			$search = '';
 		}
 
-		$products = wc_get_products(array(
-			'limit'  => $limit,
-			'page'   => $page,
-			'status' => 'publish',
-			'type'   => 'simple', 'variable',
-			's' => $search
-		));
+		$types = array('simple');
+
+		$products = wc_get_products(
+			array(
+				'limit'  => $limit,
+				'page'   => $page,
+				'status' => 'publish',
+				'type'   => $types,
+				's' => $search
+			)
+		);
+
+		foreach ($products as $product) {
+			$data[] = $this->format_wc_product($product);
+		}
+
+		$types = array('variable');
+
+		$products = wc_get_products(
+			array(
+				'limit'  => $limit,
+				'page'   => $page,
+				'status' => 'publish',
+				'type'   => $types,
+				's' => $search
+			)
+		);
 
 		foreach ($products as $product) {
 			$data[] = $this->format_wc_product($product);
