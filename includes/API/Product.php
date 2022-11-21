@@ -297,6 +297,7 @@ class Product extends \WP_REST_Controller
 						'length' => $variation->get_length(),
 						'width'  => $variation->get_width(),
 						'height' => $variation->get_height(),
+						'unit'   => get_option('woocommerce_dimension_unit'),
 					),
 					'image'                 => $images,
 					'image_meta'           => $image_meta,
