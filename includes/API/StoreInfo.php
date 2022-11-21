@@ -53,7 +53,7 @@ class StoreInfo extends \WP_REST_Controller
             'currency_position' => get_option('woocommerce_currency_pos'),
             'thousand_separator' => get_option('woocommerce_price_thousand_sep'),
             'decimal_separator' => get_option('woocommerce_price_decimal_sep'),
-            'number_of_decimals' => get_option('woocommerce_price_num_decimals'),
+            'number_of_decimals' => (int)get_option('woocommerce_price_num_decimals'),
             'version' => WC()->version,
             'language' => get_bloginfo('language'),
             'timezone' => get_option('timezone_string'),
