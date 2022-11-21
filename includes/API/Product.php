@@ -424,13 +424,20 @@ class Product extends \WP_REST_Controller
 			'thumbnail'                   => $thumbnail,
 			'thumbnail_meta'              => $thumbnail_meta,
 			'images_meta'                 => array(),
-			'notify_backorder'            => $product->backorders_allowed(),
 			'notify_backorder_label'      => __('On backorder', 'woocommerce'),
 			//'variations'                  => $product->get_children(),
 			'attributes'                  => array_values($attributes),
 			'default_attributes'          => array_values($attributes),
 			//'labels'                      => 'attention here///////',
 		];
+
+		if( $product->managing_stock() && $product->is_on_backorder( 1 ) && $product->backorders_require_notification() && $product->get_type() === 'simple'  ){
+            $data['notify_backorder'] = true ;
+        } elseif ( ! $product->managing_stock() && $product->is_on_backorder( 1 ) && $product->get_type() === 'simple' ) {
+			$data['notify_backorder'] = true ;
+        } else {
+            $data['notify_backorder'] = false ;
+        }
 
 		$images              = $this->get_images($product);
 		$images_meta         = $this->get_images_meta($product);
