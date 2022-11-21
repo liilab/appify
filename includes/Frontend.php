@@ -1,6 +1,7 @@
 <?php
 
 namespace WebToApp;
+use WebToApp\traits\Singleton;
 
 /**
  * Class Frontend
@@ -9,6 +10,7 @@ namespace WebToApp;
 
 class Frontend
 {
+    use Singleton;
 
     public function __construct()
     {

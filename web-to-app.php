@@ -35,6 +35,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * The main plugin class
  */
+
+
 final class Web_To_App
 {
 
@@ -96,15 +98,14 @@ final class Web_To_App
      */
     public function init_plugin()
     {
+        if ( is_admin() ) {
+            WebToApp\Admin::get_instance();
+        }
 
-        new WebToApp\API();
-        new WebToApp\User();
-
-        // if ( is_admin() ) {
-            new WebToApp\Admin();
-        //}
-
-        new WebToApp\Frontend();
+        WebToApp\WtaHelper::get_instance();
+        WebToApp\API::get_instance();
+        WebToApp\User::get_instance();
+        WebToApp\Frontend::get_instance();
 
     }
 
@@ -131,6 +132,7 @@ final class Web_To_App
  *
  * @return \Web_To_App
  */
+
 function Web_To_App()
 {
     return Web_To_App::init();

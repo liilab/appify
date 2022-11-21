@@ -1,6 +1,7 @@
 <?php
 
 namespace WebToApp;
+use WebToApp\traits\Singleton;
 
 /**
  * Class API
@@ -9,6 +10,9 @@ namespace WebToApp;
 
 class API
 {
+
+    use Singleton;
+
     public $routes = array();
 
     public function __construct()

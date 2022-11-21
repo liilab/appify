@@ -2,7 +2,7 @@
 
 namespace WebToApp;
 
-use Automattic\WooCommerce\Admin\API\Coupons;
+use WebToApp\traits\Singleton;
 
 /**
  * Class Admin
@@ -11,6 +11,8 @@ use Automattic\WooCommerce\Admin\API\Coupons;
 
 class Admin
 {
+    use Singleton;
+
     public function __construct()
     {
         add_action('admin_menu', array($this, 'create_settings'));
