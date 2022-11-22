@@ -7,7 +7,7 @@ namespace WebToApp\API;
  * @package WebToApp\API
  */
 
-class Product extends \WP_REST_Controller
+class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 	public $user_token;
 	public $user;

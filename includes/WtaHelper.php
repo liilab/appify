@@ -2,7 +2,7 @@
 
 namespace WebToApp;
 
-use WebToApp\traits\Singleton;
+use WebToApp\Traits\Singleton;
 
 class WtaHelper
 {
@@ -235,5 +235,20 @@ class WtaHelper
         } elseif (is_object($object)) {
             return $object->id;
         }
+    }
+
+
+    /**
+     * @return string
+     */
+
+    public static function getAppUrl()
+    {
+
+        $menu_slug = 'web-to-app';
+
+        $url = admin_url( 'admin.php?page=' . $menu_slug );
+
+        return $url;
     }
 }

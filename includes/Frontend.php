@@ -1,7 +1,7 @@
 <?php
 
 namespace WebToApp;
-use WebToApp\traits\Singleton;
+use WebToApp\Traits\Singleton;
 
 /**
  * Class Frontend

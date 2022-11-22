@@ -7,7 +7,7 @@ namespace WebToApp\API;
  * @package WebToApp\API
  */
 
-class StoreInfo extends \WP_REST_Controller
+class Store_Info extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 
     /**

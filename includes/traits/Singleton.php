@@ -25,7 +25,7 @@
  * @package Web to App
  */
 
-namespace WebToApp\traits;
+namespace WebToApp\Traits;
 
 trait Singleton {
 

@@ -2,7 +2,7 @@
 
 namespace WebToApp\API;
 
-class Address
+class Address extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 
     public function register_routes()
@@ -60,8 +60,6 @@ class Address
 			$customer->set_shipping_state($shipping_address['state']);
 			$customer->set_shipping_postcode($shipping_address['postcode']);
 			$customer->set_shipping_country($shipping_address['country']);
-			$customer->set_billing_email($shipping_address['email']);
-			$customer->set_billing_phone($shipping_address['phone']);
 		}
 
 
@@ -102,6 +100,7 @@ class Address
         $billing_address_2  = $customer->get_billing_address_2();
         $billing_city       = $customer->get_billing_city();
         $billing_email     = $customer->get_billing_email();
+        $billing_phone     = $customer->get_billing_phone();
         $billing_state      = $customer->get_billing_state();
         $billing_postcode   = $customer->get_billing_postcode();
         $billing_country    = $customer->get_billing_country();
@@ -132,6 +131,7 @@ class Address
             'address_1' => $billing_address_1,
             'address_2' => $billing_address_2,
             'email' => $billing_email,
+            'phone' => $billing_phone,
             'city' => $billing_city,
             'state' => $billing_state,
             'postcode' => $billing_postcode,

@@ -7,7 +7,7 @@ namespace WebToApp\API;
  * @package WebToApp\API
  */
 
-class Order extends \WP_REST_Controller
+class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 
     /**

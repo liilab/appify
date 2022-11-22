@@ -3,7 +3,7 @@
 namespace WebToApp\API;
 
 
-class Cart extends \WP_REST_Controller
+class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 
 	/**

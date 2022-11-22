@@ -1,7 +1,7 @@
 <?php
 
 namespace WebToApp;
-use WebToApp\traits\Singleton;
+use WebToApp\Traits\Singleton;
 
 /**
  * Class API
@@ -19,7 +19,7 @@ class API
     {
         add_action('rest_api_init', [$this, 'register_api']);
 
-        $this->routes = ['Auth', 'Product', 'Order', 'Address', 'StoreInfo', 'Cart'];
+        $this->routes = ['Auth', 'Product', 'Order', 'Address', 'Store_Info', 'Cart'];
     }
 
     public function register_api()
