@@ -32,6 +32,7 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
 					'callback'            => array($this, 'get_cart_items'),
+					'permission_callback' => array($this, 'get_cart_items_permissions_check'),
 				),
 			)
 		);
@@ -43,9 +44,15 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array($this, 'add_to_cart'),
+					'permission_callback' => array($this, 'add_to_cart_permissions_check'),
 				),
 			)
 		);
+	}
+
+	public function add_to_cart_permissions_check($request)
+	{
+		return true;
 	}
 
 	public function add_to_cart($request)
