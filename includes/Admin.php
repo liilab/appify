@@ -15,6 +15,8 @@ class Admin
 	public function __construct()
 	{
 		Admin\Admin_Page::get_instance();
+		Admin\Package::get_instance();
+		Admin\Backend::get_instance();
 	}
 
 }
