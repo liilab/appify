@@ -19,13 +19,21 @@ class Admin_Page
         add_action('admin_init', array($this, 'wta_setup_sections'));
         add_action('admin_init', array($this, 'wta_setup_fields'));
         add_action('admin_enqueue_scripts', array($this, 'wta_enqueue_scripts'));
+        add_action('wp_ajax_download_app', array($this, 'download_app'));
     }
+
+    // public function download_app(){
+    // }
 
     public function wta_enqueue_scripts()
     {
         wp_enqueue_style('wta-admin', WTA_ASSETS . '/css/admin.css', null, WTA_VERSION);
         wp_enqueue_style('wta-admin', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
         wp_enqueue_script('wta-admin-js', WTA_ASSETS . '/js/admin.js', array('jquery'), '1.0.0', true);
+        wp_localize_script('wta-admin-js', 'wta_ajax', array(
+            'admin_ajax' => admin_url( 'admin-ajax.php'),
+
+        ));
     }
 
     public function create_settings()
@@ -46,33 +54,41 @@ class Admin_Page
 
     public function wta_settings_content()
     { ?>
-        <div class="wrap">
-            <h1>Welcome to Web to APP</h1>
-            <?php settings_errors(); ?>
-            <form method="POST" action="options.php">
-                <?php
+<div class="wrap">
+    <h1>Welcome to Web to APP</h1>
+    <?php settings_errors(); ?>
+    <form method="POST" action="options.php">
+        <?php
                 settings_fields('Web to App');
                 do_settings_sections('Web to App');
                 //submit_button();
                 ?>
-            </form>
-        </div> <?php
+    </form>
+</div> <?php
             }
 
             public function wta_setup_sections()
             {
                 add_settings_section('wta_section', '', array(), 'Web to App');
+                add_settings_section('wta_getapp_section', '', array(), 'Web to App');
             }
 
             public function wta_setup_fields()
             {
 
                 $fields = array(
-                    array(
-                        'section' => 'wta_section',
-                        'label' => 'Access Key',
-                        'id' => 'access_key',
-                        'type' => 'textarea',
+                    // array(
+                    //     'section' => 'wta_section',
+                    //     'label' => 'Access Key',
+                    //     'id' => 'access_key',
+                    //     'type' => 'textarea',
+                    // )
+
+                     array(
+                        'section' => 'wta_getapp_section',
+                        'label' => 'Get Our App',
+                        'id' => 'getapp',
+                        'type' => 'button',
                     )
                 );
                 foreach ($fields as $field) {
@@ -100,6 +116,19 @@ class Admin_Page
                             $field['id'],
                             $value
                         );
+                        printf(
+                            '<p><a id="%1$s" class="button button-primary">%2$s</a></p>',
+                            "copy_button",
+                            "Copy Key"
+                        );
+                        break;
+
+                    case 'button':
+                        printf(
+                            '<a id="%1$s" class="button button-primary">%2$s</a>',
+                            "getapp_button",
+                            "Download Now"
+                        );
                         break;
 
                     default:
@@ -111,11 +140,7 @@ class Admin_Page
                             $value
                         );
                 }
-                printf(
-                    '<p><a id="%1$s" class="button button-primary">%2$s</a></p>',
-                    "copy_button",
-                    "Copy Key"
-                );
+                
                 if (isset($field['desc'])) {
                     if ($desc = $field['desc']) {
                         printf('<p class="description">%s </p>', $desc);
