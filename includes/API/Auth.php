@@ -9,7 +9,6 @@ namespace WebToApp\API;
 
 class Auth extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
-
     /**
      * Endpoint namespace.
      *
