@@ -49,7 +49,7 @@ class Auth extends \WebToApp\Abstracts\WTA_WC_REST_Controller
                 array(
                     'methods'             => \WP_REST_Server::CREATABLE,
                     'callback'            => array($this, 'auth_create'),
-                    'permission_callback' => array($this, 'auth_create_permissions'),
+                    'permission_callback' => array($this, 'auth_check_permissions'),
                 ),
             )
         );
@@ -159,6 +159,6 @@ class Auth extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
     public function auth_check_permissions($request)
     {
-        return true;
+       return true;
     }
 }
