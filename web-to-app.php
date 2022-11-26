@@ -13,7 +13,7 @@
  * @package           Web to App
  *
  * @wordpress-plugin
- * Plugin Name:       Web to App - Rest API Maker
+ * Plugin Name:       Web to App - Headless WooCommerce
  * Plugin URI:        liilab.com
  * Description:       A plugin for creating rest api for your website.
  * Version:           1.0
@@ -21,7 +21,7 @@
  * Author URI:        liilab.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wta-rest-api-maker
+ * Text Domain:       wta-headles-woocommerce
  * Domain Path:       /languages
  */
 
