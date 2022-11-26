@@ -7,7 +7,8 @@ namespace WebToApp\API;
  * @package WebToApp\API
  */
 
-class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
+//class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
+class Order extends \WP_REST_Controller
 {
 
     /**
@@ -119,7 +120,13 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
         $order->calculate_totals();
         $order->update_status('pending');
 
-        $params = $request->get_params();
+       $order_notes = $params['order_notes'];
+
+        if (!empty($order_notes)) {
+            $order->add_order_note(
+                $order_notes
+            );
+        }
 
         $shipping_address = $params['shipping_address'][0];
         $billing_address = $params['billing_address'][0];
@@ -188,7 +195,8 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
             'subtotal'       =>  $order->get_subtotal(),
             'total'          =>  $order->get_total(),
             'total_tax'      =>  $order->get_total_tax(),
-
+            'payment_method' =>  $order->get_payment_method(),
+            'order_notes'    =>  $order->get_customer_order_notes(),
             'billing'              => $this->get_address('billing', $request),
             'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
@@ -203,6 +211,7 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
         return $data;
     }
+
 
     public function get_address($address, $request)
     {
