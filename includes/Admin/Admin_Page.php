@@ -9,7 +9,7 @@ use WebToApp\Traits\Singleton;
  * @package WebToApp
  */
 
-class Admin
+class Admin_Page
 {
     use Singleton;
 
