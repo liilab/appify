@@ -315,8 +315,8 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'label'       => __('Quantity', 'woocommerce'),
 			'display'     => !$product->is_sold_individually(),
 			'input_value' => '1',
-			'max_value'   => apply_filters('woocommerce_quantity_input_max', $product->backorders_allowed() ? '' : $product->get_stock_quantity(), $product),
-			'min_value'   => apply_filters('woocommerce_quantity_input_min', '1', $product),
+			'max_value'   => apply_filters('woocommerce_quantity_input_max', $product->backorders_allowed() ? '' : (int)$product->get_stock_quantity(), $product),
+			'min_value'   => apply_filters('woocommerce_quantity_input_min', 1, $product),
 			'step'        => apply_filters('woocommerce_quantity_input_step', '1', $product),
 		);
 
