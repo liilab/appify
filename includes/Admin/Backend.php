@@ -68,14 +68,14 @@ class Backend
 
         if ($inQueue) {
             $last_build = json_decode($response['lastBuild']['number']);
-            $url = 'https://auto.apkbuilder.co/job/web2app_001/'.$last_build.'/api/json?depth=0';
+            $url = 'https://auto.apkbuilder.co/job/web2app_'. $id .'/'.$last_build.'/api/json?depth=0';
 
             $response = wp_remote_get($url, $args);
 
             $result = json_decode($response['result']);
 
             if( $result == "SUCCESS"){
-                $generate_url = "https://auto.apkbuilder.co/job/web2app_001/ws/e-commerce-template/build/app/outputs/flutter-apk/app-release.apk";
+                $generate_url = "https://auto.apkbuilder.co/job/web2app_'. $id .'/ws/e-commerce-template/build/app/outputs/flutter-apk/app-release.apk";
                 
                 echo $generate_url;
             }
