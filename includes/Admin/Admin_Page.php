@@ -28,7 +28,7 @@ class Admin_Page
     public function wta_enqueue_scripts()
     {
         wp_enqueue_style('wta-admin', WTA_ASSETS . '/css/admin.css', null, WTA_VERSION);
-        wp_enqueue_style('wta-admin', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
+        wp_enqueue_style('wta-admin-bootstrap', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
         wp_enqueue_script('wta-admin-js', WTA_ASSETS . '/js/admin.js', array('jquery'), '1.0.0', true);
         wp_localize_script('wta-admin-js', 'wta_ajax', array(
             'admin_ajax' => admin_url( 'admin-ajax.php'),
@@ -47,12 +47,12 @@ class Admin_Page
         add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $slug, $callback);
     }
 
-    // public function settings_content()
-    // {
-    //     require_once WTA_DIR_PATH . 'templates/admin/setting-page.php';
-    // }
-
     public function wta_settings_content()
+    {
+        require_once WTA_DIR_PATH . 'templates/admin/setting-page.php';
+    }
+
+    public function wt_settings_content()
     { ?>
 <div class="wrap">
     <h1>Welcome to Web to APP</h1>
