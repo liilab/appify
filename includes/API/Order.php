@@ -186,8 +186,8 @@ class Order extends \WP_REST_Controller
             'items'         => $this->get_order_items($order),
             'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
             'version'       => method_exists($order, 'get_version') ? $order->get_version() : $order->order_version,
-            'date_created'  => $this->wc_rest_prepare_date_response($order->post_date_gmt),
-            'date_modified' => $this->wc_rest_prepare_date_response($order->post_modified_gmt),
+            'date_created'  => $order->get_date_created() ? wc_rest_prepare_date_response($order->get_date_created()) : null,
+            'date_modified' => $order->get_date_modified() ? wc_rest_prepare_date_response($order->get_date_modified()) : null,
             'discount_total' =>  $order->get_total_discount(),
             'shipping_total' =>  $order->get_total_shipping(),
             'shipping_tax'   =>  $order->get_shipping_tax(),
@@ -372,7 +372,7 @@ class Order extends \WP_REST_Controller
             'status' => $order->get_status(),
             'total_items' => $order->get_item_count(),
             'currency' => $order->get_currency(),
-            'date_created' => $order->get_date_created(),
+            'date_created' => $order->get_date_created() ? wc_rest_prepare_date_response($order->get_date_created()) : null,
             'order_key' => $order->get_order_key(),
         );
         return $data;
