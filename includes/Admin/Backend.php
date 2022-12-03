@@ -24,62 +24,67 @@ class Backend
     {
         $id = $this->get_current_user_id();
 
-        $usename = 'web2app';
-        $password = '1154bfe7ab8a14b684feb736ac33d9ea1b';
+        $usename = 'asmwasim1';
+        $password = 'asmwasim1';
         $urls = array(
-            'https://auto.apkbuilder.co/job/web2app/disable',
-            'https://auto.apkbuilder.co/createItem?name=web2app_' . $id . '&mode=copy&from=web2app',
-            'https://auto.apkbuilder.co/job/web2app/enable',
-            'https://auto.apkbuilder.co/job/web2app_' . $id . '/enable'
+            'https://test.tsabbir.com/wp-json/web-to-app/v1/auth/login/'
         );
 
         $args = array(
-            'headers' => array(
-                'Authorization' => 'Basic ' . base64_encode($usename . ':' . $password)
+            // 'headers' => array(
+            //     'Authorization' => 'Basic ' . base64_encode($usename . ':' . $password)
+            // )
+
+            'body' => array(
+                'username' => $usename,
+                'password' => $password
             )
+            
         );
 
         foreach ($urls as $url) {
-            wp_remote_post($url, $args);
+           $response = wp_remote_post($url, $args);
         }
 
-        $url_param = 'https://auto.apkbuilder.co/job/web2app_' . $id . '/buildWithParameters';
+        wp_send_json($response);
 
-        $data = [
-            'app_name' => get_bloginfo('name'),
-            'app_logo' => get_site_icon_url(),
-            'store_name' => get_bloginfo('name'),
-            'store_logo' => get_site_icon_url(),
-            'base_url' => get_bloginfo('url'),
-        ];
+       // $url_param = 'https://auto.apkbuilder.co/job/web2app_' . $id . '/buildWithParameters';
 
-        $response = wp_remote_post($url_param . '?' . http_build_query($data), $args);
+        // $data = [
+        //     'app_name' => get_bloginfo('name'),
+        //     'app_logo' => get_site_icon_url(),
+        //     'store_name' => get_bloginfo('name'),
+        //     'store_logo' => get_site_icon_url(),
+        //     'base_url' => get_bloginfo('url'),
+        // ];
 
-        if (is_wp_error($response)) {
-            $error_message = $response->get_error_message();
-            echo "Something went wrong: $error_message";
-        }
+        // $response = wp_remote_post($url_param . '?' . http_build_query($data), $args);
 
-        $url = 'https://auto.apkbuilder.co/job/web2app_' . $id . '/api/json?depth=0';
+        // if (is_wp_error($response)) {
+        //     $error_message = $response->get_error_message();
+        //     echo "Something went wrong: $error_message";
+        // }
 
-        $response = wp_remote_get($url, $args);
+        // $url = 'https://auto.apkbuilder.co/job/web2app_' . $id . '/api/json?depth=0';
 
-        $inQueue = json_decode($response['inQueue']);
+        // $response = wp_remote_get($url, $args);
 
-        if ($inQueue) {
-            $last_build = json_decode($response['lastBuild']['number']);
-            $url = 'https://auto.apkbuilder.co/job/web2app_'. $id .'/'.$last_build.'/api/json?depth=0';
+       // $inQueue = json_decode($response['inQueue']);
 
-            $response = wp_remote_get($url, $args);
+        // if ($inQueue) {
+        //     $last_build = json_decode($response['lastBuild']['number']);
+        //     $url = 'https://auto.apkbuilder.co/job/web2app_'. $id .'/'.$last_build.'/api/json?depth=0';
 
-            $result = json_decode($response['result']);
+        //     $response = wp_remote_get($url, $args);
 
-            if( $result == "SUCCESS"){
-                $generate_url = "https://auto.apkbuilder.co/job/web2app_'. $id .'/ws/e-commerce-template/build/app/outputs/flutter-apk/app-release.apk";
+        //     $result = json_decode($response['result']);
+
+        //     if( $result == "SUCCESS"){
+        //         $generate_url = "https://auto.apkbuilder.co/job/web2app_'. $id .'/ws/e-commerce-template/build/app/outputs/flutter-apk/app-release.apk";
                 
-                echo $generate_url;
-            }
-        }
+        //         echo $generate_url;
+        //     }
+        // }
 
         wp_die();
     }

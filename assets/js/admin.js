@@ -13,30 +13,59 @@ $(document).ready(function ($) {
 
 
 
-    $("#getapp_button").click(function () {
-        $("#getapp_button").text("Loading...");
+    $("#wooapp-getappbtn").click(function () {
+        $("#wooapp-getappbtn").text("Loading...");
+        $("#wooapp-progressbar").removeClass("d-none");
 
         var data = {
             action: 'set_post_request',
-            app_name : wta_ajax.app_name,
-            app_logo : wta_ajax.app_logo,
-            store_name : wta_ajax.store_name,
-            store_logo : wta_ajax.store_logo,
-            base_url : wta_ajax.base_url,
+            // app_name: wta_ajax.app_name,
+            // app_logo: wta_ajax.app_logo,
+            // store_name: wta_ajax.store_name,
+            // store_logo: wta_ajax.store_logo,
+            // base_url: wta_ajax.base_url,
         };
+
+        var html = "";
 
         $.ajax({
             type: 'post',
             url: wta_ajax.admin_ajax,
-            data : data,
+            data: data,
 
-            complete: function (response) {
-                console.log(response);
-                $("#getapp_button").text("Get App");
+            beforeSend: function () {
+                console.log("ready hosee");
             },
+
+            // complete: function (response) {
+            //     console.log(response);
+            // },
+
             success: function (response) {
-                console.log(response);
-                $("#getapp_button").text("Ok");
+                //     console.log(response);
+                //     html = ` <div class="wooapp-mail d-flex justify-content-between">
+                //     <input type="email" class="form-control" placeholder="Enter your email">
+                //     <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
+                // </div>`;
+                //     $("#wooapp-progressbar").addClass("d-none");
+                //     $("#wooapp").append(html);
+                //     $("#wooapp-getappbtn").text("Done!");
+
+                if (response != "success") {
+                    //var response = jQuery.parseJSON(response)
+                    console.log(response['body']);
+                    html = ` <div class="wooapp-mail d-flex justify-content-between">
+                <input type="email" class="form-control" placeholder="Enter your email">
+                <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
+            </div>`;
+                    $("#wooapp-progressbar").addClass("d-none");
+                    $("#wooapp").append(html);
+                    $("#wooapp-getappbtn").text("Done!");
+                } else {
+                    $("#wooapp-progressbar").addClass("d-none");
+                    $("#wooapp-getappbtn").text("Error!");
+                }
+
             },
         });
 

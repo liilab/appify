@@ -157,23 +157,22 @@
                 Click on Create App button below.
             </p>
             <button id="wooapp-getappbtn" class="mt-5 btn btn-primary">Create app</button>
-            <div id="wooapp-progressbar" class="my-3 me-3 progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-                </div>
-            </div>
         </div>
         <div class="my-4">
             <img class="img-fluid d-none d-md-block" src="<?php echo WTA_ASSETS ?>/images/app-img1.png" alt="app image">
         </div>
     </div>
-    <div class="wooapp-mail d-flex justify-content-between">
-        <input type="email" class="form-control" placeholder="Enter your email">
-        <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
+
+    <div id="wooapp-progressbar" class="my-3 me-3 progress d-none">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+            aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+        </div>
     </div>
+
+    <div id="wooapp"></div>
 </div>
 
 
-<p id="footer-left" class="alignleft">
+<p id=" footer-left" class="alignleft">
     <span id="footer-thankyou">Thank you from <a href="https://liilab.com/">LIILab</a>.</span>
 </p>
