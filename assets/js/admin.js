@@ -52,8 +52,13 @@ $(document).ready(function ($) {
                 //     $("#wooapp-getappbtn").text("Done!");
 
                 if (response != "success") {
-                    //var response = jQuery.parseJSON(response)
-                    console.log(response['body']);
+                   
+
+
+
+                   console.log(response);
+
+                    // console.log(response);
                     html = ` <div class="wooapp-mail d-flex justify-content-between">
                 <input type="email" class="form-control" placeholder="Enter your email">
                 <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
