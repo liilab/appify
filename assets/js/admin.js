@@ -52,7 +52,7 @@ $(document).ready(function ($) {
 
                        // $("#wooapp-getappbtn").text("Download App");
                         //$("#wooapp").append(html);
-                        $("#wooapp-layout").load(location.href + " #wooapp-layout");
+                        $("#wooapp-layout").load(location.href + " #wooapp-layout") //reload the div;
                     }
                 } else {
                     $("#wooapp-progressbar").addClass("d-none");
