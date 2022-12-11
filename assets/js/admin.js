@@ -37,35 +37,23 @@ $(document).ready(function ($) {
                 console.log("ready hosee");
             },
 
-            // complete: function (response) {
-            //     console.log(response);
-            // },
-
             success: function (response) {
-                //     console.log(response);
-                //     html = ` <div class="wooapp-mail d-flex justify-content-between">
-                //     <input type="email" class="form-control" placeholder="Enter your email">
-                //     <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
-                // </div>`;
-                //     $("#wooapp-progressbar").addClass("d-none");
-                //     $("#wooapp").append(html);
-                //     $("#wooapp-getappbtn").text("Done!");
+                response = JSON.parse(response);
+                console.log(response);
 
                 if (response != "success") {
-                   
+                    if (response.pending == false) {
+                        $("#wooapp-progressbar").addClass("d-none");
 
-
-
-                   console.log(response);
-
-                    // console.log(response);
-                    html = ` <div class="wooapp-mail d-flex justify-content-between">
-                <input type="email" class="form-control" placeholder="Enter your email">
+                        html = ` <div class="wooapp-mail d-flex justify-content-between">
+                <input type="email" class="form-control" placeholder=" `+ response.binary + `">
                 <button id="wooapp-downloadappbtn" class="btn btn-primary text-center">Send Download Link</button>
             </div>`;
-                    $("#wooapp-progressbar").addClass("d-none");
-                    $("#wooapp").append(html);
-                    $("#wooapp-getappbtn").text("Done!");
+
+                       // $("#wooapp-getappbtn").text("Download App");
+                        //$("#wooapp").append(html);
+                        $("#wooapp-layout").load(location.href + " #wooapp-layout");
+                    }
                 } else {
                     $("#wooapp-progressbar").addClass("d-none");
                     $("#wooapp-getappbtn").text("Error!");

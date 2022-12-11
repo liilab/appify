@@ -2,8 +2,7 @@
     <div class="welcome-panel-content">
         <div class="welcome-panel-header">
             <div class="welcome-panel-header-image">
-                <svg width="780" height="550" viewBox="0 0 780 550" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" focusable="false">
+                <svg width="780" height="550" viewBox="0 0 780 550" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <g opacity=".5" fill="#273FCC" stroke="#627EFF" stroke-width="2" stroke-miterlimit="10">
                         <circle cx="434.757" cy="71.524" r="66.1"></circle>
                         <circle cx="432.587" cy="43.138" r="66.1"></circle>
@@ -102,12 +101,9 @@
 
         <div class="welcome-panel-column-container">
             <div class="welcome-panel-column">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" focusable="false">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <rect width="48" height="48" rx="4" fill="#1E1E1E"></rect>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M32.0668 17.0854L28.8221 13.9454L18.2008 24.671L16.8983 29.0827L21.4257 27.8309L32.0668 17.0854ZM16 32.75H24V31.25H16V32.75Z"
-                        fill="white"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M32.0668 17.0854L28.8221 13.9454L18.2008 24.671L16.8983 29.0827L21.4257 27.8309L32.0668 17.0854ZM16 32.75H24V31.25H16V32.75Z" fill="white"></path>
                 </svg>
                 <div class="welcome-panel-column-content">
                     <h3>Make your app quickly</h3>
@@ -116,12 +112,9 @@
                 </div>
             </div>
             <div class="welcome-panel-column">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" focusable="false">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <rect width="48" height="48" rx="4" fill="#1E1E1E"></rect>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M18 16h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2zm12 1.5H18a.5.5 0 0 0-.5.5v3h13v-3a.5.5 0 0 0-.5-.5zm.5 5H22v8h8a.5.5 0 0 0 .5-.5v-7.5zm-10 0h-3V30a.5.5 0 0 0 .5.5h2.5v-8z"
-                        fill="#fff"></path>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18 16h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H18a2 2 0 0 1-2-2V18a2 2 0 0 1 2-2zm12 1.5H18a.5.5 0 0 0-.5.5v3h13v-3a.5.5 0 0 0-.5-.5zm.5 5H22v8h8a.5.5 0 0 0 .5-.5v-7.5zm-10 0h-3V30a.5.5 0 0 0 .5.5h2.5v-8z" fill="#fff"></path>
                 </svg>
                 <div class="welcome-panel-column-content">
                     <h3>Start Customizing</h3>
@@ -129,11 +122,9 @@
                 </div>
             </div>
             <div class="welcome-panel-column">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true" focusable="false">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <rect width="48" height="48" rx="4" fill="#1E1E1E"></rect>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M31 24a7 7 0 0 1-7 7V17a7 7 0 0 1 7 7zm-7-8a8 8 0 1 1 0 16 8 8 0 0 1 0-16z" fill="#fff">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M31 24a7 7 0 0 1-7 7V17a7 7 0 0 1 7 7zm-7-8a8 8 0 1 1 0 16 8 8 0 0 1 0-16z" fill="#fff">
                     </path>
                 </svg>
                 <div class="welcome-panel-column-content">
@@ -148,28 +139,41 @@
 
 <!--=== Wooapp Layout=== -->
 <div class="wooapp-layout">
-    <div class="wooapp-appmaking-area">
-        <div class="wooapp-description">
-            <h4>🙏 Thank you for choosing Wooapp!</h4>
-            <p>Wooapp plugin helps you connect your website with your app.
-                To get started with your app,
+    <div id="wooapp-layout">
+        <div class="wooapp-appmaking-area">
+            <div class="wooapp-description">
+                <h4>🙏 Thank you for choosing Wooapp!</h4>
+                <p>Wooapp plugin helps you connect your website with your app.
+                    To get started with your app,
 
-                Click on Create App button below.
-            </p>
-            <button id="wooapp-getappbtn" class="mt-5 btn btn-primary">Create app</button>
+                    Click on Create App button below.
+                </p>
+                <?php
+                $is_url_exist = get_user_meta(1111, 'build_url', true);
+                if (empty($is_url_exist)) {
+                ?>
+                    <button id="wooapp-getappbtn" class="mt-5 btn btn-primary">Create app</button>
+                <?php } ?>
+            </div>
+            <div class="my-4">
+                <img class="img-fluid d-none d-md-block" src="<?php echo WTA_ASSETS ?>/images/app-img1.png" alt="app image">
+            </div>
         </div>
-        <div class="my-4">
-            <img class="img-fluid d-none d-md-block" src="<?php echo WTA_ASSETS ?>/images/app-img1.png" alt="app image">
+
+        <div id="wooapp-progressbar" class="my-3 me-3 progress d-none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
+            </div>
         </div>
+        <?php
+        $is_url_exist = get_user_meta(1111, 'build_url', true);
+        if (!empty($is_url_exist)) {
+        ?>
+            <a href="<?php echo $is_url_exist; ?>" download>Download File</a>
+        <?php
+        }
+        ?>
+        <!-- <div id="wooapp"></div> -->
     </div>
-
-    <div id="wooapp-progressbar" class="my-3 me-3 progress d-none">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-        </div>
-    </div>
-
-    <div id="wooapp"></div>
 </div>
 
 
