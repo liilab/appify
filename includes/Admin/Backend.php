@@ -23,12 +23,15 @@ class Backend
     public function get_build_id()
     {
         $user_id = $this->get_current_user_id();
-        // $user_id = 1131;
 
         $build_id = get_user_meta($user_id, 'build_id', true);
+        $build_url = get_user_meta($user_id, 'build_url', true);
 
         $build_response = array(
+            "build_found" => !empty($build_id),
+            "is_building" => empty($build_url),
             "build_id" => $build_id,
+            "build_url" => $build_url,
         );
 
         echo json_encode($build_response);
@@ -37,14 +40,13 @@ class Backend
 
     public function get_build_progress()
     {
-        $base_url = 'http://192.168.0.129:8000/';
+        $base_url = 'http://192.168.0.105:8000/';
 
         $token = 'Token f6fbdfbff8f79e03c80048f8c8daf1906a9c3bb4';
 
         $url = $base_url . 'api/builder/v1/create-build-request/';
 
         $user_id = $this->get_current_user_id();
-        // $user_id = 1131;
 
         $build_id = get_user_meta($user_id, 'build_id', true);
 
@@ -71,7 +73,7 @@ class Backend
                 $response = wp_remote_get($url, $args);
 
                 $body = $response['body'];
-                $body =  json_decode($body, true);
+                $body = json_decode($body, true);
 
                 $status = $body['status'];
 
@@ -94,7 +96,7 @@ class Backend
                     break;
                 }
 
-                sleep(10);
+                sleep(5);
             }
         }
 
@@ -107,7 +109,7 @@ class Backend
 
         $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
 
-        $base_url = 'http://192.168.0.129:8000/';
+        $base_url = 'http://192.168.0.105:8000/';
 
         $token = 'Token f6fbdfbff8f79e03c80048f8c8daf1906a9c3bb4';
 
@@ -115,9 +117,7 @@ class Backend
 
         $user_id = $this->get_current_user_id();
         $user_info = get_userdata($user_id);
-        // $user_id = 1131;
 
-        // $previous_build_url = get_user_meta($user_id, 'build_url', true);
         $build_id = get_user_meta($user_id, 'build_id', true);
 
         $build_response = array(
@@ -148,12 +148,12 @@ class Backend
 
             $body = $response['body'];
 
-            $body =  json_decode($body, true);
+            $body = json_decode($body, true);
 
-            $is_pending_build_request = empty($body['message']) ? false : true;
+            $is_pending_build_request = !empty($body['message']);
 
-            if ($is_pending_build_request == false) {
-                $build_id =  $body['id'];
+            if (!$is_pending_build_request) {
+                $build_id = $body['id'];
                 update_user_meta($user_id, 'build_id', $build_id);
             }
         }
@@ -163,9 +163,10 @@ class Backend
         wp_die();
     }
 
-    public function get_current_user_id()
+    public function get_current_user_id(): int
     {
         $current_user = wp_get_current_user();
+//        return 1135;
         return $current_user->ID;
     }
 }

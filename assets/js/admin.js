@@ -1,88 +1,86 @@
 $ = jQuery;
 
 $(document).ready(function ($) {
-  $("#copy_button").click(function () {
-    $("#access_key").select();
-    document.execCommand("copy");
-    $("#copy_button").text("Copied");
-  });
 
-  function get_build_progress() {
-    var data = {
-      action: "get_build_progress",
-    };
-
-    $("#wooapp-progressbar").removeClass("d-none");
-
-    $.ajax({
-      type: "post",
-      url: wta_ajax.admin_ajax,
-      data: data,
-      success: function (response) {
-        response = JSON.parse(response);
-        if (response.status == "SUCCESS") {
-          $("#wooapp-progressbar-loader").css("width", "80%");
-          setTimeout(function () {
-            $("#wooapp-progressbar").addClass("d-none");
-            $("#wooapp-download-app-button").removeClass("d-none");
-          }, 1500);
-        } else {
-          //show something wrong warning message
-          $("#wooapp-progressbar").addClass("d-none");
-          $("#wooapp-create-app-section").removeClass("d-none");
-        }
-      },
+    $("#copy_button").click(function () {
+        $("#access_key").select();
+        document.execCommand("copy");
+        $("#copy_button").text("Copied");
     });
-  }
 
-  function create_build_request() {
-    $("#wooapp-create-app-section").addClass("d-none");
-    $("#wooapp-progressbar").removeClass("d-none");
+    function get_build_progress() {
+        const data = {
+            action: "get_build_progress",
+        };
 
-    var data = {
-      action: "set_post_request",
-    };
+        $("#wooapp-progressbar-section").removeClass("d-none");
 
-    $.ajax({
-      type: "post",
-      url: wta_ajax.admin_ajax,
-      data: data,
+        $.ajax({
+            type: "post",
+            url: wta_ajax.admin_ajax,
+            data: data,
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                if (response.status === "SUCCESS") {
+                    $("#wooapp-progressbar-loader").css("width", "70%");
+                    setTimeout(function () {
+                        $("#wooapp-progressbar-section").addClass("d-none");
+                        $("#wooapp-download-app-btn").removeClass("d-none");
+                    }, 500);
+                } else {
+                    //show something wrong warning message
+                    $("#wooapp-progressbar-section").addClass("d-none");
+                    $("#wooapp-create-app").removeClass("d-none");
+                }
+            },
+        });
+    }
 
-      //   beforeSend: function () {
-      //     setTimeout(function () {
-      //       $("#wooapp-progressbar-loader").css("width", "50%");
-      //     }, 1000);
-      //   },
+    function create_build_request() {
+        $("#wooapp-create-app").addClass("d-none");
+        $("#wooapp-progressbar-section").removeClass("d-none");
 
-      success: function (response) {
-        response = JSON.parse(response);
-        console.log(response);
-        get_build_progress();
-      },
+        const data = {
+            action: "set_post_request",
+        };
+
+        $.ajax({
+            type: "post",
+            url: wta_ajax.admin_ajax,
+            data: data,
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                get_build_progress();
+            },
+        });
+    }
+
+    $(window).bind("load", function () {
+        const data = {
+            action: "get_build_id",
+        };
+
+        $.ajax({
+            type: "post",
+            url: wta_ajax.admin_ajax,
+            data: data,
+            success: function (response) {
+                response = JSON.parse(response);
+                console.log(response);
+                if (!response["build_found"]) {
+                    $("#wooapp-create-app").removeClass("d-none");
+                } else if (response["is_building"]) {
+                    get_build_progress();
+                } else {
+                    $("#wooapp-download-app-btn").removeClass("d-none");
+                }
+            },
+        });
     });
-  }
 
-  $(window).bind("load", function () {
-    var data = {
-      action: "get_build_id",
-    };
-    $.ajax({
-      type: "post",
-      url: wta_ajax.admin_ajax,
-      data: data,
-      success: function (response) {
-        response = JSON.parse(response);
-        console.log(response);
-        if (response.build_id == "") {
-          $("#wooapp-create-app-section").removeClass("d-none");
-        } else {
-          get_build_progress();
-        }
-      },
+    $("#wooapp-get-app-btn").click(function () {
+        create_build_request();
     });
-  });
-
-  $("#wooapp-getappbtn").click(function () {
-    create_build_request();
-  });
 });

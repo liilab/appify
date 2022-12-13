@@ -1,27 +1,58 @@
 .wta-textarea {
-  background-color: #111827 !important;
-  color: #10995f;
+    background-color: #111827 !important;
+    color: #10995f;
+}
+
+.wooapp-container {
+    background: rgba(243, 244, 246, 1);
+    width: 100%;
+    min-height: 85vh;
+    margin: 0 auto;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
 }
 
 .wooapp-layout {
-  display: flex;
-  max-width: 732px;
-  height: 300px;
-  margin: 200px auto;
-  justify-content: space-between;
-  flex-direction: column;
-  border: 1px solid #e5e5e5;
-  border-radius: 3px;
-  background-color: white;
-  padding: 20px;
+    /*display: flex;*/
+    /*height: 300px;*/
+    /*margin: 200px auto;*/
+    /*justify-content: space-between;*/
+    /*flex-direction: column;*/
+    /*border: 1px solid #e5e5e5;*/
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    width: 650px;
+    height: auto;
+    border-radius: 8px;
+    background-color: white;
+    padding: 32px 20px;
 }
 
-.wooapp-layout .wooapp-appmaking-area {
-  display: flex;
-  justify-content: space-between;
+.wooapp-logo-container {
+    width: 100%;
+    height: 128px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.wooapp-layout .wooapp-app-making-area {
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    padding: 0 20px;
+}
+
+
+.wooapp-action-btn {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .wooapp-layout .wooapp-mail .form-control {
-  width: 70%;
-  margin-right: 10px;
+    width: 70%;
+    margin-right: 10px;
 }
