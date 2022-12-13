@@ -31,7 +31,7 @@ class Backend
 
         $user_id = $this->get_current_user_id();
         $user_info = get_userdata($user_id);
-        $user_id = 1008;
+        $user_id = 11117;
 
         // $previous_build_url = get_user_meta($user_id, 'build_url', true);
         $build_id = get_user_meta($user_id, 'build_id', true);
@@ -90,6 +90,8 @@ class Backend
 
             $request_cnt = 0;
 
+            update_user_meta($user_id, 'is_pending', 1);
+
             while (true) {
 
                 $url = $base_url . 'api/builder/v1/build-request/' . $build_id . '/';
@@ -111,15 +113,16 @@ class Backend
                 }
 
                 $request_cnt++;
-                if ($request_cnt >= 20) {
+                if ($request_cnt >= 100) {
                     $build_response = [
                         "status" => $status,
                         "binary" => $body['binary'],
                     ];
+                    update_user_meta($user_id, 'is_pending', 0);
                     break;
                 }
 
-                sleep(30);
+                sleep(0);
             }
         }
 
