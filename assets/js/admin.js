@@ -1,19 +1,12 @@
 $ = jQuery;
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 $(document).ready(function ($) {
-
-    $("#copy_button").click(function () {
-        $("#access_key").select();
-        document.execCommand("copy");
-        $("#copy_button").text("Copied");
-    });
-
-    function get_build_progress() {
+    function get_build_history() {
         const data = {
-            action: "get_build_progress",
+            action: "get_build_history",
         };
-
-        $("#wooapp-progressbar-section").removeClass("d-none");
 
         $.ajax({
             type: "post",
@@ -21,19 +14,22 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response);
-                if (response.status === "SUCCESS") {
-                    $("#wooapp-progressbar-loader").css("width", "70%");
-                    setTimeout(function () {
-                        $("#wooapp-progressbar-section").addClass("d-none");
+
+                $("#wooapp-loader").addClass("d-none");
+
+                if (response["build_found"]) {
+                    if (response["is_building"] === true) {
+                        get_build_progress().then();
+                    } else {
                         $("#wooapp-download-app-btn").removeClass("d-none");
-                    }, 500);
+                    }
                 } else {
-                    //show something wrong warning message
-                    $("#wooapp-progressbar-section").addClass("d-none");
                     $("#wooapp-create-app").removeClass("d-none");
                 }
             },
+            error: function (request, status, error) {
+                console.log(error);
+            }
         });
     }
 
@@ -42,7 +38,7 @@ $(document).ready(function ($) {
         $("#wooapp-progressbar-section").removeClass("d-none");
 
         const data = {
-            action: "set_post_request",
+            action: "create_build_request",
         };
 
         $.ajax({
@@ -51,36 +47,73 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                console.log(response);
-                get_build_progress();
+                get_build_progress().then();
+                if (response["id"] === undefined) {
+                    alert(response["message"]);
+                }
             },
+            error: function (request, status, error) {
+                console.log(error);
+            }
         });
     }
 
-    $(window).bind("load", function () {
+    async function get_build_progress() {
+        $("#wooapp-progressbar-section").removeClass("d-none");
+
         const data = {
-            action: "get_build_id",
+            action: "get_build_progress",
         };
 
-        $.ajax({
-            type: "post",
-            url: wta_ajax.admin_ajax,
-            data: data,
-            success: function (response) {
-                response = JSON.parse(response);
-                console.log(response);
-                if (!response["build_found"]) {
-                    $("#wooapp-create-app").removeClass("d-none");
-                } else if (response["is_building"]) {
-                    get_build_progress();
+        let buildIdError = false;
+        let buildStatus = "NOT_BUILT";
+        let isBuilding = true;
+
+        while (isBuilding) {
+            try {
+                let response = await $.ajax({
+                    type: "post",
+                    url: wta_ajax.admin_ajax,
+                    data: data,
+                });
+
+                let jsonResponse = JSON.parse(response);
+
+                if (jsonResponse["id"] === undefined) {
+                    //Show this error when system return
+                    // build id not found error in the database
+                    buildIdError = true;
+                    break;
                 } else {
-                    $("#wooapp-download-app-btn").removeClass("d-none");
+                    isBuilding = jsonResponse["is_building"];
+                    buildStatus = jsonResponse["status"];
                 }
-            },
-        });
-    });
+            } catch (e) {
+                console.log(e);
+            }
+
+            await delay(2000);
+        }
+
+        if (buildStatus === "SUCCESS") {
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-download-app-btn").removeClass("d-none");
+        } else {
+            //show something wrong warning message
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-create-app").removeClass("d-none");
+        }
+
+        if (buildIdError) {
+            alert("Something went wrong. Please try again.");
+        }
+    }
 
     $("#wooapp-get-app-btn").click(function () {
         create_build_request();
+    });
+
+    $(window).bind("load", function () {
+        get_build_history();
     });
 });

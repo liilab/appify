@@ -15,7 +15,14 @@
             <h4>Welcome to WooApp!</h4>
             <p>WooApp helps you connect your website with your app.</p>
 
-            <div id="wooapp-create-app" class="wooapp-action-btn d-none">
+            <div id="wooapp-loader" class="wooapp-action">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading...</p>
+            </div>
+
+            <div id="wooapp-create-app" class="wooapp-action d-none">
                 <p>Let's get started with WooApp.</p>
                 <button id="wooapp-get-app-btn" class="btn btn-primary">Create app</button>
             </div>
@@ -23,17 +30,24 @@
             <?php
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
-            // $user_id = 1131;
-            $is_url_exist = get_user_meta($user_id, 'build_url', true);
+            $binary_url = get_user_meta($user_id, 'binary_url', true);
+            $preview_url = get_user_meta($user_id, 'preview_url', true);
             ?>
-            <div id="wooapp-download-app-btn" class="wooapp-action-btn d-none">
-                <!--                    <p>Download your app.</p>-->
+            <div id="wooapp-download-app-btn" class="wooapp-action d-none">
                 <a
-                        href="<?php echo $is_url_exist; ?>"
+                        href="<?php echo $preview_url; ?>"
                         class="btn btn-primary"
                         download
                 >
-                    Download App
+                    Download Preview
+                </a>
+
+                <a
+                        href="<?php echo $binary_url; ?>"
+                        class ="mt-2"
+                        download
+                >
+                    Get app bundle
                 </a>
             </div>
 
@@ -49,7 +63,7 @@
                             aria-valuenow="75"
                             aria-valuemin="0"
                             aria-valuemax="100"
-                            style="width: 10%"
+                            style="width: 100%"
                     ></div>
                 </div>
             </div>

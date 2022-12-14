@@ -6,24 +6,19 @@
 .wooapp-container {
     background: rgba(243, 244, 246, 1);
     width: 100%;
-    min-height: 85vh;
+    min-height: 100vh;
     margin: 0 auto;
     padding: 16px;
     border-radius: 8px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .wooapp-layout {
-    /*display: flex;*/
-    /*height: 300px;*/
-    /*margin: 200px auto;*/
-    /*justify-content: space-between;*/
-    /*flex-direction: column;*/
-    /*border: 1px solid #e5e5e5;*/
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
     width: 650px;
-    height: auto;
+    height: 600px;
     border-radius: 8px;
     background-color: white;
     padding: 32px 20px;
@@ -38,13 +33,11 @@
 }
 
 .wooapp-layout .wooapp-app-making-area {
-    /*display: flex;*/
-    /*justify-content: space-between;*/
     padding: 0 20px;
 }
 
 
-.wooapp-action-btn {
+.wooapp-action {
     height: 300px;
     display: flex;
     flex-direction: column;
