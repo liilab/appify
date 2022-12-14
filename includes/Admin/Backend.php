@@ -35,7 +35,7 @@ class Backend
         $preview_url = get_user_meta($user_id, 'preview_url', true);
 
         $response = array(
-            "build_found" => !empty($build_id),
+            "build_found" => false,// !empty($build_id),
             "is_building" => $is_building == "1",
             "build_id" => $build_id,
             "binary_url" => $binary_url,

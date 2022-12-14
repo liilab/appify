@@ -39,8 +39,8 @@ class Admin_Page
     public function create_settings()
     {
         $parent_slug = 'woocommerce';
-        $page_title  = 'Web To App';
-        $menu_title  = 'Web To App';
+        $page_title  = 'WooApp';
+        $menu_title  = 'WooApp';
         $capability  = 'manage_options';
         $slug        = 'web-to-app';
         $callback    = array($this, 'wta_settings_content');
@@ -55,12 +55,12 @@ class Admin_Page
     public function wt_settings_content()
     { ?>
 <div class="wrap">
-    <h1>Welcome to Web to APP</h1>
+    <h1>Welcome to WooApp</h1>
     <?php settings_errors(); ?>
     <form method="POST" action="options.php">
         <?php
-                settings_fields('Web to App');
-                do_settings_sections('Web to App');
+                settings_fields('WooApp');
+                do_settings_sections('WooApp');
                 //submit_button();
                 ?>
     </form>
@@ -69,8 +69,8 @@ class Admin_Page
 
             public function wta_setup_sections()
             {
-                add_settings_section('wta_section', '', array(), 'Web to App');
-                add_settings_section('wta_getapp_section', '', array(), 'Web to App');
+                add_settings_section('wta_section', '', array(), 'WooApp');
+                add_settings_section('wta_getapp_section', '', array(), 'WooApp');
             }
 
             public function wta_setup_fields()
@@ -92,8 +92,8 @@ class Admin_Page
                     )
                 );
                 foreach ($fields as $field) {
-                    add_settings_field($field['id'], $field['label'], array($this, 'wta_field_callback'), 'Web to App', $field['section'], $field);
-                    register_setting('Web to App', $field['id']);
+                    add_settings_field($field['id'], $field['label'], array($this, 'wta_field_callback'), 'WooApp', $field['section'], $field);
+                    register_setting('WooApp', $field['id']);
                 }
             }
             public function wta_field_callback($field)

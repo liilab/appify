@@ -10,12 +10,12 @@
  *
  * @link              liilab.com
  * @since             1.0
- * @package           Web to App
+ * @package           Wooapp
  *
  * @wordpress-plugin
- * Plugin Name:       Web to App - Headless WooCommerce
+ * Plugin Name:       Wooapp - Convert WooCommerce Website to Mobile App
  * Plugin URI:        liilab.com
- * Description:       A plugin for creating rest api for your website.
+ * Description:       A plugin for convert WooCommerce website to mobile App
  * Version:           1.0
  * Author:            LIILab
  * Author URI:        liilab.com
@@ -37,7 +37,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 
 
-final class Web_To_App
+final class Wooapp
 {
 
     /**
@@ -62,7 +62,7 @@ final class Web_To_App
     /**
      * Initializes a singleton instance
      *
-     * @return \Web_To_App
+     * @return \Wooapp
      */
     
     public static function init()
@@ -130,13 +130,13 @@ final class Web_To_App
 /**
  * Initializes the main plugin
  *
- * @return \Web_To_App
+ * @return \Wooapp
  */
 
-function Web_To_App()
+function Wooapp()
 {
-    return Web_To_App::init();
+    return Wooapp::init();
 }
 
 // kick-off the plugi
-Web_To_App();
+Wooapp();
