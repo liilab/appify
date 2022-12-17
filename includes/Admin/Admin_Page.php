@@ -216,7 +216,7 @@ class Admin_Page
                 switch ($field['editable']) {
                     case 'true':
                         printf(
-                            '<input class="regular-text" placeholder="%s" type="%s" name="%s" id="%s" value="%s">',
+                            '<input class="regular-text" placeholder="%s" type="%s" name="%s" id="%s" value="%s" required>',
                             $placeholder,
                             $field['type'],
                             $field['id'],
