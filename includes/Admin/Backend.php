@@ -62,7 +62,7 @@ class Backend
             'body' => array(
                 'first_name' => get_option('user-first-name'),
                 'last_name' => get_option('user-last-name'),
-                'username' => get_option('user-name'),
+                'username' => $user_info->user_login,
                 'email' => get_option('user-email'),
                 'app_name' => get_option('app-name'),
                 'app_logo' => get_option('app-logo'),
