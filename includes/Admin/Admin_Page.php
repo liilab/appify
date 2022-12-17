@@ -44,7 +44,7 @@ class Admin_Page
         $page_title  = 'WooApp';
         $menu_title  = 'WooApp';
         $capability  = 'manage_options';
-        $slug        = 'web-to-app';
+        $slug        = 'wooapp';
         $callback    = array($this, 'wta_settings_content');
         add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $slug, $callback);
     }
