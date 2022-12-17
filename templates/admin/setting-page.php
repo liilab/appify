@@ -22,13 +22,8 @@
 
             <div id="wooapp-create-app" class="wooapp-action d-none">
                 <p>Let's get started with WooApp.</p>
-                <button id="wooapp-get-app-btn" class="btn btn-primary">Create app</button>
+                <button type="button" id="wooapp-get-app-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create app</button>
             </div>
-
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
 
             <?php
             require_once WTA_DIR_PATH . 'templates/admin/setting-page-modal.php';
