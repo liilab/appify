@@ -27,7 +27,7 @@ class Backend
     public function get_build_history()
     {
         $user_id = $this->get_current_user_id();
-//        $user_id = $this->get_dummy_user_id();
+        //        $user_id = $this->get_dummy_user_id();
 
         $build_id = get_user_meta($user_id, 'build_id', true);
         $is_building = get_user_meta($user_id, 'is_building', true);
@@ -35,7 +35,7 @@ class Backend
         $preview_url = get_user_meta($user_id, 'preview_url', true);
 
         $response = array(
-            "build_found" => false,// !empty($build_id),
+            "build_found" => false, // !empty($build_id),
             "is_building" => $is_building == "1",
             "build_id" => $build_id,
             "binary_url" => $binary_url,
@@ -48,17 +48,11 @@ class Backend
 
     public function create_build_request()
     {
-
-        $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
-
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
         $user_id = $this->get_current_user_id();
         $user_info = get_userdata($user_id);
-//        $user_id = $this->get_dummy_user_id();
-
-        $custom_logo_id = get_theme_mod('custom_logo');
-        $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+        //        $user_id = $this->get_dummy_user_id();
 
         $config = array(
             'headers' => array(
@@ -66,14 +60,14 @@ class Backend
             ),
 
             'body' => array(
-                'first_name' => empty($user_info->first_name) ? '--' : $user_info->first_name,
-                'last_name' => empty($user_info->last_name) ? '--' : $user_info->last_name,
-                'username' => $user_info->user_login,
-                'email' => $user_info->user_email,
-                'app_name' => get_bloginfo('name'),
-                'app_logo' => $logo[0] ?? $dummy_logo,
-                'store_name' => get_bloginfo('name'),
-                'store_logo' => $logo[0] ?? $dummy_logo,
+                'first_name' => get_option('user-first-name'),
+                'last_name' => get_option('user-last-name'),
+                'username' => get_option('user-name'),
+                'email' => get_option('user-email'),
+                'app_name' => get_option('app-name'),
+                'app_logo' => get_option('app-logo'),
+                'store_name' => get_option('store-name'),
+                'store_logo' =>  get_option('store-logo'),
                 'domain' => get_bloginfo('url'),
                 "template" => 1,
             ),
@@ -95,7 +89,7 @@ class Backend
     public function get_build_progress()
     {
         $user_id = $this->get_current_user_id();
-//        $user_id = $this->get_dummy_user_id();
+        //        $user_id = $this->get_dummy_user_id();
 
         $build_id = get_user_meta($user_id, 'build_id', true);
 
