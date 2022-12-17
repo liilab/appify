@@ -27,21 +27,22 @@ class Activate_Plugin
 
         $data = array(
             'user' => array(
-                'first_name' => $user_info->first_name? $user_info->first_name : '',
-                'last_name' => $user_info->last_name? $user_info->last_name : '',
-                'email' => $user_info->user_email? $user_info->user_email : '',
+                'first_name' => $user_info->first_name ? $user_info->first_name : '',
+                'last_name' => $user_info->last_name ? $user_info->last_name : '',
+                'email' => $user_info->user_email ? $user_info->user_email : '',
             ),
             'website' => array(
-                'name' => 'Lii Store',
-                'domain' => 'https://liipress.abirwasim.me',
+                'name' => get_bloginfo('name'),
+                'domain' => get_bloginfo('url'),
             ),
+
             'keystore' => array(
-                'city' => 'Sylhet',
-                'country' => 'BD',
-                'name' => 'Abir Sadat',
-                'state' => 'Sylhet',
-                'organization' => 'Lii Store',
-                'organizational_unit' => 'lii-store-e-commerce',
+                'city' => WC()->countries->get_base_city(),
+                'country' => WC()->countries->get_base_country(),
+                'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
+                'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
+                'organization' => get_bloginfo('name'),
+                'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
             ),
         );
 
@@ -65,7 +66,8 @@ class Activate_Plugin
         return $response;
     }
 
-    public function save_user_data($response){
+    public function save_user_data($response)
+    {
         $token = $response['token'];
         $user_id = $response['user_id'];
         $website_id = $response['website_id'];
