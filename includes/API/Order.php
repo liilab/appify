@@ -25,6 +25,14 @@ class Order extends \WP_REST_Controller
      */
     protected $rest_base = 'orders';
 
+    /**
+     * Order notes.
+     * 
+     * @var string
+     */
+
+    protected $order_notes;
+
 
     /**
      * Register the routes for products.
@@ -75,6 +83,7 @@ class Order extends \WP_REST_Controller
      * @param \WP_REST_Request $request Full data about the request.
      *
      * @return \WP_REST_Response
+     * 
      */
     public function create_order($request)
     {
@@ -120,11 +129,11 @@ class Order extends \WP_REST_Controller
         $order->calculate_totals();
         $order->update_status('pending');
 
-       $order_notes = $params['order_notes'];
+       $this->order_notes = $params['order_notes'];
 
-        if (!empty($order_notes)) {
+        if (!empty($this->order_notes)) {
             $order->add_order_note(
-                $order_notes
+                $this->order_notes
             );
         }
 
@@ -182,6 +191,7 @@ class Order extends \WP_REST_Controller
             'status_label' => $this->get_order_status_label($order->get_status()),
             'status' => $order->get_status(),
             'order_key'     => $this->get_order_key($order),
+            'order_notes'   => $this->order_notes,
             'total_items'   => $order->get_item_count(),
             'items'         => $this->get_order_items($order),
             'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
@@ -196,7 +206,6 @@ class Order extends \WP_REST_Controller
             'total'          =>  $order->get_total(),
             'total_tax'      =>  $order->get_total_tax(),
             'payment_method' =>  $order->get_payment_method(),
-            'order_notes'    =>  $order->get_customer_order_notes(),
             'billing'              => $this->get_address('billing', $request),
             'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
