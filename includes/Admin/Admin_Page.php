@@ -54,7 +54,7 @@ class Admin_Page
 
     public function wta_settings_content()
     {
-        require_once WTA_DIR_PATH . 'templates/admin/react-demo.php';
+        //require_once WTA_DIR_PATH . 'templates/admin/react-demo.php';
         require_once WTA_DIR_PATH . 'templates/admin/setting-page.php';
     }
 
