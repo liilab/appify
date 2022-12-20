@@ -129,7 +129,7 @@ class Order extends \WP_REST_Controller
         $order->calculate_totals();
         $order->update_status('pending');
 
-       $this->order_notes = $params['order_notes'];
+        $this->order_notes = $params['order_notes'];
 
         if (!empty($this->order_notes)) {
             $order->add_order_note(
@@ -139,6 +139,14 @@ class Order extends \WP_REST_Controller
 
         $shipping_address = $params['shipping_address'][0];
         $billing_address = $params['billing_address'][0];
+
+        if (empty($shipping_address)) {
+            $shipping_address = $this->get_address('shipping', $request);
+        }
+
+        if (empty($billing_address)) {
+            $billing_address = $this->get_address('billing', $request);
+        }
 
         if (!empty($billing_address)) {
             $order->set_address($billing_address, 'billing');
@@ -240,6 +248,7 @@ class Order extends \WP_REST_Controller
             $billing_address_2  = $customer->get_billing_address_2();
             $billing_city       = $customer->get_billing_city();
             $billing_email     = $customer->get_billing_email();
+            $billing_phone     = $customer->get_billing_phone();
             $billing_state      = $customer->get_billing_state();
             $billing_postcode   = $customer->get_billing_postcode();
             $billing_country    = $customer->get_billing_country();
@@ -251,6 +260,7 @@ class Order extends \WP_REST_Controller
                 'address_1' => $billing_address_1,
                 'address_2' => $billing_address_2,
                 'email' => $billing_email,
+                'phone' => $billing_phone,
                 'city' => $billing_city,
                 'state' => $billing_state,
                 'postcode' => $billing_postcode,
