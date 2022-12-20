@@ -36,6 +36,9 @@ class Admin_Page
             'admin_ajax' => admin_url('admin-ajax.php'),
 
         ));
+
+        wp_enqueue_style( 'jobplace-style', WTA_BUILD . '/index.css' );
+        wp_enqueue_script( 'jobplace-script', WTA_BUILD . '/index.js', array( 'wp-element' ), '1.0.0', true );
     }
 
     public function create_settings()
@@ -51,6 +54,7 @@ class Admin_Page
 
     public function wta_settings_content()
     {
+        require_once WTA_DIR_PATH . 'templates/admin/react-demo.php';
         require_once WTA_DIR_PATH . 'templates/admin/setting-page.php';
     }
 
@@ -132,7 +136,7 @@ class Admin_Page
                 'type' => 'media',
                 'returnvalue' => 'url',
                 'editable' => 'true',
-                'default' =>  $logo[0]?$logo[0]:  $dummy_logo,
+                'default' =>  $logo[0] ? $logo[0] :  $dummy_logo,
             ),
 
             array(
@@ -154,7 +158,7 @@ class Admin_Page
                 'type' => 'media',
                 'returnvalue' => 'url',
                 'editable' => 'true',
-                'default' =>  $logo[0]?$logo[0]:  $dummy_logo,
+                'default' =>  $logo[0] ? $logo[0] :  $dummy_logo,
             ),
 
             array(

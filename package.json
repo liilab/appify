@@ -1,0 +1,24 @@
+{
+  "name": "web-to-app",
+  "version": "1.0.0",
+  "description": "A plugin for convert WooCommerce website to mobile App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/liilab1/wordpress/plugin/web-to-app.git"
+  },
+  "author": "tsabbir007",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/liilab1/wordpress/plugin/web-to-app/issues"
+  },
+  "homepage": "https://gitlab.com/liilab1/wordpress/plugin/web-to-app#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^25.0.0"
+  }
+}

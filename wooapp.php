@@ -88,6 +88,7 @@ final class Wooapp
         define( 'WTA_DIR', __DIR__ ); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app
         define( 'WTA_URL', plugins_url( '', WTA_FILE ) ); // http://localhost/wordpress1/wp-content/plugins/web-to-app
         define( 'WTA_ASSETS', WTA_URL . '/assets' ); // http://localhost/wordpress1/wp-content/plugins/web-to-app/assets
+        define( 'WTA_BUILD', WTA_URL . '/build' ); // http://localhost/wordpress1/wp-content/plugins/web-to-app/build
         define( 'WTA_DIR_PATH', plugin_dir_path( __FILE__ ) ); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app/
     }
 
