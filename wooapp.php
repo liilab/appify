@@ -26,7 +26,7 @@
  */
 
 
-if ( !defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -54,9 +54,9 @@ final class Wooapp
     {
         $this->define_constants();
 
-        register_activation_hook( __FILE__, [$this, 'activate'] );
+        register_activation_hook(__FILE__, [$this, 'activate']);
 
-        add_action( 'plugins_loaded', [$this, 'init_plugin'] );
+        add_action('plugins_loaded', [$this, 'init_plugin']);
     }
 
     /**
@@ -64,12 +64,12 @@ final class Wooapp
      *
      * @return \Wooapp
      */
-    
+
     public static function init()
     {
         static $instance = false;
 
-        if ( !$instance ) {
+        if (!$instance) {
             $instance = new self();
         }
 
@@ -83,13 +83,13 @@ final class Wooapp
      */
     public function define_constants()
     {
-        define( 'WTA_VERSION', self::version ); //  1.0
-        define( 'WTA_FILE', __FILE__ ); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app\wooapp.php
-        define( 'WTA_DIR', __DIR__ ); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app
-        define( 'WTA_URL', plugins_url( '', WTA_FILE ) ); // http://localhost/wordpress1/wp-content/plugins/web-to-app
-        define( 'WTA_ASSETS', WTA_URL . '/assets' ); // http://localhost/wordpress1/wp-content/plugins/web-to-app/assets
-        define( 'WTA_BUILD', WTA_URL . '/build' ); // http://localhost/wordpress1/wp-content/plugins/web-to-app/build
-        define( 'WTA_DIR_PATH', plugin_dir_path( __FILE__ ) ); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app/
+        define('WTA_VERSION', self::version); //  1.0
+        define('WTA_FILE', __FILE__); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app\wooapp.php
+        define('WTA_DIR', __DIR__); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app
+        define('WTA_URL', plugins_url('', WTA_FILE)); // http://localhost/wordpress1/wp-content/plugins/web-to-app
+        define('WTA_ASSETS', WTA_URL . '/assets'); // http://localhost/wordpress1/wp-content/plugins/web-to-app/assets
+        define('WTA_BUILD', WTA_URL . '/build'); // http://localhost/wordpress1/wp-content/plugins/web-to-app/build
+        define('WTA_DIR_PATH', plugin_dir_path(__FILE__)); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app/
     }
 
     /**
@@ -99,7 +99,7 @@ final class Wooapp
      */
     public function init_plugin()
     {
-        if ( is_admin() ) {
+        if (is_admin()) {
             WebToApp\Admin::get_instance();
         }
 
@@ -117,14 +117,87 @@ final class Wooapp
      */
     public function activate()
     {
-        $installed = get_option( 'wta_installed' );
+        $installed = get_option('wta_installed');
 
-        if ( !$installed ) {
-            update_option( 'wta_installed', time() );
+        if (!$installed) {
+            update_option('wta_installed', time());
         }
 
-        update_option( 'wta_version', WTA_VERSION );
+        update_option('wta_version', WTA_VERSION);
 
+        $user_id = $this->get_current_user_id();
+
+        $this->wta_registration_save($user_id);
+    }
+
+
+
+    //new User\Activate_Plugin();
+
+
+    public function wta_registration_save($user_id)
+    {
+
+        $url = 'http://192.168.0.129:8000/api/builder/v1/activate-plugin/';
+
+        $user_info = get_userdata($user_id);
+
+        $data = array(
+
+            'headers' => array(
+                'Content-Type' => 'application/json',
+            ),
+
+            'body' => json_encode(array(
+                'user' => array(
+                    'first_name' => $user_info->first_name ? $user_info->first_name : '',
+                    'last_name' => $user_info->last_name ? $user_info->last_name : '',
+                    'email' => $user_info->user_email ? $user_info->user_email : '',
+                ),
+                'website' => array(
+                    'name' => get_bloginfo('name'),
+                    'domain' => get_bloginfo('url'),
+                ),
+
+                'keystore' => array(
+                    'city' => WC()->countries->get_base_city(),
+                    'country' => WC()->countries->get_base_country(),
+                    'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
+                    'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
+                    'organization' => get_bloginfo('name'),
+                    'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
+                ),
+            )
+        ),
+        );
+
+        $response = wp_remote_post($url, $data);
+
+        if (is_wp_error($response)) {
+            $error_message = $response->get_error_message();
+            echo "Something went wrong: $error_message";
+        } else {
+          // $this->save_user_data($response, $user_id);
+        }
+    }
+
+    public function save_user_data($response, $id)
+    {
+        // $response = json_decode($response['body'], true);
+
+        $token = $response['token'];
+        $user_id = $response['user_id'];
+        $website_id = $response['website_id'];
+
+        add_user_meta($id, 'wta_user_id', $user_id);
+        add_user_meta($id, 'wta_access_token', $token);
+        add_user_meta($id, 'wta_website_id', $website_id);
+    }
+
+    public function get_current_user_id(): int
+    {
+        $current_user = wp_get_current_user();
+        return $current_user->ID;
     }
 }
 

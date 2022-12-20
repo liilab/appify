@@ -9,6 +9,6 @@ class User
     public function __construct()
     {
         new User\Token();
-        new User\Activate_Plugin();
+        //new User\Activate_Plugin();
     }
 }

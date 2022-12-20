@@ -54,22 +54,25 @@ class Backend
         $user_info = get_userdata($user_id);
         //        $user_id = $this->get_dummy_user_id();
 
+        $website_id = get_user_meta($user_id, 'wta_wc_website_id', true); 
+
         $config = array(
             'headers' => array(
                 'Authorization' => $this->token,
             ),
 
             'body' => array(
-                'first_name' => get_option('user-first-name'),
-                'last_name' => get_option('user-last-name'),
-                'username' => $user_info->user_login,
-                'email' => get_option('user-email'),
+               // 'first_name' => get_option('user-first-name'),
+                //'last_name' => get_option('user-last-name'),
+                //'username' => $user_info->user_login,
+                //'email' => get_option('user-email'),
                 'app_name' => get_option('app-name'),
                 'app_logo' => get_option('app-logo'),
                 'store_name' => get_option('store-name'),
                 'store_logo' =>  get_option('store-logo'),
-                'domain' => get_bloginfo('url'),
+                //'domain' => get_bloginfo('url'),
                 "template" => 1,
+                "website" =>  $website_id
             ),
         );
 

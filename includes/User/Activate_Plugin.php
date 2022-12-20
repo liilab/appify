@@ -52,7 +52,7 @@ class Activate_Plugin
             $error_message = $response->get_error_message();
             echo "Something went wrong: $error_message";
         } else {
-            $this->save_user_data($response);
+            $this->save_user_data($response, $user_id);
         }
     }
 
@@ -66,17 +66,19 @@ class Activate_Plugin
         return $response;
     }
 
-    public function save_user_data($response)
+    public function save_user_data($response, $id)
     {
+        $token = "sabbir1";
+        $user_id = "sabbir2";
+        $website_id = "sabbir3";
+
         $token = $response['token'];
         $user_id = $response['user_id'];
         $website_id = $response['website_id'];
 
-        $id = $this->get_current_user_id();
-
-        update_user_meta($id, 'wta_wc_user_id', $user_id);
-        update_user_meta($id, 'wta_wc_access_token', $token);
-        update_user_meta($id, 'wta_wc_website_id', $website_id);
+        add_user_meta($id, 'wta_user_id', $user_id);
+        add_user_meta($id, 'wta_access_token', $token);
+        add_user_meta($id, 'wta_website_id', $website_id);
     }
 
     public function get_current_user_id(): int
