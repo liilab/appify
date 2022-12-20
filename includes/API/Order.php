@@ -136,6 +136,11 @@ class Order extends \WP_REST_Controller
                 $this->order_notes
             );
         }
+        else {
+            $order->add_order_note(
+                ''
+            );
+        }
 
         $shipping_address = $params['shipping_address'][0];
         $billing_address = $params['billing_address'][0];
@@ -199,7 +204,7 @@ class Order extends \WP_REST_Controller
             'status_label' => $this->get_order_status_label($order->get_status()),
             'status' => $order->get_status(),
             'order_key'     => $this->get_order_key($order),
-            'order_notes'   => $this->order_notes,
+            'order_notes'   => $this->get_order_notes($order),
             'total_items'   => $order->get_item_count(),
             'items'         => $this->get_order_items($order),
             'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
@@ -227,6 +232,20 @@ class Order extends \WP_REST_Controller
         );
 
         return $data;
+    }
+
+    /**
+     * Get order note.
+     *
+     * @return string
+     */
+
+    public function get_order_notes($order){
+        $notes = wc_get_order_notes([
+            'order_id' => $order->get_id()
+         ]);
+
+         return $notes[0]->content;
     }
 
 
