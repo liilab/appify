@@ -20,9 +20,9 @@ class Backend
         add_action('wp_ajax_get_build_progress', [$this, 'get_build_progress']);
     }
 
-    private string $base_url = 'http://192.168.0.129:8000/';
+    private $base_url = 'http://192.168.0.129:8000/';
 
-    private string $token = 'Token f6fbdfbff8f79e03c80048f8c8daf1906a9c3bb4';
+    private $token = 'Token f6fbdfbff8f79e03c80048f8c8daf1906a9c3bb4';
 
     public function get_build_history()
     {
