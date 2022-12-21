@@ -74,48 +74,48 @@ class Admin_Page
         $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
 
         $fields = array(
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'First name',
-                'placeholder' => 'John',
-                'id' => 'user-first-name',
-                'desc' => 'Give your first name',
-                'type' => 'text',
-                'editable' => 'true',
-                'default' => empty($user_info->first_name) ? '--' : $user_info->first_name,
-            ),
+            // array(
+            //     'section' => 'wta_custom_section',
+            //     'label' => 'First name',
+            //     'placeholder' => 'John',
+            //     'id' => 'user-first-name',
+            //     'desc' => 'Give your first name',
+            //     'type' => 'text',
+            //     'editable' => 'true',
+            //     'default' => empty($user_info->first_name) ? '--' : $user_info->first_name,
+            // ),
 
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'Last name',
-                'placeholder' => 'Doe',
-                'id' => 'user-last-name',
-                'desc' => 'Give your last name',
-                'type' => 'text',
-                'editable' => 'true',
-                'default' => empty($user_info->last_name) ? '--' : $user_info->last_name,
-            ),
+            // array(
+            //     'section' => 'wta_custom_section',
+            //     'label' => 'Last name',
+            //     'placeholder' => 'Doe',
+            //     'id' => 'user-last-name',
+            //     'desc' => 'Give your last name',
+            //     'type' => 'text',
+            //     'editable' => 'true',
+            //     'default' => empty($user_info->last_name) ? '--' : $user_info->last_name,
+            // ),
 
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'User name',
-                'placeholder' => 'user_name',
-                'id' => 'user-name',
-                'type' => 'text',
-                'editable' => 'false',
-                'default' => $user_info->user_login,
-            ),
+            // array(
+            //     'section' => 'wta_custom_section',
+            //     'label' => 'User name',
+            //     'placeholder' => 'user_name',
+            //     'id' => 'user-name',
+            //     'type' => 'text',
+            //     'editable' => 'false',
+            //     'default' => $user_info->user_login,
+            // ),
 
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'User email',
-                'placeholder' => 'example@example.com',
-                'id' => 'user-email',
-                'desc' => 'Give your email id',
-                'type' => 'email',
-                'editable' => 'true',
-                'default' => $user_info->user_email,
-            ),
+            // array(
+            //     'section' => 'wta_custom_section',
+            //     'label' => 'User email',
+            //     'placeholder' => 'example@example.com',
+            //     'id' => 'user-email',
+            //     'desc' => 'Give your email id',
+            //     'type' => 'email',
+            //     'editable' => 'true',
+            //     'default' => $user_info->user_email,
+            // ),
 
             array(
                 'section' => 'wta_custom_section',

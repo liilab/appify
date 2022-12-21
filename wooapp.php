@@ -148,50 +148,42 @@ final class Wooapp
                 'Content-Type' => 'application/json',
             ),
 
-            'body' => json_encode(array(
-                'user' => array(
-                    'first_name' => $user_info->first_name ? $user_info->first_name : '',
-                    'last_name' => $user_info->last_name ? $user_info->last_name : '',
-                    'email' => $user_info->user_email ? $user_info->user_email : '',
-                ),
-                'website' => array(
-                    'name' => get_bloginfo('name'),
-                    'domain' => get_bloginfo('url'),
-                ),
+            'body' => json_encode(
+                array(
+                    'user' => array(
+                        'first_name' => $user_info->first_name ? $user_info->first_name : '',
+                        'last_name' => $user_info->last_name ? $user_info->last_name : '',
+                        'email' => "saabbir111@gmail.com",//$user_info->user_email ? $user_info->user_email : '',
+                    ),
+                    'website' => array(
+                        'name' => get_bloginfo('name'),
+                        'domain' => get_bloginfo('url'),
+                    ),
 
-                'keystore' => array(
-                    'city' => WC()->countries->get_base_city(),
-                    'country' => WC()->countries->get_base_country(),
-                    'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
-                    'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
-                    'organization' => get_bloginfo('name'),
-                    'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
-                ),
-            )
-        ),
+                    'keystore' => array(
+                        'city' => WC()->countries->get_base_city(),
+                        'country' => WC()->countries->get_base_country(),
+                        'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
+                        'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
+                        'organization' => get_bloginfo('name'),
+                        'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
+                    ),
+                )
+            ),
         );
 
         $response = wp_remote_post($url, $data);
+        $json_response = json_decode($response['body'], true);
 
-        if (is_wp_error($response)) {
-            $error_message = $response->get_error_message();
-            echo "Something went wrong: $error_message";
-        } else {
-          // $this->save_user_data($response, $user_id);
-        }
-    }
 
-    public function save_user_data($response, $id)
-    {
-        // $response = json_decode($response['body'], true);
 
-        $token = $response['token'];
-        $user_id = $response['user_id'];
-        $website_id = $response['website_id'];
+        $token = $json_response['token'];
+        $userid = $json_response['user_id'];
+        $website_id = $json_response['website_id'];
 
-        add_user_meta($id, 'wta_user_id', $user_id);
-        add_user_meta($id, 'wta_access_token', $token);
-        add_user_meta($id, 'wta_website_id', $website_id);
+        update_user_meta($user_id, 'wta_user_id', $userid);
+        update_user_meta($user_id, 'wta_access_token', $token);
+        update_user_meta($user_id, 'wta_website_id', $website_id);
     }
 
     public function get_current_user_id(): int

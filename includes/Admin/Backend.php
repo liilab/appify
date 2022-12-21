@@ -22,8 +22,6 @@ class Backend
 
     private $base_url = 'http://192.168.0.129:8000/';
 
-    private $token = 'Token f6fbdfbff8f79e03c80048f8c8daf1906a9c3bb4';
-
     public function get_build_history()
     {
         $user_id = $this->get_current_user_id();
@@ -54,23 +52,18 @@ class Backend
         $user_info = get_userdata($user_id);
         //        $user_id = $this->get_dummy_user_id();
 
-        $website_id = get_user_meta($user_id, 'wta_wc_website_id', true); 
+        $website_id = get_user_meta($user_id, 'wta_website_id', true); 
 
         $config = array(
             'headers' => array(
-                'Authorization' => $this->token,
+                'Authorization' => $this->get_token(),
             ),
 
             'body' => array(
-               // 'first_name' => get_option('user-first-name'),
-                //'last_name' => get_option('user-last-name'),
-                //'username' => $user_info->user_login,
-                //'email' => get_option('user-email'),
                 'app_name' => get_option('app-name'),
-                'app_logo' => get_option('app-logo'),
+                'app_logo' => "https://picsum.photos/200/300", //get_option('app-logo'),
                 'store_name' => get_option('store-name'),
-                'store_logo' =>  get_option('store-logo'),
-                //'domain' => get_bloginfo('url'),
+                'store_logo' => "https://picsum.photos/200/300",// get_option('store-logo'),
                 "template" => 1,
                 "website" =>  $website_id
             ),
@@ -103,7 +96,7 @@ class Backend
         } else {
             $args = array(
                 'headers' => array(
-                    'Authorization' => $this->token,
+                    'Authorization' => $this->get_token(),
                 ),
             );
 
@@ -133,5 +126,14 @@ class Backend
     {
         $current_user = wp_get_current_user();
         return $current_user->ID;
+    }
+
+    public function get_token()
+    {
+        $user_id = $this->get_current_user_id();
+
+        $token = "Token ".get_user_meta($user_id, 'wta_access_token', true); 
+
+        return $token;
     }
 }
