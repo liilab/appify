@@ -1,11 +1,12 @@
 <div class="wooapp-container">
     <div id="wooapp-layout" class="wooapp-layout">
+
         <div class="wooapp-logo-container">
-            <!--            <img class="img-fluid d-none d-md-block" src="-->
-            <?php //echo WTA_ASSETS 
-            ?>
-            <!--/images/wooapp-logo.png" alt="logo">-->
-            <img style="width: 200px; height: 80px; object-fit: contain;" src="<?php echo WTA_ASSETS ?>/images/wooapp-logo.png" alt="logo" />
+            <img
+                    style="width: 200px; height: 80px; object-fit: contain;"
+                    src="<?php echo WTA_ASSETS ?>/images/wooapp-logo.png"
+                    alt="logo"
+            />
         </div>
 
         <div class="wooapp-app-making-area">
@@ -22,7 +23,9 @@
 
             <div id="wooapp-create-app" class="wooapp-action d-none">
                 <p>Let's get started with WooApp.</p>
-                <button type="button" id="wooapp-get-app-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Create app</button>
+                <button type="button" id="wooapp-get-app-btn" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Create app
+                </button>
             </div>
 
             <?php
@@ -37,7 +40,7 @@
             ?>
             <div id="wooapp-download-app-btn" class="wooapp-action d-none">
                 <a href="<?php echo $preview_url; ?>" class="btn btn-primary" download>
-                    Download Preview
+                    Download APK
                 </a>
 
                 <a href="<?php echo $binary_url; ?>" class="mt-2" download>
@@ -50,9 +53,12 @@
                     Building in progress.<br>It can take 3 to 7 minutes.
                 </p>
                 <div id="wooapp-progressbar" class="my-3 me-3 progress">
-                    <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated"
+                         role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                         style="width: 100%"></div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>

@@ -151,9 +151,9 @@ final class Wooapp
             'body' => json_encode(
                 array(
                     'user' => array(
-                        'first_name' => $user_info->first_name ? $user_info->first_name : '',
-                        'last_name' => $user_info->last_name ? $user_info->last_name : '',
-                        'email' => "saabbir111@gmail.com",//$user_info->user_email ? $user_info->user_email : '',
+                        'first_name' => $user_info->first_name,
+                        'last_name' => $user_info->last_name,
+                        'email' => $user_info->user_email,
                     ),
                     'website' => array(
                         'name' => get_bloginfo('name'),
@@ -161,10 +161,12 @@ final class Wooapp
                     ),
 
                     'keystore' => array(
-                        'city' => WC()->countries->get_base_city(),
-                        'country' => WC()->countries->get_base_country(),
-                        'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
-                        'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
+                        'city' => WC()->countries->get_base_city() ? WC()->countries->get_base_city() : 'Default',
+                        'country' => WC()->countries->get_base_country() ? WC()->countries->get_base_country() : 'Default',
+                        'name' => $user_info->first_name ? $user_info->first_name . ' ' . $user_info->last_name : 'Admin',
+                        'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()]
+                            ? WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()]
+                            : 'Default',
                         'organization' => get_bloginfo('name'),
                         'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
                     ),
@@ -174,7 +176,6 @@ final class Wooapp
 
         $response = wp_remote_post($url, $data);
         $json_response = json_decode($response['body'], true);
-
 
 
         $token = $json_response['token'];
