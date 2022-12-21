@@ -36,9 +36,6 @@ class Admin_Page
             'admin_ajax' => admin_url('admin-ajax.php'),
 
         ));
-
-        wp_enqueue_style( 'jobplace-style', WTA_BUILD . '/index.css' );
-        wp_enqueue_script( 'jobplace-script', WTA_BUILD . '/index.js', array( 'wp-element' ), '1.0.0', true );
     }
 
     public function create_settings()
