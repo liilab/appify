@@ -46,8 +46,8 @@ class Store_Info extends \WebToApp\Abstracts\WTA_WC_REST_Controller
     {
 
         $data = array(
-            'name' => get_user_meta(13, 'wta_website_id', true),
-            'description' => get_user_meta(13, 'wta_access_token', true),
+            'name' => get_bloginfo('name'),
+            'description' => get_bloginfo('description'),
             'url' => get_bloginfo('url'),
             'currency' => get_woocommerce_currency(),
             'currency_symbol' => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
