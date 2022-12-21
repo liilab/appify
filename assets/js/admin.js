@@ -110,9 +110,10 @@ $(document).ready(function ($) {
         }
     }
 
-    $("#wta-save-appinfo").submit(function (e) {
-        e.preventDefault();
+    $("#wooapp-get-app-btn").click(function (e) {
+       // e.preventDefault();
         create_build_request();
+        console.log("wooapp-get-app-btn");
     });
 
     $(window).bind("load", function () {
