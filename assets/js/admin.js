@@ -50,7 +50,7 @@ $(document).ready(function ($) {
                 response = JSON.parse(response);
                 get_build_progress().then();
                 if (response["id"] === undefined) {
-                    alert(response["message"]);
+                    alert(response["detail"]);
                 }
             },
             error: function (request, status, error) {
@@ -110,7 +110,8 @@ $(document).ready(function ($) {
         }
     }
 
-    $("#wta-save-appinfo").click(function () {
+    $("#wta-save-appinfo").submit(function (e) {
+        e.preventDefault();
         create_build_request();
     });
 
