@@ -88,7 +88,6 @@ final class Wooapp
         define('WTA_DIR', __DIR__); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app
         define('WTA_URL', plugins_url('', WTA_FILE)); // http://localhost/wordpress1/wp-content/plugins/web-to-app
         define('WTA_ASSETS', WTA_URL . '/assets'); // http://localhost/wordpress1/wp-content/plugins/web-to-app/assets
-        define('WTA_BUILD', WTA_URL . '/build'); // http://localhost/wordpress1/wp-content/plugins/web-to-app/build
         define('WTA_DIR_PATH', plugin_dir_path(__FILE__)); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app/
     }
 
@@ -106,7 +105,7 @@ final class Wooapp
         WebToApp\WtaHelper::get_instance();
         WebToApp\API::get_instance();
         WebToApp\User::get_instance();
-        WebToApp\Frontend::get_instance(); //curently not using
+       // WebToApp\Frontend::get_instance(); //curently not using
 
     }
 
@@ -125,71 +124,12 @@ final class Wooapp
 
         update_option('wta_version', WTA_VERSION);
 
-        $user_id = $this->get_current_user_id();
 
-        $this->wta_registration_save($user_id);
-    }
+        /**
+         * Initialize the default settings
+         */
 
-
-
-    //new User\Activate_Plugin();
-
-
-    public function wta_registration_save($user_id)
-    {
-
-        $url = 'http://192.168.0.129:8000/api/builder/v1/activate-plugin/';
-
-        $user_info = get_userdata($user_id);
-
-        $data = array(
-
-            'headers' => array(
-                'Content-Type' => 'application/json',
-            ),
-
-            'body' => json_encode(
-                array(
-                    'user' => array(
-                        'first_name' => $user_info->first_name ? $user_info->first_name : '',
-                        'last_name' => $user_info->last_name ? $user_info->last_name : '',
-                        'email' => "saabbir111@gmail.com",//$user_info->user_email ? $user_info->user_email : '',
-                    ),
-                    'website' => array(
-                        'name' => get_bloginfo('name'),
-                        'domain' => get_bloginfo('url'),
-                    ),
-
-                    'keystore' => array(
-                        'city' => WC()->countries->get_base_city(),
-                        'country' => WC()->countries->get_base_country(),
-                        'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
-                        'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],
-                        'organization' => get_bloginfo('name'),
-                        'organizational_unit' => str_replace(" ", "-", strtolower(get_bloginfo('name'))) . '-e-commerce',
-                    ),
-                )
-            ),
-        );
-
-        $response = wp_remote_post($url, $data);
-        $json_response = json_decode($response['body'], true);
-
-
-
-        $token = $json_response['token'];
-        $userid = $json_response['user_id'];
-        $website_id = $json_response['website_id'];
-
-        update_user_meta($user_id, 'wta_user_id', $userid);
-        update_user_meta($user_id, 'wta_access_token', $token);
-        update_user_meta($user_id, 'wta_website_id', $website_id);
-    }
-
-    public function get_current_user_id(): int
-    {
-        $current_user = wp_get_current_user();
-        return $current_user->ID;
+        WebToApp\Activate_Plugin::get_instance();
     }
 }
 
