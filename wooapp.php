@@ -57,6 +57,25 @@ final class Wooapp
         register_activation_hook(__FILE__, [$this, 'activate']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
+        add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
+    }
+
+    /**
+     * Plugin action links
+     *
+     * @param array $links
+     *
+     * @since  1.0.0
+     *
+     * @return array
+     */
+    public function plugin_action_links($links)
+    {
+
+        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '">' . __('Settings', 'wooapp') . '</a>'; 
+        $links[] = '<a href="https://test.tsabbir.com" target="_blank">' . __('Documentation', 'wooapp') . '</a>';
+
+        return $links;
     }
 
     /**
@@ -105,7 +124,7 @@ final class Wooapp
         WebToApp\WtaHelper::get_instance();
         WebToApp\API::get_instance();
         WebToApp\User::get_instance();
-       // WebToApp\Frontend::get_instance(); //curently not using
+        // WebToApp\Frontend::get_instance(); //curently not using
 
     }
 
