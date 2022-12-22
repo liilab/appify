@@ -22,10 +22,10 @@ $(document).ready(function ($) {
                     if (response["is_building"] === true) {
                         get_build_progress().then();
                     } else {
-                        $("#wooapp-download-app-btn").removeClass("d-none");
+                        $("#wooapp-build-history-card").removeClass("d-none");
                     }
                 } else {
-                    $("#wooapp-create-app").removeClass("d-none");
+                    $("#wooapp-form-wrap").removeClass("d-none");
                 }
             },
             error: function (request, status, error) {
@@ -35,7 +35,7 @@ $(document).ready(function ($) {
     }
 
     function create_build_request() {
-        $("#wooapp-create-app").addClass("d-none");
+        $("#wooapp-form-wrap").addClass("d-none");
         $("#wooapp-progressbar-section").removeClass("d-none");
 
         const data = {
@@ -98,11 +98,10 @@ $(document).ready(function ($) {
 
         if (buildStatus === "SUCCESS") {
             $("#wooapp-progressbar-section").addClass("d-none");
-            $("#wooapp-download-app-btn").removeClass("d-none");
+            $("#wooapp-build-history-card").removeClass("d-none");
         } else {
             //show something wrong warning message
-            $("#wooapp-progressbar-section").addClass("d-none");
-            $("#wooapp-create-app").removeClass("d-none");
+            location.reload();
         }
 
         if (buildIdError) {
@@ -110,16 +109,15 @@ $(document).ready(function ($) {
         }
     }
 
-    $("#wooapp-get-app-btn").click(function (e) {
-       // e.preventDefault();
+    $("#wooapp-form").submit(function (e) {
         create_build_request();
+        e.preventDefault();
         console.log("wooapp-get-app-btn");
     });
 
     $(window).bind("load", function () {
         get_build_history();
     });
-
 
 
     // Media Uploader for App Icon start
@@ -142,7 +140,8 @@ $(document).ready(function ($) {
                     $('div#preview' + id).css('background-image', 'url(' + attachment.url + ')');
                 } else {
                     return _orig_send_attachment.apply(this, [props, attachment]);
-                };
+                }
+                ;
             }
             wp.media.editor.open(button);
             return false;

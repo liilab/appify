@@ -13,8 +13,8 @@
                         <?php
                         settings_fields('wta_custom');
                         do_settings_sections('wta_custom');
-                        $other_attributes = array( 'id' => 'wta-save-appinfo' );
-                        submit_button( __( "Save Info & Let's go", 'wta' ), 'primary', 'wta-save-appinfo', true, $other_attributes );
+                        $other_attributes = array( 'id' => 'wooapp-create-app-btn' );
+                        submit_button( __( "Save Info & Let's go", 'wta' ), 'primary', 'wooapp-create-app-btn', true, $other_attributes );
                         ?>
                     </form>
                 </div>
