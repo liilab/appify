@@ -41,18 +41,19 @@ class Admin_Page
 
     public function create_settings()
     {
-        $parent_slug = 'woocommerce';
+        //$parent_slug = 'woocommerce';
         $page_title  = 'WooApp';
         $menu_title  = 'WooApp';
         $capability  = 'manage_options';
         $slug        = 'wooapp';
         $callback    = array($this, 'wta_settings_content');
-        add_submenu_page($parent_slug, $page_title, $menu_title, $capability, $slug, $callback);
+        $icon        = WTA_ASSETS . '/images/wooapp-icon.png';
+        $position    = 100;
+        add_menu_page($page_title, $menu_title, $capability, $slug, $callback, $icon , $position);
     }
 
     public function wta_settings_content()
     {
-        //require_once WTA_DIR_PATH . 'templates/admin/react-demo.php';
         require_once WTA_DIR_PATH . 'templates/admin/setting-page.php';
     }
 
@@ -72,48 +73,6 @@ class Admin_Page
         $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
 
         $fields = array(
-            // array(
-            //     'section' => 'wta_custom_section',
-            //     'label' => 'First name',
-            //     'placeholder' => 'John',
-            //     'id' => 'user-first-name',
-            //     'desc' => 'Give your first name',
-            //     'type' => 'text',
-            //     'editable' => 'true',
-            //     'default' => empty($user_info->first_name) ? '--' : $user_info->first_name,
-            // ),
-
-            // array(
-            //     'section' => 'wta_custom_section',
-            //     'label' => 'Last name',
-            //     'placeholder' => 'Doe',
-            //     'id' => 'user-last-name',
-            //     'desc' => 'Give your last name',
-            //     'type' => 'text',
-            //     'editable' => 'true',
-            //     'default' => empty($user_info->last_name) ? '--' : $user_info->last_name,
-            // ),
-
-            // array(
-            //     'section' => 'wta_custom_section',
-            //     'label' => 'User name',
-            //     'placeholder' => 'user_name',
-            //     'id' => 'user-name',
-            //     'type' => 'text',
-            //     'editable' => 'false',
-            //     'default' => $user_info->user_login,
-            // ),
-
-            // array(
-            //     'section' => 'wta_custom_section',
-            //     'label' => 'User email',
-            //     'placeholder' => 'example@example.com',
-            //     'id' => 'user-email',
-            //     'desc' => 'Give your email id',
-            //     'type' => 'email',
-            //     'editable' => 'true',
-            //     'default' => $user_info->user_email,
-            // ),
 
             array(
                 'section' => 'wta_custom_section',
@@ -158,16 +117,6 @@ class Admin_Page
                 'editable' => 'true',
                 'default' =>  $logo[0] ? $logo[0] :  $dummy_logo,
             ),
-
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'Domain name',
-                'placeholder' => 'https://tsabbir.com',
-                'id' => 'domain-name',
-                'type' => 'url',
-                'editable' => 'false',
-                'default' => get_bloginfo('url'),
-            )
         );
         foreach ($fields as $field) {
             add_settings_field($field['id'], $field['label'], array($this, 'wta_field_callback'), 'wta_custom', $field['section'], $field);
@@ -202,6 +151,7 @@ class Admin_Page
                     '<input style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
                     <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#fafafa;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
                     </div>
+                    <br>
                     <input style="width: 19%%;margin-right:5px;" class="button menutitle-media" id="%s_button" name="%s_button" type="button" value="Select" />
                     <input style="width: 19%%;" class="button remove-media" id="%s_buttonremove" name="%s_buttonremove" type="button" value="Clear" />',
                     $field['id'],
