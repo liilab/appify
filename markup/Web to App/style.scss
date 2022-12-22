@@ -1,0 +1,96 @@
+.wooapp-main-container {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .wooapp-header{
+        img{
+            width: auto;
+            height: 50px;
+        }
+    }
+
+    .wooapp-body {
+        background-color: aliceblue;
+        padding: 1rem;
+        border-radius: 5px;
+        min-height: 50vh;
+
+        .wooapp-body-left{
+            padding: 1.2rem;
+            border-right: 1.5px solid #e0e0e0;
+        }
+
+        .wooapp-body-right {
+            background-color: #fff;
+            padding: 1.5rem;
+            .wooapp-body-right-header {
+                //border-bottom: rgb(200, 200, 200) solid 1px;
+                i{
+                    font-size: 2.2rem;
+                    color: #000;
+                }
+                h5 {
+                    font-size: 1rem;
+                    color:rgb(172, 175, 201);
+                }
+                h6{
+                    font-size: 0.9rem;
+                    color: #000;
+                }
+            }
+
+            .wooapp-body-right-body {
+                ul {
+                    //margin-top: 0.8rem;
+                    list-style: none;
+                    padding: 0;
+
+                    height: 400px;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+
+                    li {
+                        border-bottom:rgb(200, 200, 200) solid 1px;
+                        padding: 1rem 0;
+
+                        .wooapp-prev-icon{
+                            i {
+                                font-size: 2.2rem;
+                                color: red;
+                            }
+                        }
+
+                        .wooapp-building-history{
+    
+                            h5 {
+                                font-size: 1rem;
+                                color: rgb(172, 175, 201);
+                            }
+                            h6{
+                                font-size: 0.9rem;
+                                color: #000;
+                            }
+                        }
+                        .wooapp-icon{
+                            text-align: left;
+                            i{
+                                font-size: 1.9rem;
+                                color: #000;
+                                margin-left: 1rem;
+                            }
+                        }
+                    }
+                }
+                ul::-webkit-scrollbar {
+                    display: none;
+                }
+            }
+        }
+    }
+}
