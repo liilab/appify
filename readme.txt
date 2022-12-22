@@ -14,14 +14,36 @@ A plugin for convert WooCommerce website to mobile App
 
 == Description ==
 
-This WooCommerce/WordPress plugin will give you ability to add products to your customer's cart from WP admin side through REST API and create WooCommerce website to Android App
+A Wooapp is a plugin that allows you to turn your WooCommerce website into a mobile app.
+It is designed to make it easy for you to create a mobile app version of your online store,
+so you can reach a wider audience and provide a more convenient shopping experience for your customers.
+With the Wooapp plugin, you can easily customize the look and feel of your mobile app, add features and functionality,
+and manage your store from the comfort of your smartphone or tablet. Whether you're looking to expand your customer base or simply want to make your online store more accessible to mobile users,
+the Wooapp plugin is a powerful tool that can help you achieve your goals.
 
 == Installation ==
 
 = From your WordPress dashboard =
 
-1. Visit 'Plugins > Add New'
-2. Search for 'Wooapp - Convert WooCommerce Website to Mobile App'
-3. When you find it, click 'install', and after that, click 'activate'
-4. On each WooCommerce Product page you'll find Wooapp
+To install the Wooapp plugin on your WooCommerce website, follow these steps:
+
+1. Log in to your WordPress dashboard and go to the Plugins section.
+
+2. Click the "Add New" button at the top of the page or download the plugin from the GitHub link provided: https://github.com/tsabbir
+
+3. In the search bar, type "Wooapp" and press Enter.
+
+4. The Wooapp plugin should appear in the search results. Click the "Install Now" button to begin the installation process.
+
+5. Once the plugin has been installed, click the "Activate" button to activate it on your website.
+
+6. After the plugin has been activated, go to the Wooapp settings page in the WooCommerce section of your dashboard.
+
+7. Follow the prompts to configure the plugin to your liking, including adding your app store links, choosing a color scheme, and enabling push notifications.
+
+8. Once you have finished configuring the plugin, click the "Save Changes" button to save your settings.
+
+9. You can now view the Wooapp on your mobile device by downloading the app from the app store or by visiting the app URL provided in the Wooapp settings.
+
+Congratulations, you have successfully installed and configured the Wooapp plugin on your WooCommerce website!
 
