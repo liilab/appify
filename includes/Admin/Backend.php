@@ -37,7 +37,7 @@ class Backend
 //        delete_user_meta($user_id, $this->is_build_meta_key);
 //        delete_user_meta($user_id, $this->binary_url_meta_key);
 //        delete_user_meta($user_id, $this->preview_url_meta_key);
-//
+
 
         $build_id = get_user_meta($user_id, $this->build_id_meta_key, true);
         $is_building = get_user_meta($user_id, $this->is_build_meta_key, true);
@@ -50,6 +50,7 @@ class Backend
             "build_id" => $build_id,
             "binary_url" => $binary_url,
             "preview_url" => $preview_url,
+            "token" => $this->get_token(),
         );
 
         echo json_encode($response);

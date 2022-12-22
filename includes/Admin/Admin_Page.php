@@ -8,7 +8,6 @@ use WebToApp\Traits\Singleton;
  * Class Admin
  * @package WebToApp
  */
-
 class Admin_Page
 {
     use Singleton;
@@ -73,35 +72,23 @@ class Admin_Page
         $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
 
         $fields = array(
-
             array(
                 'section' => 'wta_custom_section',
                 'label' => 'App name',
-                'placeholder' => 'WooApp',
+                'placeholder' => 'Ex: General Store',
                 'id' => 'app-name',
-                'desc' => 'Give your app name',
+//                'desc' => 'Give your app name',
                 'type' => 'text',
                 'editable' => 'true',
                 'default' => get_bloginfo('name'),
-            ),
-
-            array(
-                'section' => 'wta_custom_section',
-                'label' => 'App logo',
-                'id' => 'app-logo',
-                'desc' => 'Upload your logo',
-                'type' => 'media',
-                'returnvalue' => 'url',
-                'editable' => 'true',
-                'default' =>  $logo[0] ? $logo[0] :  $dummy_logo,
             ),
 
             array(
                 'section' => 'wta_custom_section',
                 'label' => 'Store name',
-                'placeholder' => 'WooApp Store',
+                'placeholder' => 'Ex: General Store',
                 'id' => 'store-name',
-                'desc' => 'Give your store name',
+//                'desc' => 'Give your store name',
                 'type' => 'text',
                 'editable' => 'true',
                 'default' => get_bloginfo('name'),
@@ -109,13 +96,13 @@ class Admin_Page
 
             array(
                 'section' => 'wta_custom_section',
-                'label' => 'Store logo',
-                'id' => 'store-logo',
-                'desc' => 'Upload your logo',
+                'label' => 'Logo',
+                'id' => 'app-logo',
+//                'desc' => 'Upload your logo',
                 'type' => 'media',
                 'returnvalue' => 'url',
                 'editable' => 'true',
-                'default' =>  $logo[0] ? $logo[0] :  $dummy_logo,
+                'default' => $logo[0] ? $logo[0] : $dummy_logo,
             ),
         );
         foreach ($fields as $field) {
