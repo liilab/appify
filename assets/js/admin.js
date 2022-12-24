@@ -53,12 +53,14 @@ $(document).ready(function ($) {
                 <p class="mt-2">Loading...</p>
             </div> `;
 
-                $("#test").append(html);
+                $("#wooapp-build-history
+").append(html);
             },
 
             success: function (response) {
 
-                $("#test").empty();
+                $("#wooapp-build-history
+").empty();
 
                 response = JSON.parse(response);
                 //console.log(response);
@@ -93,7 +95,8 @@ $(document).ready(function ($) {
                             </div>
                         </div>
                     </li>`;
-                    $("#test").append(html);
+                    $("#wooapp-build-history
+").append(html);
                 });
             },
             error: function (request, status, error) {
