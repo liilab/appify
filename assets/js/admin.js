@@ -23,10 +23,78 @@ $(document).ready(function ($) {
                         get_build_progress().then();
                     } else {
                         $("#wooapp-build-history-card").removeClass("d-none");
+                        get_build_history_card();
                     }
                 } else {
                     $("#wooapp-form-wrap").removeClass("d-none");
                 }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function get_build_history_card() {
+        const data = {
+            action: "get_build_history_card",
+        };
+
+        $.ajax({
+            type: "post",
+            url: wta_ajax.admin_ajax,
+            data: data,
+
+            beforeSend: function () {
+                var html = `<div id="wooapp-loader" class="wooapp-loader">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading...</p>
+            </div> `;
+
+                $("#test").append(html);
+            },
+
+            success: function (response) {
+
+                $("#test").empty();
+
+                response = JSON.parse(response);
+                //console.log(response);
+                $.each(response['results'], function (key, value) {
+                    var html = `
+                        <li>
+                        <div class="row">
+                            <div class="col-2 pe-0">
+                                <div class="wooapp-build-history-card-icon" style="background-color: rgb(249, 78, 43);">
+                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="wooapp-build-history-card-title">
+                                `+ response['results'][key].config['app_name'] + `
+                                </h5>
+                                <p class="wooapp-build-history-card-subtitle">
+                                `+ moment(response['results'][key]['created_date']).format("MMM DD, YYYY | hh:mm A") + `
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn">
+                                    <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
+                                    <a href="`+ response['results'][key]['preview'] + `" ><i class="bi bi-save"></i></a>
+                                    </div>
+                                </button>
+                                <button class="btn">
+                                    <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
+                                        <a href="`+ response['results'][key]['binary'] + `" ><i class="bi bi-app-indicator"></i></a>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </li>`;
+                    $("#test").append(html);
+                });
             },
             error: function (request, status, error) {
                 console.log(error);
