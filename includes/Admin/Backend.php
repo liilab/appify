@@ -23,11 +23,11 @@ class Backend
 
     private $base_url = 'https://wooapp.liilab.com/';
 
-    private string $website_id_meta_key = 'wta_website_id';
-    private string $build_id_meta_key = 'wta_build_id';
-    private string $is_build_meta_key = 'wta_is_building';
-    private string $binary_url_meta_key = 'wta_binary_url';
-    private string $preview_url_meta_key = 'wta_preview_url';
+    private $website_id_meta_key = 'wta_website_id';
+    private $build_id_meta_key = 'wta_build_id';
+    private $is_build_meta_key = 'wta_is_building';
+    private $binary_url_meta_key = 'wta_binary_url';
+    private $preview_url_meta_key = 'wta_preview_url';
 
     public function get_build_history_card()
     {
@@ -35,7 +35,7 @@ class Backend
         $website_id = get_user_meta($user_id, $this->website_id_meta_key, true);
 
         // $url = $this->base_url . 'api/builder/v1/create-build-request/?page_size=5&&website='. $website_id;
-        $url = $this->base_url . "/api/builder/v1/build-requests/?page_size=5&&website=" . $website_id;
+        $url = $this->base_url . "api/builder/v1/build-requests/?page_size=5&&website=" . $website_id;
 
         $config = array(
             'headers' => array(
