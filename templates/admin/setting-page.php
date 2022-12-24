@@ -36,11 +36,14 @@
                                         <i class="bi bi-flag" style="color: rgb(33, 36, 61);"></i>
                                     </div>
                                 </div>
-                                <div class="col-10 ps-0">
+                                <div class="col-6 ps-0">
                                     <span style="color: rgb(172,175,201); font-weight: 500; font-size: 1rem;">
                                         Wooapp APK Builder
                                     </span>
                                     <p class="fw-bold">V1.0.1</p>
+                                </div>
+                                <div class="col-4">
+                                    <button id="wooapp-get-app-rebuild-btn" class="btn wooapp-create-app-btn">Create New App</button>
                                 </div>
                             </div>
                             <div class="wooapp-body-right-body">
