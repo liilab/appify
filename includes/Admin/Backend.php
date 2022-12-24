@@ -18,6 +18,7 @@ class Backend
         add_action('wp_ajax_get_build_history', [$this, 'get_build_history']);
         add_action('wp_ajax_create_build_request', [$this, 'create_build_request']);
         add_action('wp_ajax_get_build_progress', [$this, 'get_build_progress']);
+        add_action('wp_ajax_get_build_history_card', [$this, 'get_build_history_card']);
     }
 
     private $base_url = 'http://192.168.0.129:8000/';
@@ -28,15 +29,37 @@ class Backend
     private string $binary_url_meta_key = 'wta_binary_url';
     private string $preview_url_meta_key = 'wta_preview_url';
 
+    public function get_build_history_card()
+    {
+        $user_id = $this->get_current_user_id();
+        $website_id = get_user_meta($user_id, $this->website_id_meta_key, true);
+
+        // $url = $this->base_url . 'api/builder/v1/create-build-request/?page_size=5&&website='. $website_id;
+        $url = $this->base_url . "/api/builder/v1/build-requests/?page_size=5&&website=" . $website_id;
+
+        $config = array(
+            'headers' => array(
+                'Authorization' => $this->get_token(),
+                //'Authorization' => 'Token f4650cee4d22cfe26020de0cd539cf895fb9c47f',
+            ),
+        );
+
+        $response = wp_remote_get($url, $config);
+
+        $json_response = json_decode($response['body'], true);
+        echo json_encode($json_response);
+        wp_die();
+    }
+
 
     public function get_build_history()
     {
         $user_id = $this->get_current_user_id();
 
-//        delete_user_meta($user_id, $this->build_id_meta_key);
-//        delete_user_meta($user_id, $this->is_build_meta_key);
-//        delete_user_meta($user_id, $this->binary_url_meta_key);
-//        delete_user_meta($user_id, $this->preview_url_meta_key);
+        // delete_user_meta($user_id, $this->build_id_meta_key);
+        // delete_user_meta($user_id, $this->is_build_meta_key);
+        // delete_user_meta($user_id, $this->binary_url_meta_key);
+        // delete_user_meta($user_id, $this->preview_url_meta_key);
 
 
         $build_id = get_user_meta($user_id, $this->build_id_meta_key, true);
@@ -74,7 +97,7 @@ class Backend
                 'app_name' => get_option('app-name'),
                 'app_logo' => "https://picsum.photos/200/300", //get_option('app-logo'),
                 'store_name' => get_option('store-name'),
-                'store_logo' => "https://picsum.photos/200/300",// get_option('store-logo'),
+                'store_logo' => "https://picsum.photos/200/300", // get_option('store-logo'),
                 "template" => 1,
                 "website" => $website_id
             ),
