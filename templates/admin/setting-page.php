@@ -1,9 +1,9 @@
-<div class="wooapp-wrap mt-5">
-    <div class="container">
+<div class="wooapp-main-container">
+    <div class="wooapp-container">
         <div class="wooapp-header">
-            <img style="width: 200px; height: 80px; object-fit: contain;" src="<?php echo WTA_ASSETS ?>/images/wooapp-logo.png" alt="logo" />
-            <h4 class="mt-3 fw-bold">Welcome to WooApp</h4>
-            <p class="mt-3">WooApp helps you connect your website with your app.</p>
+            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/images/wooapp-logo.png" alt="wooapp-logo" />
+            <h1 class="wooapp-title mt-4">Welcome to Woo App</h1>
+            <h2 class="wooapp-subtitle mt-1">WooApp helps you connect your website with your app.</h2>
         </div>
         <div class="wooapp-body mt-5">
             <div class="row">
@@ -14,7 +14,7 @@
                         </h4>
                         <p class="mt-5 wooapp-text2">
                             Create your Android and iOS apps in easy steps without any coding.
-                            <br/>Once your app is ready, you can publish it on Google Play and App Store.
+                            <br />Once your app is ready, you can publish it on Google Play and App Store.
                         </p>
                     </div>
                 </div>
@@ -32,8 +32,7 @@
                         <div id="wooapp-build-history-card" class="d-none wooapp-build-history-card">
                             <div class="row">
                                 <div class="col-2">
-                                    <div class="wooapp-build-history-card-icon"
-                                         style="background-color: rgb(244, 246, 252);">
+                                    <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
                                         <i class="bi bi-flag" style="color: rgb(33, 36, 61);"></i>
                                     </div>
                                 </div>
@@ -41,391 +40,11 @@
                                     <span style="color: rgb(172,175,201); font-weight: 500; font-size: 1rem;">
                                         Wooapp APK Builder
                                     </span>
-                                    <p class="fw-bold">1.0.0</p>
+                                    <p class="fw-bold">V1.0.1</p>
                                 </div>
                             </div>
                             <div class="wooapp-body-right-body">
-                                <ul>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-2 pe-0">
-                                                <div class="wooapp-build-history-card-icon"
-                                                     style="background-color: rgb(249, 78, 43);">
-                                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <h5 class="wooapp-build-history-card-title">
-                                                    General Store.05.6
-                                                </h5>
-                                                <p class=".wooapp-build-history-card-subtitle">
-                                                    Fri, 16 Dec 2022 08:57:35 GMT
-                                                </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-save"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-app-indicator"></i>
-                                                    </div>
-                                                </button>
-                                                <button class="btn">
-                                                    <div class="wooapp-build-history-card-icon"
-                                                         style="background-color: rgb(244, 246, 252);">
-                                                        <i class="bi bi-key"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
+                                <ul id="wooapp-build-history">
                                 </ul>
                             </div>
                         </div>
@@ -435,9 +54,7 @@
                                 Building in progress.<br>It can take 3 to 7 minutes.
                             </p>
                             <div id="wooapp-progressbar" class="my-3 me-3 progress">
-                                <div id="wooapp-progressbar-loader"
-                                     class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                     aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                                <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                             </div>
                         </div>
                         <!-- Build Form  -->
