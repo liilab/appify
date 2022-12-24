@@ -21,7 +21,7 @@ class Backend
         add_action('wp_ajax_get_build_history_card', [$this, 'get_build_history_card']);
     }
 
-    private $base_url = 'http://192.168.0.129:8000/';
+    private $base_url = 'https://wooapp.liilab.com/';
 
     private string $website_id_meta_key = 'wta_website_id';
     private string $build_id_meta_key = 'wta_build_id';
