@@ -63,6 +63,26 @@ $(document).ready(function ($) {
                 response = JSON.parse(response);
                 //console.log(response);
                 $.each(response['results'], function (key, value) {
+                    var build_link = `
+                    <div class="col-3">
+                        <h6 class="text-danger fw-bold">Build Failed</h6>
+                </div>
+                    `;
+
+                    if (response['results'][key]['status'] === 'SUCCESS') {
+                        build_link = `<div class="col-3">
+                    <button class="btn">
+                        <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
+                        <a href="`+ response['results'][key]['preview'] + `" ><i class="bi bi-save"></i></a>
+                        </div>
+                    </button>
+                    <button class="btn">
+                        <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
+                            <a href="`+ response['results'][key]['binary'] + `" ><i class="bi bi-app-indicator"></i></a>
+                        </div>
+                    </button>
+                </div>`;
+                    }
                     var html = `
                         <li>
                         <div class="row">
@@ -71,7 +91,7 @@ $(document).ready(function ($) {
                                     <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <h5 class="wooapp-build-history-card-title">
                                 `+ response['results'][key].config['app_name'] + `
                                 </h5>
@@ -79,18 +99,9 @@ $(document).ready(function ($) {
                                 `+ moment(response['results'][key]['created_date']).format("MMM DD, YYYY | hh:mm A") + `
                                 </p>
                             </div>
-                            <div class="col-4">
-                                <button class="btn">
-                                    <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
-                                    <a href="`+ response['results'][key]['preview'] + `" ><i class="bi bi-save"></i></a>
-                                    </div>
-                                </button>
-                                <button class="btn">
-                                    <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
-                                        <a href="`+ response['results'][key]['binary'] + `" ><i class="bi bi-app-indicator"></i></a>
-                                    </div>
-                                </button>
-                            </div>
+                            `
+                        + build_link +
+                        `
                         </div>
                     </li>`;
                     $("#wooapp-build-history").append(html);
@@ -118,7 +129,11 @@ $(document).ready(function ($) {
                 response = JSON.parse(response);
                 get_build_progress().then();
                 if (response["id"] === undefined) {
-                    alert(response["detail"]);
+                    Swal.fire(
+                        'Good job!',
+                        response["detail"],
+                        'success'
+                      )
                 }
             },
             error: function (request, status, error) {
@@ -137,6 +152,8 @@ $(document).ready(function ($) {
         let buildIdError = false;
         let buildStatus = "NOT_BUILT";
         let isBuilding = true;
+
+        let cnt=0;
 
         while (isBuilding) {
             try {
@@ -161,10 +178,19 @@ $(document).ready(function ($) {
                 console.log(e);
             }
 
+            cnt++;
+            if(cnt==6) break;
             await delay(2000);
         }
 
+        if(cnt>5 && buildStatus != "SUCCESS"){
+            swal("Oh noes!", "Something went wrong. Please try again.", "error");
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-build-history-card").removeClass("d-none");
+        }
+
         if (buildStatus === "SUCCESS") {
+            swal("Good job!", "Your app is successfully created!", "success");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
         } else {
@@ -173,7 +199,7 @@ $(document).ready(function ($) {
         }
 
         if (buildIdError) {
-            alert("Something went wrong. Please try again.");
+            swal("Oh noes!", "Something went wrong. Please try again.", "error");
         }
     }
 
@@ -182,6 +208,28 @@ $(document).ready(function ($) {
         e.preventDefault();
         console.log("wooapp-get-app-btn");
     });
+    $click = 0;
+    $("#wooapp-get-app-rebuild-btn").click(function (e) {
+        var click = 1;
+        $(".wooapp-build-history-card").addClass("d-none");
+        var $html = `
+        <div class="d-flex flex-row-reverse bd-highlight">
+            <button class="wooapp-prev"><i class="bi bi-backspace me-2"></i>Build history</button>
+        </div>
+        `;
+        if ($click == 0) {
+            $("#wooapp-form-wrap").prepend($html);
+            $click++;
+        }
+        $("#wooapp-form-wrap").removeClass("d-none");
+
+        $(".wooapp-prev").click(function (e) {
+            $("#wooapp-form-wrap").addClass("d-none");
+            $(".wooapp-build-history-card").removeClass("d-none");
+        });
+    });
+
+
 
     $(window).bind("load", function () {
         get_build_history();
