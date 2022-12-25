@@ -19,16 +19,6 @@ class Backend
         add_action('wp_ajax_create_build_request', [$this, 'create_build_request']);
         add_action('wp_ajax_get_build_progress', [$this, 'get_build_progress']);
         add_action('wp_ajax_get_build_history_card', [$this, 'get_build_history_card']);
-        add_action('wp_ajax_wooapp_form_submit', [$this, 'wooapp_form_submit']);
-    }
-
-
-    public function wooapp_form_submit()
-    {
-        //update_option('app-name', $_POST['app_name']);
-        echo json_encode( $_POST['app_name']);
-
-        wp_die();
     }
 
 
