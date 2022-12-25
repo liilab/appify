@@ -60,18 +60,70 @@
                                 <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                             </div>
                         </div>
-            
+
                         <div id="wooapp-form-wrap" class="wrap d-none">
                             <form id="wooapp-form" method="POST" action="options.php">
                                 <div class="mb-3">
-                                    <label for="wooapp-appname" class="form-label">App name</label>
+                                    <label for="wooapp-appname" class="form-label text-secondary">App name</label>
                                     <input type="text" class="form-control" id="wooapp-appname" value="<?php echo get_bloginfo('name'); ?>">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="wooapp-storename" class="form-label">Store name</label>
+                                    <label for="wooapp-storename" class="form-label text-secondary">Store name</label>
                                     <input type="text" class="form-control" id="wooapp-storename" value="<?php echo get_bloginfo('name'); ?>">
                                 </div>
-                                <button id="wooapp-create-app-btn" type="submit" class="btn btn-primary">Submit</button>
+
+                                <?php
+
+                                $custom_logo_id = get_theme_mod('custom_logo');
+                                $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+
+                                $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
+
+                                $field = array(
+                                    'section' => 'wta_custom_section',
+                                    'label' => 'Logo',
+                                    'id' => 'wooapp-icon',
+                                    'type' => 'media',
+                                    'returnvalue' => 'url',
+                                    'editable' => 'true',
+                                    'default' => $logo ? $logo[0] : $dummy_logo,
+                                );
+
+                                $value = $field['default'];
+                                $field_url = $value;
+
+                                ?>
+
+                                <div class="">
+
+                                    <?php
+
+                                    printf(
+                                        '<input style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
+                    <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#fafafa;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
+                    </div>
+                    <br>
+                    <input style="margin-right:5px;" class="button menutitle-media" id="%s_button" name="%s_button" type="button" value="Select" />
+                    <input style="" class="button remove-media d-none" id="%s_buttonremove" name="%s_buttonremove" type="button" value="Clear" />',
+                                        $field['id'],
+                                        $field['id'],
+                                        $value,
+                                        $field['returnvalue'],
+                                        $field['id'],
+                                        $field_url,
+                                        $field['id'],
+                                        $field['id'],
+                                        $field['id'],
+                                        $field['id']
+                                    );
+
+                                    ?>
+
+                                </div>
+                                <br>
+                                <div class="d-flex flex-row-reverse bd-highlight wooapp-buildhistory-btn">
+                                    <button id="wooapp-create-app-btn" type="submit" class="btn btn-primary">Create app</button>
+                                </div>
                             </form>
                         </div>
                     </div>

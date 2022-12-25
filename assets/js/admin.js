@@ -136,9 +136,10 @@ $(document).ready(function ($) {
      * 
      * @param {*} $appname 
      * @param {*} $storename 
+     * @param {*} $icon_url
      */
 
-    function create_build_request($appname, $storename) {
+    function create_build_request($appname, $storename, $icon_url) {
         $("#wooapp-form-wrap").addClass("d-none");
         $("#wooapp-progressbar-section").removeClass("d-none");
 
@@ -146,6 +147,7 @@ $(document).ready(function ($) {
             action: "create_build_request",
             app_name: $appname,
             store_name: $storename,
+            icon_url: $icon_url,
         };
 
         $.ajax({
@@ -225,7 +227,7 @@ $(document).ready(function ($) {
             swal("Good job!", "Your app is successfully created!", "success");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
-            get_build_history().then();
+            get_build_history();
         } else if (buildIdError) {
             swal("Oh noes!", "Build Error. Please try again.", "error");
         }
@@ -248,7 +250,10 @@ $(document).ready(function ($) {
         e.preventDefault();
         var $appname = $("#wooapp-appname").val();
         var $storename = $("#wooapp-storename").val();
-        create_build_request($appname, $storename)
+        var $icon_url = $("#wooapp-icon").val();
+
+        console.log($appname, $storename, $icon_url);
+        create_build_request($appname, $storename, $icon_url)
     });
 
 
@@ -289,39 +294,39 @@ $(document).ready(function ($) {
 
     // Media Uploader for App Icon start
 
-    // if (typeof wp.media !== 'undefined') {
-    //     var _custom_media = true,
-    //         _orig_send_attachment = wp.media.editor.send.attachment;
-    //     $('.menutitle-media').click(function (e) {
-    //         var send_attachment_bkp = wp.media.editor.send.attachment;
-    //         var button = $(this);
-    //         var id = button.attr('id').replace('_button', '');
-    //         _custom_media = true;
-    //         wp.media.editor.send.attachment = function (props, attachment) {
-    //             if (_custom_media) {
-    //                 if ($('input#' + id).data('return') == 'url') {
-    //                     $('input#' + id).val(attachment.url);
-    //                 } else {
-    //                     $('input#' + id).val(attachment.id);
-    //                 }
-    //                 $('div#preview' + id).css('background-image', 'url(' + attachment.url + ')');
-    //             } else {
-    //                 return _orig_send_attachment.apply(this, [props, attachment]);
-    //             }
-    //             ;
-    //         }
-    //         wp.media.editor.open(button);
-    //         return false;
-    //     });
-    //     $('.add_media').on('click', function () {
-    //         _custom_media = false;
-    //     });
-    //     $('.remove-media').on('click', function () {
-    //         var parent = $(this).parents('td');
-    //         parent.find('input[type="text"]').val('');
-    //         parent.find('div').css('background-image', 'url()');
-    //     });
-    // }
+    if (typeof wp.media !== 'undefined') {
+        var _custom_media = true,
+            _orig_send_attachment = wp.media.editor.send.attachment;
+        $('.menutitle-media').click(function (e) {
+            var send_attachment_bkp = wp.media.editor.send.attachment;
+            var button = $(this);
+            var id = button.attr('id').replace('_button', '');
+            _custom_media = true;
+            wp.media.editor.send.attachment = function (props, attachment) {
+                if (_custom_media) {
+                    if ($('input#' + id).data('return') == 'url') {
+                        $('input#' + id).val(attachment.url);
+                    } else {
+                        $('input#' + id).val(attachment.id);
+                    }
+                    $('div#preview' + id).css('background-image', 'url(' + attachment.url + ')');
+                } else {
+                    return _orig_send_attachment.apply(this, [props, attachment]);
+                }
+                ;
+            }
+            wp.media.editor.open(button);
+            return false;
+        });
+        $('.add_media').on('click', function () {
+            _custom_media = false;
+        });
+        $('.remove-media').on('click', function () {
+            var parent = $(this).parents('td');
+            parent.find('input[type="text"]').val('');
+            parent.find('div').css('background-image', 'url()');
+        });
+    }
 
     // Media Uploader for App Icon end
 });
