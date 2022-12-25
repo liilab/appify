@@ -71,7 +71,7 @@
                                     <label for="wooapp-storename" class="form-label">Store name</label>
                                     <input type="text" class="form-control" id="wooapp-storename" value="<?php echo get_bloginfo('name'); ?>">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button id="wooapp-create-app-btn" type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>

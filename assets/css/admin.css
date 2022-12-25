@@ -136,7 +136,7 @@
   border: 2px solid #f37229;
   border-radius: 0.8rem;
   padding: 0.45rem 2rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 400;
   cursor: pointer;
   background-color: #e8595a;
@@ -147,13 +147,13 @@
 }
 
 .wooapp-prev {
-  color: #fff;
-  border: 2px solid #f37229 !important;
-  border-radius: 0.8rem;
-  padding: 0.45rem 0.8rem;
+  color: blue;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  background-color: #e8595a;
   transition: all 0.3s ease-in-out;
+}
+
+.wooapp-buildhistory-btn p, .wooapp-buildhistory-btn i {
+  font-size: 1.1rem;
 }/*# sourceMappingURL=admin.css.map */

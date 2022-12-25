@@ -261,8 +261,8 @@ $(document).ready(function ($) {
     $("#wooapp-get-app-rebuild-btn").click(function (e) {
         $(".wooapp-build-history-card").addClass("d-none");
         $html = `
-        <div class="d-flex flex-row-reverse bd-highlight">
-            <button class="wooapp-prev"><i class="bi bi-backspace me-2"></i>Build history</button>
+        <div class="d-flex flex-row-reverse bd-highlight wooapp-buildhistory-btn">
+            <p class="wooapp-prev">Build history<i class="bi bi-arrow-right-square ms-2"></i></p>
         </div>
         `;
         if ($click == 0) {
