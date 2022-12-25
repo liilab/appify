@@ -60,16 +60,18 @@
                                 <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
                             </div>
                         </div>
-                        <!-- Build Form  -->
+            
                         <div id="wooapp-form-wrap" class="wrap d-none">
-                            <?php settings_errors(); ?>
                             <form id="wooapp-form" method="POST" action="options.php">
-                                <?php
-                                settings_fields('wta_custom');
-                                do_settings_sections('wta_custom');
-                                $other_attributes = array('id' => 'wooapp-create-app-btn');
-                                submit_button(__("Build Your App", 'wta'), 'submit', 'wooapp-create-app-btn', true, $other_attributes);
-                                ?>
+                                <div class="mb-3">
+                                    <label for="wooapp-appname" class="form-label">App name</label>
+                                    <input type="text" class="form-control" id="wooapp-appname" value="<?php echo get_bloginfo('name'); ?>">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="wooapp-storename" class="form-label">Store name</label>
+                                    <input type="text" class="form-control" id="wooapp-storename" value="<?php echo get_bloginfo('name'); ?>">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>

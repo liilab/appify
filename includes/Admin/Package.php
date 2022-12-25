@@ -37,12 +37,12 @@ class Package
                 'required'           => true, // If false, the plugin is only 'recommended' instead of required.
             ),
 
-            array(
-                'name'      => 'JSON Basic Authentication',
-                'slug'      => 'basic-auth',
-                'source'    => 'https://github.com/WP-API/Basic-Auth/archive/refs/heads/master.zip',
-                'required'  => true,
-            ),
+            // array(
+            //     'name'      => 'JSON Basic Authentication',
+            //     'slug'      => 'basic-auth',
+            //     'source'    => 'https://github.com/WP-API/Basic-Auth/archive/refs/heads/master.zip',
+            //     'required'  => true,
+            // ),
 
 
             // <snip />

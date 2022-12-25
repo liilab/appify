@@ -31,17 +31,17 @@ class Activate_Plugin
             'body' => json_encode(
                 array(
                     'user' => array(
-                        'first_name' => $user_info->first_name ? $user_info->first_name : '',
-                        'last_name' => $user_info->last_name ? $user_info->last_name : '',
-                        'email' => "saabbir1111@gmail.com", //$user_info->user_email ? $user_info->user_email : '',
+                        'first_name' => $user_info->first_name ? $user_info->first_name : 'default',
+                        'last_name' => $user_info->last_name ? $user_info->last_name : 'default',
+                        'email' => $user_info->user_email ? $user_info->user_email : 'default@gmail.com',
                     ),
                     'website' => array(
                         'name' => get_bloginfo('name'),
-                        'domain' => get_bloginfo('url'),
+                        'domain' => "https://test.tsabbir.com/", //get_bloginfo('url'),
                     ),
 
                     'keystore' => array(
-                        'city' => WC()->countries->get_base_city(),
+                        'city' => WC()->countries->get_base_city() ? WC()->countries->get_base_city() : 'default',
                         'country' => WC()->countries->get_base_country(),
                         'name' =>  $user_info->first_name . ' ' . $user_info->last_name,
                         'state' => WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()],

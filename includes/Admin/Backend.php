@@ -19,7 +19,18 @@ class Backend
         add_action('wp_ajax_create_build_request', [$this, 'create_build_request']);
         add_action('wp_ajax_get_build_progress', [$this, 'get_build_progress']);
         add_action('wp_ajax_get_build_history_card', [$this, 'get_build_history_card']);
+        add_action('wp_ajax_wooapp_form_submit', [$this, 'wooapp_form_submit']);
     }
+
+
+    public function wooapp_form_submit()
+    {
+        //update_option('app-name', $_POST['app_name']);
+        echo json_encode( $_POST['app_name']);
+
+        wp_die();
+    }
+
 
     private $base_url = 'https://wooapp.liilab.com/';
 
@@ -82,6 +93,9 @@ class Backend
 
     public function create_build_request()
     {
+        $appname = $_POST['app_name'];
+        $storename = $_POST['store_name'];
+
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
         $user_id = $this->get_current_user_id();
@@ -94,9 +108,9 @@ class Backend
             ),
 
             'body' => array(
-                'app_name' => get_option('app-name'),
+                'app_name' => $appname,
                 'app_logo' => "https://picsum.photos/200/300", //get_option('app-logo'),
-                'store_name' => get_option('store-name'),
+                'store_name' => $storename,
                 'store_logo' => "https://picsum.photos/200/300", // get_option('store-logo'),
                 "template" => 1,
                 "website" => $website_id
