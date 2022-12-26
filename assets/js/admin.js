@@ -78,46 +78,52 @@ $(document).ready(function ($) {
                 //console.log(response);
                 $.each(response['results'], function (key, value) {
                     var build_link = `
-                    <div class="col-3">
-                        <h6 class="text-danger fw-bold align middle">Build error!</h6>
+                    <div class="ms-auto">
+                        <h6 class="text-danger fw-bold align-middle wooapp-build-error-msg">Build error!</h6>
                 </div>
                     `;
 
                     if (response['results'][key]['status'] === 'SUCCESS') {
-                        build_link = `<div class="col-3">
-                    <button class="btn">
-                        <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
-                        <a href="`+ response['results'][key]['preview'] + `" ><i class="bi bi-save"></i></a>
-                        </div>
-                    </button>
-                    <button class="btn">
-                        <div class="wooapp-build-history-card-icon" style="background-color: rgb(244, 246, 252);">
-                            <a href="`+ response['results'][key]['binary'] + `" ><i class="bi bi-app-indicator"></i></a>
-                        </div>
-                    </button>
-                </div>`;
+                        build_link = `<div class="ms-auto">
+                        <button class="btn">
+                            <div class="wooapp-build-history-card-icon"
+                                style="background-color: rgb(244, 246, 252);">
+                                <a href="`+ response['results'][key]['preview'] + `"><i class="bi bi-save"></i></a>
+                            </div>
+                        </button>
+                        <button class="btn">
+                            <div class="wooapp-build-history-card-icon"
+                                style="background-color: rgb(244, 246, 252);">
+                                <a href="`+ response['results'][key]['binary'] + `"><i class="bi bi-app-indicator"></i></a>
+                            </div>
+                        </button>
+                    </div>`;
+
                     }
                     var html = `
-                        <li>
-                        <div class="row">
-                            <div class="col-2 pe-0">
-                                <div class="wooapp-build-history-card-icon" style="background-color: rgb(249, 78, 43);">
-                                    <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
-                                </div>
+                    <li>
+                    <div class="d-flex">
+                        <div class="pe-0">
+                            <div class="wooapp-build-history-card-icon"
+                                style="background-color: rgb(249, 78, 43);">
+                                <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
                             </div>
-                            <div class="col-7">
-                                <h5 class="wooapp-build-history-card-title">
-                                `+ response['results'][key].config['app_name'] + `
-                                </h5>
-                                <p class="wooapp-build-history-card-subtitle">
-                                `+ moment(response['results'][key]['created_date']).format("MMM DD, YYYY | hh:mm A") + `
-                                </p>
-                            </div>
-                            `
+                        </div>
+                        <div class="mx-2 ms-3">
+                            <p class="wooapp-build-history-card-title">
+                            `+ response['results'][key].config['app_name'] + `
+                            </p>
+                            <p class="wooapp-build-history-card-subtitle">
+                            `+ moment(response['results'][key]['created_date']).format("MMM DD, YYYY | hh:mm A") + `
+                            </p>
+                        </div>
+                        `
                         + build_link +
                         `
-                        </div>
-                    </li>`;
+                    </div>
+                </li>
+                        `;
+
                     $("#wooapp-build-history").append(html);
                 });
             },

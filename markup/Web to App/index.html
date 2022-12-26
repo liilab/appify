@@ -17,85 +17,127 @@
 
 <body>
 
-
-    <div class="wooapp-main-container mt-5">
-        <div class="container">
+    <div class="wooapp-main-container">
+        <div class="wooapp-container">
             <div class="wooapp-header">
-                <img src="/assets/images/wooapp-logo.png" alt="logo">
-                <h4 class="mt-3 fw-bold">Welcome to WooApp</h4>
-                <p class="mt-3">WooApp helps you connect your website with your app.</p>
+                <img class="wooapp-logo" src="/images/wooapp-logo.png" alt="wooapp-logo" />
+                <h1 class="wooapp-title mt-4">Welcome to Woo App</h1>
+                <h2 class="wooapp-subtitle mt-1">WooApp helps you connect your website with your app.</h2>
             </div>
-            <div class="wooapp-body">
+            <div class="wooapp-body mt-5">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="wooapp-body-left">
-                            <h4 class="fw-bold">App Builder that builds apps in five minutes without coding</h4>
-                            <p class="mt-5">Create your Android and iOS apps in easy steps without any coding.<br> In
-                                todays world for PHP developer, WordPress plugin development is becoming very popoular
-                                nowadays. And after coming React</p>
+                    <div class="col-12 col-lg-6">
+                        <div class="wooapp-body-left row">
+                            <h4 class="wooapp-text1 col-6 col-lg-12">
+                                Wooapp App Builder builds apps in five minutes without coding
+                            </h4>
+                            <p class="wooapp-text2 col-6 col-lg-12">
+                                Create your Android and iOS apps in easy steps without any coding.
+                                <br />Once your app is ready, you can publish it on Google Play and App Store.
+                            </p>
                         </div>
-                        <div class="vl"></div>
                     </div>
-                    <!-- <div class="col-md-6">
-                        <div class="wooapp-body-right d-none">
-                            <div class="wooapp-body-right-header">
-                                <div class="row">
-                                    <div class="col-1">
-                                        <i class="bi bi-display"></i>
+
+                    <div class="mt-5 mt-lg-0 col-12 col-lg-6">
+                        <div class="wooapp-body-right">
+                            <!-- Initial Loader-->
+                            <div id="wooapp-loader" class="wooapp-loader d-none">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading...</p>
+                            </div>
+                            <!-- Build History Card -->
+                            <div id="wooapp-build-history-card" class="wooapp-build-history-card d-none">
+                                <div class="d-flex">
+                                    <div class="">
+                                        <div class="wooapp-build-history-card-icon"
+                                            style="background-color: rgb(244, 246, 252);">
+                                            <i class="bi bi-flag" style="color: rgb(33, 36, 61);"></i>
+                                        </div>
                                     </div>
-                                    <div class="col-11 pb-2">
-                                        <h5 class="fw-bold">App Builder</h5>
-                                        <h6 class="fw-bold">V1.0.2</h6>
+                                    <div class="mx-2 ps-0">
+                                        <p class="wooapp-build-card-title">
+                                            Wooapp APK Builder
+                                        </span>
+                                        <p class="fw-bold wooapp-build-card-version">V1.0.1</p>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <button id="wooapp-get-app-rebuild-btn" class="btn wooapp-create-app-btn">Create
+                                            New App</button>
                                     </div>
                                 </div>
+                                
+                                <div class="wooapp-body-right-body">
+                                    <ul id="wooapp-build-history">
+                                        <li>
+                                            <div class="d-flex">
+                                                <div class="pe-0">
+                                                    <div class="wooapp-build-history-card-icon"
+                                                        style="background-color: rgb(249, 78, 43);">
+                                                        <i class="bi bi-cloud-arrow-down" style="color: white;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="mx-2">
+                                                    <p class="wooapp-build-history-card-title">
+                                                        Panshi Bazar App
+                                                    </p>
+                                                    <p class="wooapp-build-history-card-subtitle">
+                                                        12th May, 2022 | 12:00 PM
+                                                    </p>
+                                                </div>
+                                                <div class="ms-auto">
+                                                    <button class="btn">
+                                                        <div class="wooapp-build-history-card-icon"
+                                                            style="background-color: rgb(244, 246, 252);">
+                                                            <a href="#"><i class="bi bi-save"></i></a>
+                                                        </div>
+                                                    </button>
+                                                    <button class="btn">
+                                                        <div class="wooapp-build-history-card-icon"
+                                                            style="background-color: rgb(244, 246, 252);">
+                                                            <a href="#"><i class="bi bi-app-indicator"></i></a>
+                                                        </div>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="wooapp-body-right-body">
-                                <ul>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-1 wooapp-prev-icon">
-                                                <i class="bi bi-file-earmark-arrow-down-fill"></i>
-                                            </div>
-                                            <div class="col-5 wooapp-building-history">
-                                                <h5 class="fw-bold">Cirilla Store 1.0.1383</h5>
-                                                <h6 class="fw-bold">Fri, 16 Dec 2022 09:26:01 GMT</h6>
-                                            </div>
-                                            <div class="col-6 wooapp-icon d-flex justify-content-end">
-                                                <i class="bi bi-apple"></i>
-                                                <i class="bi bi-view-list"></i>
-                                                <i class="bi bi-key-fill"></i>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <!-- Build Progress Loader  -->
+                            <div id="wooapp-progressbar-section" class="d-none"
+                                style="margin-top: 128px; padding: 0 32px;">
+                                <p id="wooapp-progressbar-msg" class="text-center wooapp-progressbar-msg">
+                                    Building in progress.<br>It can take 3 to 7 minutes.
+                                </p>
+                                <div id="wooapp-progressbar" class="my-3 me-3 progress d-none">
+                                    <div id="wooapp-progressbar-loader"
+                                        class="progress-bar progress-bar-striped progress-bar-animated"
+                                        role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                        style="width: 100%"></div>
+                                </div>
+                            </div>
+
+                            <div id="wooapp-form-wrap" class="wrap d-none">
+                                <form id="wooapp-form" method="POST" action="options.php">
+                                    <div class="mb-3">
+                                        <label for="wooapp-appname" class="form-label text-secondary">App name</label>
+                                        <input type="text" class="form-control" id="wooapp-appname" value="h2">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="wooapp-storename" class="form-label text-secondary">Store
+                                            name</label>
+                                        <input type="text" class="form-control" id="wooapp-storename" value="h1">
+                                    </div>
+                                    <div class="d-flex flex-row-reverse bd-highlight wooapp-buildhistory-btn">
+                                        <button id="wooapp-create-app-btn" type="submit" class="btn btn-primary">Create
+                                            app</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-6">
-                        <div id="wooapp-progressbar-section" class="d-none" style="margin-top: 128px; padding: 0 32px;">
-                            <p id="wooapp-progressbar-msg" class="text-center">
-                                Building in progress.<br>It can take 3 to 7 minutes.
-                            </p>
-                            <div id="wooapp-progressbar" class="my-3 me-3 progress">
-                                <div id="wooapp-progressbar-loader"
-                                    class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <div class="col-md-6">
-                        <input style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
-                        <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#b91212;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
-                        </div>
-                        <input style="width: 19%%;margin-right:5px;" class="button menutitle-media" id="%s_button" name="%s_button" type="button" value="Select" />
-                        <input style="width: 19%%;" class="button remove-media" id="%s_buttonremove" name="%s_buttonremove" type="button" value="Clear" />
-
-                        <input class="regular-text" placeholder="%s" type="%s" name="%s" id="%s" value="%s" required>
-
                     </div>
-
                 </div>
             </div>
         </div>

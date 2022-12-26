@@ -35,6 +35,11 @@ $background-color_3: #e8595a;
     .wooapp-body {
         background-color: $background-color_1;
         padding: 4rem 3rem;
+
+        @media (max-width: 544px) {
+            padding: 2rem 1rem;
+        }
+
         border-radius: 8px;
         min-height: 50vh;
         .wooapp-body-left {
@@ -68,12 +73,26 @@ $background-color_3: #e8595a;
                     }
                 }
             }
+
+            #wooapp-progressbar-msg {
+                font-size: 16px;
+                font-weight: 300;
+                color: $color_1;
+
+                @media (max-width: 544px) {
+                    font-size: 10px;
+                }
+            }
         }
     }
 }
 .wooapp-container {
     width: 70%;
     height: 100%;
+
+    @media (max-width: 991px) {
+        width: 90%;
+    }
 }
 .wooapp-loader {
     height: 300px;
@@ -86,11 +105,19 @@ $background-color_3: #e8595a;
     font-size: 24px;
     font-weight: 500;
     color: $color_1;
+
+    @media (max-width: 544px) {
+        font-size: 16px;
+    }
 }
 .wooapp-text2 {
     font-size: 16px;
     font-weight: 300;
     color: $color_1;
+
+    @media (max-width: 544px) {
+        font-size: 12px;
+    }
 }
 .wooapp-build-history-card {
     background: #fff;
@@ -113,6 +140,27 @@ $background-color_3: #e8595a;
             background-color: transparent;
             border: 2px solid #f37229;
         }
+
+        @media (max-width: 544px) {
+            padding: 0.45rem 0.5rem;
+            font-size: 0.6rem;
+        }
+    }
+
+    .wooapp-build-card-title {
+        color: rgb(172, 175, 201);
+        font-weight: 500;
+        font-size: 1rem;
+        margin-bottom: 0;
+
+        @media (max-width: 544px) {
+            font-size: 0.8rem;
+        }
+    }
+    .wooapp-build-card-version {
+        @media (max-width: 544px) {
+            font-size: 0.7rem;
+        }
     }
 }
 .wooapp-build-history-card-icon {
@@ -126,6 +174,12 @@ $background-color_3: #e8595a;
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
+
+    @media (max-width: 544px) {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 }
 .wooapp-body-right-body {
     ul {
@@ -141,12 +195,29 @@ $background-color_3: #e8595a;
     font-size: 1rem;
     font-weight: 500;
     color: $color_5;
+    margin-bottom: 0;
+
+    @media (max-width: 544px) {
+        font-size: 0.8rem;
+    }
 }
 .wooapp-build-history-card-subtitle {
     font-size: 16px;
     line-height: 20px;
     font-weight: 500;
     display: block;
+
+    @media (max-width: 544px) {
+        font-size: 12px;
+    }
+}
+
+.wooapp-build-error-msg {
+    font-size: 16px;
+
+    @media (max-width: 544px) {
+        font-size: 12px;
+    }
 }
 #wooapp-create-app-btn {
     color: $color_6;
@@ -171,8 +242,34 @@ $background-color_3: #e8595a;
     transition: all 0.3s ease-in-out;
 }
 
-.wooapp-buildhistory-btn{
-    p, i{
-        font-size: 1.1rem
+.wooapp-buildhistory-btn {
+    p,
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+#wooapp-form {
+    .form-label {
+        color: rgb(172, 175, 201);
+        font-weight: 500;
+        font-size: 1rem;
+
+        @media (max-width: 544px) {
+            font-size: 0.8rem;
+        }
+    }
+
+    #wooapp-appname, #wooapp-storename{
+        width: 100%;
+        height: 40px;
+        border: 1px solid rgba(126, 130, 164, 0.2);
+        border-radius: 5px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        font-weight: 400;
+        @media (max-width: 544px) {
+            font-size: 0.8rem;
+        }
     }
 }
