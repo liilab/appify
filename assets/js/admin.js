@@ -224,8 +224,8 @@ $(document).ready(function ($) {
             }
 
             cnt++;
-            if (cnt == 100) break;
-            await delay(2000);
+            if (cnt == 50) break;
+            await delay(300);
         }
 
 
@@ -237,7 +237,7 @@ $(document).ready(function ($) {
         } else if (buildIdError) {
             swal("Oh noes!", "Build Error. Please try again.", "error");
         }
-        else if (cnt > 99 && buildStatus != "SUCCESS") {
+        else if (cnt >= 50 && buildStatus != "SUCCESS") {
             swal("Oh noes!", "Something went wrong. Please try again.", "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
