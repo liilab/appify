@@ -79,7 +79,7 @@ $(document).ready(function ($) {
                 $.each(response['results'], function (key, value) {
                     var build_link = `
                     <div class="ms-auto">
-                        <h6 class="text-danger fw-bold align-middle wooapp-build-error-msg">Build error!</h6>
+                        <h6 class="text-danger mt-2 fw-bold align-middle wooapp-build-error-msg">Build error!</h6>
                 </div>
                     `;
 
@@ -165,14 +165,10 @@ $(document).ready(function ($) {
                 //console.log(response);
                 get_build_progress();
                 if (response["id"] === undefined) {
-                    swal(
-                        'Good job!',
-                        response["detail"],
-                        'success'
-                    )
+                   console.log("response id undefined : "+ response['detail']);
                 }
 
-                location.reload(true);
+                //location.reload(true);
             },
             error: function (request, status, error) {
                 console.log(error);
@@ -201,6 +197,7 @@ $(document).ready(function ($) {
         let cnt = 0;
 
         while (isBuilding) {
+            if (cnt == 50) break;
             try {
                 let response = await $.ajax({
                     type: "post",
@@ -224,8 +221,7 @@ $(document).ready(function ($) {
             }
 
             cnt++;
-            if (cnt == 50) break;
-            await delay(300);
+            await delay(30000);
         }
 
 
@@ -236,11 +232,14 @@ $(document).ready(function ($) {
             get_build_history();
         } else if (buildIdError) {
             swal("Oh noes!", "Build Error. Please try again.", "error");
-        }
-        else if (cnt >= 50 && buildStatus != "SUCCESS") {
-            swal("Oh noes!", "Something went wrong. Please try again.", "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
+        }
+        else if (cnt >= 50 && buildStatus != "SUCCESS") {
+            swal("Oh noes!", "Build status error!", "error");
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-build-history-card").removeClass("d-none");
+            location.reload(true);
         }
 
 
@@ -296,7 +295,6 @@ $(document).ready(function ($) {
     $(window).bind("load", function () {
         get_build_history();
     });
-
 
     // Media Uploader for App Icon start
 
