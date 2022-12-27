@@ -56,8 +56,8 @@
                             </div>
                         </div>
                         <!-- Build Progress Loader  -->
-                        <div id="wooapp-progressbar-section" class="d-none" style="margin-top: 128px; padding: 0 32px;">
-                            <p id="wooapp-progressbar-msg" class="text-center">
+                        <div id="wooapp-progressbar-section" class="wooapp-progressbar-section d-none">
+                            <p id="wooapp-progressbar-msg" class="text-center wooapp-progressbar-msg">
                                 Building in progress.<br>It can take 3 to 7 minutes.
                             </p>
                             <div id="wooapp-progressbar" class="my-3 me-3 progress">

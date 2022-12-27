@@ -55,13 +55,22 @@
 .wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-body-right-body ul::-webkit-scrollbar {
   display: none;
 }
-.wooapp-main-container .wooapp-body .wooapp-body-right #wooapp-progressbar-msg {
+.wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-progressbar-section {
+  margin-top: 128px;
+  padding: 0 32px;
+}
+@media (max-width: 991px) {
+  .wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-progressbar-section {
+    margin-top: 40px;
+  }
+}
+.wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-progressbar-section .wooapp-progressbar-msg {
   font-size: 16px;
   font-weight: 300;
   color: #111827;
 }
 @media (max-width: 544px) {
-  .wooapp-main-container .wooapp-body .wooapp-body-right #wooapp-progressbar-msg {
+  .wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-progressbar-section .wooapp-progressbar-msg {
     font-size: 10px;
   }
 }
@@ -248,7 +257,8 @@
     font-size: 0.8rem;
   }
 }
-#wooapp-form #wooapp-appname, #wooapp-form #wooapp-storename {
+#wooapp-form #wooapp-appname,
+#wooapp-form #wooapp-storename {
   width: 100%;
   height: 40px;
   border: 1px solid rgba(126, 130, 164, 0.2);
@@ -258,7 +268,8 @@
   font-weight: 400;
 }
 @media (max-width: 544px) {
-  #wooapp-form #wooapp-appname, #wooapp-form #wooapp-storename {
+  #wooapp-form #wooapp-appname,
+#wooapp-form #wooapp-storename {
     font-size: 0.8rem;
   }
 }/*# sourceMappingURL=admin.css.map */
