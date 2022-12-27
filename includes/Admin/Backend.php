@@ -85,7 +85,7 @@ class Backend
     {
         $appname = $_POST['app_name'];
         $storename = $_POST['store_name'];
-        $icon =  $_POST['icon_url'] ? $_POST['icon_url'] :
+        $icon =  $_POST['icon_url'] ? $_POST['icon_url'] : 'https://picsum.photos/200' ;
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
@@ -100,9 +100,9 @@ class Backend
 
             'body' => array(
                 'app_name' => $appname,
-                'app_logo' => $icon,
+                'app_logo' => 'https://picsum.photos/200', //$icon,
                 'store_name' => $storename,
-                'store_logo' => $icon,
+                'store_logo' => 'https://picsum.photos/200',// $icon,
                 "template" => 1,
                 "website" => $website_id
             ),
