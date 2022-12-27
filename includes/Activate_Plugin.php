@@ -52,7 +52,7 @@ class Activate_Plugin
                         'name' =>  $first_name . ' ' . $last_name,
                         'state' => $state_name,
                         'organization' => $site_name,
-                        'organizational_unit' => str_replace(" ", "-", strtolower($site_name)) . '-e-commerce',
+                        'organizational_unit' => \WebToApp\WtaHelper::clean(strtolower($site_name)) . '-e-commerce',
                     ),
                 )
             ),

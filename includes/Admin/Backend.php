@@ -85,7 +85,7 @@ class Backend
     {
         $appname = $_POST['app_name'];
         $storename = $_POST['store_name'];
-        $icon =  $_POST['icon_url'] ? $_POST['icon_url'] : 'https://picsum.photos/200' ;
+        $icon =  $_POST['icon_url'] ? $_POST['icon_url'] : 'https://picsum.photos/200';
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
@@ -99,10 +99,10 @@ class Backend
             ),
 
             'body' => array(
-                'app_name' => $appname,
-                'app_logo' => 'https://picsum.photos/200', //$icon,
-                'store_name' => $storename,
-                'store_logo' => 'https://picsum.photos/200',// $icon,
+                'app_name' => $this->clean($appname),
+                'app_logo' =>  $icon,
+                'store_name' => $this->clean($storename),
+                'store_logo' => $icon,
                 "template" => 1,
                 "website" => $website_id
             ),
@@ -119,6 +119,13 @@ class Backend
 
         echo json_encode($json_response);
         wp_die();
+    }
+
+
+    public function clean($string)
+    {
+        $string = preg_replace('/[^A-Za-z0-9\- ]/', '', $string); // Removes special chars. /[^A-Za-z0-9]/
+        return $string;
     }
 
     public function get_build_progress()
