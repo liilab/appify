@@ -35,13 +35,11 @@ class Backend
         $user_id = $this->get_current_user_id();
         $website_id = get_user_meta($user_id, $this->website_id_meta_key, true);
 
-        // $url = $this->base_url . 'api/builder/v1/create-build-request/?page_size=5&&website='. $website_id;
         $url = $this->base_url . "api/builder/v1/build-requests/?page_size=5&&website=" . $website_id;
 
         $config = array(
             'headers' => array(
                 'Authorization' => $this->get_token(),
-                //'Authorization' => 'Token f4650cee4d22cfe26020de0cd539cf895fb9c47f',
             ),
         );
 
@@ -83,9 +81,20 @@ class Backend
 
     public function create_build_request()
     {
-        $appname = $_POST['app_name'];
-        $storename = $_POST['store_name'];
-        $icon =  $_POST['icon_url'] ? $_POST['icon_url'] : 'https://picsum.photos/200';
+        $nonce = $_POST['app_create_nonce'];
+        if (!wp_verify_nonce($nonce, 'wooapp-create-app-nonce-action')) {
+            $response = array(
+               
+                "success" => false,
+                "message" => "Nonce not verified",
+            );
+            echo json_encode($response);
+            wp_die();
+        }
+
+        $appname = sanitize_text_field($_POST['app_name']);
+        $storename = sanitize_text_field($_POST['store_name']);
+        $icon =  $_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : 'https://picsum.photos/200';
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
@@ -99,6 +108,7 @@ class Backend
             ),
 
             'body' => array(
+                'success' => true,
                 'app_name' => $this->clean($appname),
                 'app_logo' =>  $icon,
                 'store_name' => $this->clean($storename),

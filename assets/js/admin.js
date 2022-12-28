@@ -37,7 +37,7 @@ $(document).ready(function ($) {
                 }
             },
             error: function (request, status, error) {
-                console.log(error);
+                swal("Error!", "Something went wrong!", "error");
             }
         });
     }
@@ -75,7 +75,6 @@ $(document).ready(function ($) {
                 $("#wooapp-build-history").empty();
 
                 response = JSON.parse(response);
-                //console.log(response);
                 $.each(response['results'], function (key, value) {
                     var build_link = `
                     <div class="ms-auto">
@@ -128,7 +127,7 @@ $(document).ready(function ($) {
                 });
             },
             error: function (request, status, error) {
-                console.log(error);
+                swal("Error!", "Something went wrong!", "error");
             }
         });
     }
@@ -145,7 +144,7 @@ $(document).ready(function ($) {
      * @param {*} $icon_url
      */
 
-    function create_build_request($appname, $storename, $icon_url) {
+    function create_build_request($appname, $storename, $icon_url, $nonce) {
         $("#wooapp-form-wrap").addClass("d-none");
         $("#wooapp-progressbar-section").removeClass("d-none");
 
@@ -154,6 +153,7 @@ $(document).ready(function ($) {
             app_name: $appname,
             store_name: $storename,
             icon_url: $icon_url,
+            app_create_nonce: $nonce,
         };
 
         $.ajax({
@@ -162,16 +162,21 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                //console.log(response);
+                if(response['success'] === false){
+                    swal("Error!", response['message'], "error");
+                    $("#wooapp-progressbar-section").addClass("d-none");
+                    $("#wooapp-form-wrap").removeClass("d-none");
+                }
+                else{
                 get_build_progress();
                 if (response["id"] === undefined) {
+                    swal("Error!", "Response if undifined", "error");
                    console.log("response id undefined : "+ response['detail']);
                 }
-
-                //location.reload(true);
+            }
             },
             error: function (request, status, error) {
-                console.log(error);
+                swal("Error!", "Something went wrong", "error");
             }
         });
     }
@@ -194,10 +199,10 @@ $(document).ready(function ($) {
         let buildStatus = "NOT_BUILT";
         let isBuilding = true;
 
-        let cnt = 0;
+        let count = 0;
 
         while (isBuilding) {
-            if (cnt == 50) break;
+            if (count == 50) break;
             try {
                 let response = await $.ajax({
                     type: "post",
@@ -220,7 +225,7 @@ $(document).ready(function ($) {
                 console.log(e);
             }
 
-            cnt++;
+            count++;
             await delay(30000);
         }
 
@@ -234,8 +239,9 @@ $(document).ready(function ($) {
             swal("Oh noes!", "Build Error. Please try again.", "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
+            location.reload(true);
         }
-        else if (cnt >= 50 && buildStatus != "SUCCESS") {
+        else if (count >= 50 && buildStatus != "SUCCESS") {
             swal("Oh noes!", "Build status error!", "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
@@ -256,9 +262,9 @@ $(document).ready(function ($) {
         var $appname = $("#wooapp-appname").val();
         var $storename = $("#wooapp-storename").val();
         var $icon_url = $("#wooapp-icon").val();
+        var $nonce = $("#wooapp-create-app-nonce-field").val();
 
-        console.log($appname, $storename, $icon_url);
-        create_build_request($appname, $storename, $icon_url)
+        create_build_request($appname, $storename, $icon_url, $nonce);
     });
 
 
