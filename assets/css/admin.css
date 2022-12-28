@@ -56,7 +56,7 @@
   display: none;
 }
 .wooapp-main-container .wooapp-body .wooapp-body-right .wooapp-progressbar-section {
-  margin-top: 128px;
+  margin-top: 90px;
   padding: 0 32px;
 }
 @media (max-width: 991px) {
@@ -222,7 +222,7 @@
 #wooapp-create-app-btn {
   color: #fff;
   border: 2px solid #f37229;
-  border-radius: 0.8rem;
+  border-radius: 0.37rem;
   padding: 0.45rem 2rem;
   font-size: 1rem;
   font-weight: 400;
