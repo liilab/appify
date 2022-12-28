@@ -1,7 +1,7 @@
 === Wooapp - Convert WooCommerce Website to Mobile App ===
-Contributors: satsabbir111
+Contributors: liilab, satsabbir111
 Donate link: https://tsabbir.com/donate/
-Tags: woocommerce, webshop, shop, e-shop, web-shop, online-store, store, create-app, web-to-app
+Tags: woo-commerce, webshop, shop, e-shop, web-shop, online-store, store, create-app, web-to-app
 Requires at least: 4.0
 Tested up to: 4.8
 Stable tag: 
@@ -9,7 +9,7 @@ Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A plugin for convert WooCommerce website to mobile App
+A plugin for converting WooCommerce website to mobile App
 
 
 == Description ==
@@ -43,7 +43,7 @@ To install the Wooapp plugin on your WooCommerce website, follow these steps:
 
 8. Once you have finished configuring the plugin, click the "Save Changes" button to save your settings.
 
-9. You can now view the Wooapp on your mobile device by downloading the app from the app store or by visiting the app URL provided in the Wooapp settings.
+9. You can now view the WooApp on your mobile device by downloading the app from the app store or by visiting the app URL provided in the Wooapp settings.
 
 Congratulations, you have successfully installed and configured the Wooapp plugin on your WooCommerce website!
 

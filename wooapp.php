@@ -13,15 +13,15 @@
  * @package           Wooapp
  *
  * @wordpress-plugin
- * Plugin Name:       Wooapp - Convert WooCommerce Website to Mobile App
+ * Plugin Name:       WooApp - Convert WooCommerce Website to Mobile App
  * Plugin URI:        liilab.com
- * Description:       A plugin for convert WooCommerce website to mobile App
+ * Description:       A plugin for converting WooCommerce website to mobile App
  * Version:           1.0
  * Author:            LIILab
  * Author URI:        liilab.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       wta-headles-woocommerce
+ * Text Domain:       wooapp
  * Domain Path:       /languages
  */
 
@@ -48,7 +48,7 @@ final class Wooapp
     const version = '1.0';
 
     /**
-     * Class construcotr
+     * Class constructor
      */
     private function __construct()
     {
