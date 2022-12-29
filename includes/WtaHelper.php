@@ -209,6 +209,9 @@ class WtaHelper
         if ($price_type == 'normal') {
             if ($product->get_type() == 'variable') {
                 $price = $product->get_variation_price('min', true) . '-' . $product->get_variation_price('max', true);
+                if($price == '-'){
+                    $price = "";
+                }
             } else {
                 $price = $product->get_price();
             }
@@ -225,6 +228,9 @@ class WtaHelper
         } else if ($price_type == 'sale') {
             if ($product->get_type() == 'variable') {
                 $price = $product->get_variation_sale_price('min', true) . '-' . $product->get_variation_sale_price('max', true);
+                if($price == '-'){
+                    $price = "";
+                }
             } else {
                 $price = $product->get_sale_price();
             }

@@ -264,10 +264,17 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
 			$image_meta = wp_get_attachment_metadata(get_post_thumbnail_id($variation->get_id()));
 
-			$image_meta = array(
-				'width'  => $image_meta['width'],
-				'height' => $image_meta['height'],
-			);
+			if ($image_meta) {
+				$image_meta = array(
+					'width'  => $image_meta['width']? $image_meta['width'] : 0,
+					'height' => $image_meta['height']? $image_meta['height'] : 0,
+				);
+			} else {
+				$image_meta = array(
+					'width'  => 0,
+					'height' => 0,
+				);
+			}
 
 			$sale_percentage  = \WebToApp\WtaHelper::get_sale_percentage($variation);
 			$sale_price       = $variation->get_sale_price();
@@ -279,12 +286,12 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 					'id'                    => $variation->get_variation_id(),
 					'permalink'             => $variation->get_permalink(),
 					'sku'                   => $variation->get_sku(),
-					'price'                 => $price,
-					'regular_price'         => $regular_price,
-					'sale_price'            => $sale_price,
-					'price_display'         => \WebToApp\WtaHelper::get_display_price($price),
-					'regular_price_display' => \WebToApp\WtaHelper::get_display_price($regular_price),
-					'sale_price_display'    => \WebToApp\WtaHelper::get_display_price($sale_price),
+					'price'                 => $price ? $price : "",
+					'regular_price'         => $regular_price ? $regular_price : "",
+					'sale_price'            => $sale_price ? $sale_price : "",
+					'price_display'          => $price ? (\WebToApp\WtaHelper::get_price_display($price)) : "",
+					'regular_price_display'  => $regular_price ? (\WebToApp\WtaHelper::get_price_display($regular_price)) : "",
+					'sale_price_display'     => $sale_price ? (\WebToApp\WtaHelper::get_price_display($sale_price)) : "",
 					'on_sale'               => $variation->is_on_sale(),
 					'downloadable'          => $variation->is_downloadable(),
 					'in_stock'              => $variation->is_in_stock(),
@@ -322,10 +329,17 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
 		$thumbnail      = \WebToApp\WtaHelper::get_thumbnail($product);
 		$thumbnail_meta = \WebToApp\WtaHelper::get_thumbnail_meta($product);
-		$thumbnail_meta = array(
-			'width'  => $thumbnail_meta['width'],
-			'height' => $thumbnail_meta['height'],
-		);
+		if ($thumbnail_meta) {
+			$thumbnail_meta = array(
+				'width'  => $thumbnail_meta['width'] ? $thumbnail_meta['width'] : 0,
+				'height' => $thumbnail_meta['height'] ? $thumbnail_meta['height'] : 0,
+			);
+		} else {
+			$thumbnail_meta = array(
+				'width'  => 0,
+				'height' => 0,
+			);
+		}
 
 		$attributes    = $this->get_attributes($product, true, false);
 		$price         = \WebToApp\WtaHelper::get_price($product);
@@ -343,12 +357,12 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'sku'                    => $product->get_sku(),
 			'currency'               => get_woocommerce_currency(),
 			'currency_symbol'        => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-			'price'                  => $price,
-			'regular_price'          => $regular_price,
-			'sale_price'             => $sale_price,
-			'price_display'          => \WebToApp\WtaHelper::get_price_display($price),
-			'regular_price_display'  => \WebToApp\WtaHelper::get_price_display($regular_price),
-			'sale_price_display'     => \WebToApp\WtaHelper::get_price_display($sale_price),
+			'price'                  => $price ? $price : "",
+			'regular_price'          => $regular_price ? $regular_price : "",
+			'sale_price'             => $sale_price ? $sale_price : "",
+			'price_display'          => $price ? (\WebToApp\WtaHelper::get_price_display($price)) : "",
+			'regular_price_display'  => $regular_price ? (\WebToApp\WtaHelper::get_price_display($regular_price)) : "",
+			'sale_price_display'     => $sale_price ? (\WebToApp\WtaHelper::get_price_display($sale_price)) : "",
 			'on_sale'                => $product->is_on_sale(),
 			'sale_percentage'        => \WebToApp\WtaHelper::get_sale_percentage($product),
 			'purchasable'            => $product->is_purchasable(),
@@ -432,7 +446,6 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 						'option' => $attribute,
 					);
 				}
-
 			}
 		} else {
 			if (!$product->is_type('variable')) {
