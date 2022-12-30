@@ -4,7 +4,7 @@
 
     <div class="wooapp-container">
         <div class="wooapp-header">
-            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/src/img/wooapp-logo-467x100.png" alt="wooapp-logo" />
+            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/build/img/wooapp-logo-467x100.png" alt="wooapp-logo" />
             <h1 class="wooapp-title mt-4"><?php esc_html_e('Welcome to WooApp','wooapp'); ?></h1>
             <h2 class="wooapp-subtitle mt-1"><?php esc_html_e('WooApp helps you to connect your WooCommerce website with your mobile app.','wooapp'); ?></h2>
         </div>
@@ -75,11 +75,11 @@
                             <form id="wooapp-form" method="POST" action="options.php">
                                 <div class="mb-3">
                                     <label for="wooapp-appname" class="form-label text-secondary  wooapp-build-card-title"><?php esc_html_e('App name','wooapp'); ?></label>
-                                    <input type="text" class="form-control" id="wooapp-appname" value="<?php echo get_bloginfo('name'); ?>">
+                                    <input required type="text" class="form-control" id="wooapp-appname" value="<?php echo get_bloginfo('name'); ?>">
                                 </div>
                                 <div class="mb-3">
                                     <label for="wooapp-storename" class="form-label text-secondary  wooapp-build-card-title"><?php esc_html_e('Store name','wooapp'); ?></label>
-                                    <input type="text" class="form-control" id="wooapp-storename" value="<?php echo get_bloginfo('name'); ?>">
+                                    <input required type="text" class="form-control" id="wooapp-storename" value="<?php echo get_bloginfo('name'); ?>">
                                 </div>
 
                                 <?php
@@ -108,7 +108,7 @@
 
                                     printf(
                                         '<label for="%s" class="form-label text-secondary wooapp-build-card-title">App Logo</label><br>
-                                        <input style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
+                                        <input required style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
                     <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#fafafa;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
                     </div>
                     <br>

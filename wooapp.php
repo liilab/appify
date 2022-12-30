@@ -102,12 +102,13 @@ final class Wooapp
      */
     public function define_constants()
     {
-        define('WTA_VERSION', self::version); //  1.0
-        define('WTA_FILE', __FILE__); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app\wooapp.php
-        define('WTA_DIR', __DIR__); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app
-        define('WTA_URL', plugins_url('', WTA_FILE)); // http://localhost/wordpress1/wp-content/plugins/web-to-app
-        define('WTA_ASSETS', WTA_URL . '/assets'); // http://localhost/wordpress1/wp-content/plugins/web-to-app/assets
-        define('WTA_DIR_PATH', plugin_dir_path(__FILE__)); // C:\Program Files\Ampps\www\wordpress1\wp-content\plugins\web-to-app/
+        define('WTA_VERSION', self::version);
+        define('WTA_FILE', __FILE__);
+        define('WTA_DIR', __DIR__);
+        define('WTA_DIR_PATH', plugin_dir_path(__FILE__));
+        define('WTA_URL', plugins_url('', WTA_FILE));
+        define('WTA_ASSETS', WTA_URL . '/assets');
+       
     }
 
     /**
@@ -124,8 +125,6 @@ final class Wooapp
         WebToApp\WtaHelper::get_instance();
         WebToApp\API::get_instance();
         WebToApp\User::get_instance();
-        // WebToApp\Frontend::get_instance(); //curently not using
-
     }
 
     /**
