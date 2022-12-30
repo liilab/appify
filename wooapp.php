@@ -163,5 +163,5 @@ function Wooapp()
     return Wooapp::init();
 }
 
-// kick-off the plugi
+// kick-off the plugin
 Wooapp();

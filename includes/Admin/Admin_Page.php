@@ -23,13 +23,13 @@ class Admin_Page
 
     public function wta_enqueue_scripts()
     {
-        wp_enqueue_style('wta-admin', WTA_ASSETS . '/css/admin.css', null, WTA_VERSION);
+        wp_enqueue_style('wta-admin', WTA_ASSETS . '/src/css/admin.css', null, WTA_VERSION);
         wp_enqueue_style('wta-admin-bootstrap-css', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css');
         wp_enqueue_style('wta-admin-bootstrap-icon-css', '//cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css');
         wp_enqueue_script('wta-admin-bootstrap-js', '//cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js');
         wp_enqueue_script('wta-admin-moment-js', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js');
         wp_enqueue_script('wta-admin-swal-js', '//unpkg.com/sweetalert/dist/sweetalert.min.js');
-        wp_enqueue_script('wta-admin-js', WTA_ASSETS . '/js/admin.js', array('jquery'), '1.0.0', true);
+        wp_enqueue_script('wta-admin-js', WTA_ASSETS . '/src/js/admin.js', array('jquery'), '1.0.0', true);
         wp_localize_script('wta-admin-js', 'wta_ajax', array(
             'admin_ajax' => admin_url('admin-ajax.php'),
 
@@ -44,7 +44,7 @@ class Admin_Page
         $capability  = 'manage_options';
         $slug        = 'wooapp';
         $callback    = array($this, 'wta_settings_content');
-        $icon        = WTA_ASSETS . '/images/wooapp-icon.png';
+        $icon        = WTA_ASSETS . '/src/img/wooapp-icon-20x20.png';
         $position    = 100;
         add_menu_page($page_title, $menu_title, $capability, $slug, $callback, $icon , $position);
     }

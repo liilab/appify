@@ -1,10 +1,10 @@
-<div class="wooapp-main-container">
+<div class="wooapp-main-container mt-5">
 
 <?php do_action( 'wooapp_main_content_before'); ?>
 
     <div class="wooapp-container">
         <div class="wooapp-header">
-            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/images/wooapp-logo.png" alt="wooapp-logo" />
+            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/src/img/wooapp-logo-467x100.png" alt="wooapp-logo" />
             <h1 class="wooapp-title mt-4"><?php esc_html_e('Welcome to WooApp','wooapp'); ?></h1>
             <h2 class="wooapp-subtitle mt-1"><?php esc_html_e('WooApp helps you to connect your WooCommerce website with your mobile app.','wooapp'); ?></h2>
         </div>
