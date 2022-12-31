@@ -211,7 +211,7 @@ $(document).ready(function ($) {
         let count = 0;
 
         while (isBuilding) {
-            if (count == 50) break;
+            if (count == 20) break;
             try {
                 let response = await $.ajax({
                     type: "post",
@@ -250,7 +250,7 @@ $(document).ready(function ($) {
             $("#wooapp-build-history-card").removeClass("d-none");
             location.reload(true);
         }
-        else if (count >= 50 && buildStatus != "SUCCESS") {
+        else if (count >= 20 && buildStatus != "SUCCESS") {
             swal("Oh noes!", "Build status error!", "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
