@@ -57,7 +57,19 @@ final class Wooapp
         register_activation_hook(__FILE__, [$this, 'activate']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
+        add_action('load-plugins.php', [$this, 'load_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
+    }
+
+    public function load_plugin()
+    {
+        /**
+         * Initialize the default settings
+         */
+
+         if (class_exists('WooCommerce')) {
+            WebToApp\Activate_Plugin::get_instance();
+        }
     }
 
     /**
@@ -72,7 +84,7 @@ final class Wooapp
     public function plugin_action_links($links)
     {
 
-        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '">' . __('Settings', 'wooapp') . '</a>'; 
+        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '">' . __('Settings', 'wooapp') . '</a>';
         $links[] = '<a href="https://test.tsabbir.com" target="_blank">' . __('Documentation', 'wooapp') . '</a>';
 
         return $links;
@@ -108,7 +120,6 @@ final class Wooapp
         define('WTA_DIR_PATH', plugin_dir_path(__FILE__));
         define('WTA_URL', plugins_url('', WTA_FILE));
         define('WTA_ASSETS', WTA_URL . '/assets');
-       
     }
 
     /**
@@ -121,10 +132,13 @@ final class Wooapp
         if (is_admin()) {
             WebToApp\Admin::get_instance();
         }
-
-        WebToApp\WtaHelper::get_instance();
-        WebToApp\API::get_instance();
-        WebToApp\User::get_instance();
+        if (class_exists('WooCommerce')) {
+            WebToApp\WtaHelper::get_instance();
+            WebToApp\API::get_instance();
+            WebToApp\User::get_instance();
+        } else {
+            add_action('admin_notices', [$this, 'admin_notice']);
+        }
     }
 
     /**
@@ -141,15 +155,18 @@ final class Wooapp
         }
 
         update_option('wta_version', WTA_VERSION);
+    }
 
-
-        /**
-         * Initialize the default settings
-         */
-
-        WebToApp\Activate_Plugin::get_instance();
+    public function admin_notice()
+    {
+?>
+        <div class="notice notice-error is-dismissible">
+            <p><?php _e('WooApp requires WooCommerce to be installed and activated!', 'wooapp'); ?></p>
+        </div>
+<?php
     }
 }
+
 
 /**
  * Initializes the main plugin
