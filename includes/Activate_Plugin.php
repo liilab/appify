@@ -18,7 +18,7 @@ class Activate_Plugin
     {
         $user_id = $this->get_current_user_id();
 
-        $url = 'https://test.wooapp.liilab.com/api/builder/v1/activate-plugin/';
+        $url = 'https://wooapp.liilab.com/api/builder/v1/activate-plugin/';
 
         $user_info = get_userdata($user_id);
 

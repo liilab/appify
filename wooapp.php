@@ -57,19 +57,7 @@ final class Wooapp
         register_activation_hook(__FILE__, [$this, 'activate']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
-        add_action('load-plugins.php', [$this, 'load_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
-    }
-
-    public function load_plugin()
-    {
-        /**
-         * Initialize the default settings
-         */
-
-         if (class_exists('WooCommerce')) {
-            WebToApp\Activate_Plugin::get_instance();
-        }
     }
 
     /**
@@ -155,6 +143,11 @@ final class Wooapp
         }
 
         update_option('wta_version', WTA_VERSION);
+
+
+        if (class_exists('WooCommerce')) {
+            WebToApp\Activate_Plugin::get_instance();
+        }
     }
 
     public function admin_notice()
