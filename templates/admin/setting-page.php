@@ -32,8 +32,15 @@
                     if (!class_exists('WooCommerce')) {
                     ?>
                         <div class="alert alert-danger" role="alert">
-                        <h6>WooApp plugin requires WooCommerce installed and activate to work properly.</h6>
-                            <a href="<?php echo $page_url = admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>">Install WooCommerce</a>
+                            <h6>WooApp plugin requires WooCommerce installed and activate to work properly.</h6>
+                            <a id="reactivate-button" href="<?php echo $page_url = admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>">Install WooCommerce</a>
+                           <?php activate_plugin( 'wooapp/wooapp.php' ); ?>
+
+                            <script>
+                                document.getElementById('reactivate-button').addEventListener('click', function() {
+                                    window.location = '<?php echo admin_url("admin.php?page=wooapp"); ?>';
+                                });
+                            </script>
                         </div>
                     <?php
                     } else {
