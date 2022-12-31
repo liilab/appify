@@ -1,6 +1,5 @@
 === WooApp - Convert WooCommerce Website to Mobile App ===
-Contributors: tsabbir007
-Donate link: https://www.buymeacoffee.com/tsabbir007
+Contributors: tsabbir007, asmwasim, htabir
 Tags: appmaker, create-app, web-to-app
 Requires at least: 4.7
 Tested up to: 6.1.1
