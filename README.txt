@@ -1,6 +1,6 @@
 === WooApp - Convert WooCommerce Website to Mobile App ===
 Contributors: tsabbir007
-Donate link: 
+Donate link: https://www.buymeacoffee.com/tsabbir007
 Tags: appmaker, create-app, web-to-app
 Requires at least: 4.7
 Tested up to: 6.1.1
@@ -22,6 +22,29 @@ However, there are some limitations to WooApp. Currently, the plugin only suppor
 Privacy is also a major concern for many users, and WooApp takes this seriously. The plugin does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.
 
 Overall, WooApp is a great plugin for anyone looking to turn their WooCommerce website into a mobile app. It is easy to use, has a cool UI and UX, and is totally free and safe to use. While it does have some limitations, it is still a valuable tool for any online store looking to expand their reach and increase sales through mobile app usage.
+
+== FEATURES ==
+
+- ###Order management:
+WooApp allows you to take orders and manage your online store through a mobile app. You can view order lists, update addresses, and track orders all from your phone or tablet.
+
+- ###Customization:
+WooApp allows you to customize the look and feel of your mobile app to match your brand and style. You can choose from a variety of colors, fonts, and layout options to create a unique and visually appealing app.
+
+- ###User-friendly interface:
+WooApp has a user-friendly interface and excellent user experience, making it easy for customers to shop and purchase products through the app.
+
+- ###Real-time updates:
+WooApp provides real-time updates on orders and shipping status, so you and your customers can stay up to date on the status of their orders.
+
+- ###Support for simple, variable, and grouped products:
+WooApp supports simple, variable, and grouped products, allowing you to sell a wide range of products through the app.
+
+- ###Free and safe to use:
+WooApp is completely free to use and is a safe and secure plugin, ensuring that your personal information is kept private.
+
+- ###Integration with WordPress and WooCommerce:
+WooApp seamlessly integrates with your WordPress and WooCommerce websites, making it easy to manage your online store through the app.
 
 ### WHY DO YOU NEED A MOBILE APP, WHEN YOU ALREADY HAVE A STORE?
 
@@ -63,7 +86,7 @@ WooApp is a trusted and reliable plugin that has been used by many WooCommerce w
 Overall, choosing WooApp to build your WooCommerce native app is a smart and cost-effective choice that will help you reach a wider audience and increase sales for your online store.
 
 
-== It's not working ==
+== It's not working? ==
 
 - ###Check your internet connection:
 Make sure you have a stable internet connection when building the app.
