@@ -75,7 +75,9 @@ $(document).ready(function ($) {
                 $("#wooapp-build-history").empty();
 
                 response = JSON.parse(response);
+                var count = 0;
                 $.each(response['results'], function (key, value) {
+                    count++;
                     var build_link = `
                     <div class="ms-auto">
                         <h6 class="text-danger mt-2 fw-bold align-middle wooapp-build-error-msg">Build error!</h6>
@@ -125,6 +127,13 @@ $(document).ready(function ($) {
 
                     $("#wooapp-build-history").append(html);
                 });
+
+                if (count === 0) {
+                    var html = `
+                   <h6 class="text-center mt-5">No build history found!</h6>
+                    `;
+                    $("#wooapp-build-history").append(html);
+                }
             },
             error: function (request, status, error) {
                 swal("Error!", "Something went wrong!", "error");
@@ -162,18 +171,18 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                if(response['success'] === false){
+                if (response['success'] === false) {
                     swal("Error!", response['message'], "error");
                     $("#wooapp-progressbar-section").addClass("d-none");
                     $("#wooapp-form-wrap").removeClass("d-none");
                 }
-                else{
-                get_build_progress();
-                if (response["id"] === undefined) {
-                    swal("Error!", "Response if undifined", "error");
-                   console.log("response id undefined : "+ response['detail']);
+                else {
+                    get_build_progress();
+                    if (response["id"] === undefined) {
+                        swal("Error!", "Response if undifined", "error");
+                        console.log("response id undefined : " + response['detail']);
+                    }
                 }
-            }
             },
             error: function (request, status, error) {
                 swal("Error!", "Something went wrong", "error");
