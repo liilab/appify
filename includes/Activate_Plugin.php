@@ -18,7 +18,7 @@ class Activate_Plugin
     {
         $user_id = $this->get_current_user_id();
 
-        $url = 'https://wooapp.liilab.com/api/builder/v1/activate-plugin/';
+        $url = 'https://test.wooapp.liilab.com/api/builder/v1/activate-plugin/';
 
         $user_info = get_userdata($user_id);
 
@@ -26,7 +26,10 @@ class Activate_Plugin
         $last_name = $user_info->last_name ? $user_info->last_name : 'default';
         $user_email = $user_info->user_email ? $user_info->user_email : 'default@gmail.com';
         $site_name = get_bloginfo('name')? get_bloginfo('name') : 'default';
-        $state_name = WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()] ? WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()] : 'Sylhet';
+        $state_name = get_option( 'woocommerce_store_state' ) ? get_option( 'woocommerce_store_state' ) : 'Sylhet';
+        $country = get_option( 'woocommerce_default_country') ? get_option( 'woocommerce_default_country') : 'Bangladesh';
+        $city = get_option( 'woocommerce_store_city' ) ? get_option( 'woocommerce_store_city' ) : 'Sylhet';
+
 
         $data = array(
 
@@ -47,8 +50,8 @@ class Activate_Plugin
                     ),
 
                     'keystore' => array(
-                        'city' => WC()->countries->get_base_city() ? WC()->countries->get_base_city() : 'Sylhet',
-                        'country' => WC()->countries->get_base_country() ? WC()->countries->get_base_country() : 'Bangladesh',
+                        'city' => $city,
+                        'country' => $country,
                         'name' =>  $first_name . ' ' . $last_name,
                         'state' => $state_name,
                         'organization' => $site_name,
@@ -61,7 +64,13 @@ class Activate_Plugin
         $response = wp_remote_post($url, $data);
         $json_response = json_decode($response['body'], true);
 
+        if(!isset($json_response)){
+            return;
+        }
 
+        if(empty($json_response['token']) || empty($json_response['user_id']) || empty($json_response['website_id'])){
+            return;
+        }
 
         $token = $json_response['token'];
         $userid = $json_response['user_id'];
