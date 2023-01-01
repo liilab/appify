@@ -268,12 +268,35 @@ $(document).ready(function ($) {
 
     $("#wooapp-form").submit(function (e) {
         e.preventDefault();
-        var $appname = $("#wooapp-appname").val();
-        var $storename = $("#wooapp-storename").val();
-        var $icon_url = $("#wooapp-icon").val();
-        var $nonce = $("#wooapp-create-app-nonce-field").val();
+        var appname = $("#wooapp-appname").val();
+        var storename = $("#wooapp-storename").val();
+        var icon_url = $("#wooapp-icon").val();
+        var nonce = $("#wooapp-create-app-nonce-field").val();
+        var is_valid = icon_url.match(/\.(png|jpg)$/i);
 
-        create_build_request($appname, $storename, $icon_url, $nonce);
+
+        if (appname.length < 3) {
+            swal('Wait!', 'Please enter Appname with at least 3 charecters', 'error');
+            return false;
+        }
+
+        if (storename.length < 3) {
+            swal('Wait!', 'Please enter Storename with at least 3 charecters', 'error');
+            return false;
+        }
+
+        if (icon_url == '') {
+            swal('Wait!', 'Please upload an icon', 'error');
+            return false;
+        }
+
+        if (is_valid){
+            create_build_request(appname, storename, icon_url, nonce);
+        } {
+            swal('Wait!', 'Please enter a valid image URL in the PNG or JPG format', 'error');
+            return false;
+        }
+
     });
 
 
