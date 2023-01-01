@@ -1,5 +1,5 @@
 === WooApp - Convert WooCommerce Website to Mobile App ===
-Contributors: tsabbir007, asmwasim, htabir
+Contributors: tsabbir007, asmwasim, htabir, sheikhsiyam
 Tags: appmaker, create-app, web-to-app
 Requires at least: 4.7
 Tested up to: 6.1.1
@@ -16,7 +16,7 @@ WooApp is a plugin for WordPress that allows you to create a mobile app for your
 
 One of the major benefits of WooApp is its user-friendly interface and excellent user experience. The app is easy to navigate and use, making it simple for customers to shop and purchase items on the go. Additionally, the app has a cool and modern design that is sure to attract customers and keep them coming back for more.
 
-However, there are some limitations to WooApp. Currently, the plugin only supports simple, variable, and grouped products. It does not have integration with Google sign-in or mail integrations, so customers will have to create an account through the app itself.
+However, there are some limitations to WooApp. Currently, the plugin only supports simple, variable, and grouped products. It does not have integration with Google sign-in, so customers will have to create an account through the app itself.
 
 Privacy is also a major concern for many users, and WooApp takes this seriously. The plugin does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.
 
@@ -26,9 +26,6 @@ Overall, WooApp is a great plugin for anyone looking to turn their WooCommerce w
 
 - ###Order management:
 WooApp allows you to take orders and manage your online store through a mobile app. You can view order lists, update addresses, and track orders all from your phone or tablet.
-
-- ###Customization:
-WooApp allows you to customize the look and feel of your mobile app to match your brand and style. You can choose from a variety of colors, fonts, and layout options to create a unique and visually appealing app.
 
 - ###User-friendly interface:
 WooApp has a user-friendly interface and excellent user experience, making it easy for customers to shop and purchase products through the app.
@@ -76,9 +73,6 @@ WooApp is completely free to use, so you can create a native app for your WooCom
 - ###It's safe and secure: 
 WooApp does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.
 
-- ###It's customizable:
-WooApp allows you to customize the look and feel of your app to match your brand and style.
-
 - ###It's reliable:
 WooApp is a trusted and reliable plugin that has been used by many WooCommerce websites to create successful mobile apps.
 
@@ -97,7 +91,7 @@ Clearing your cache may help resolve any issues with the app build process.
 Make sure you are using the latest version of WooApp and that your WordPress and WooCommerce websites are up to date.
 
 - ###Contact the WooApp team:
-If you are still experiencing issues after trying these steps, you can contact the WooApp team at [mail.liilab@gmail.com](mail.liilab@gmail.com) for assistance.
+If you are still experiencing issues after trying these steps, you can contact the WooApp team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
 
 == Installation ==
 
@@ -125,9 +119,9 @@ That's it! You should now have the WooApp plugin installed and activated on your
 
 WooApp integrates with your WooCommerce website and allows you to manage your online store through a mobile app. You can take orders, view order lists, update addresses, and track orders all from your phone or tablet.
 
-= Does WooApp have integration with Google sign-in or mail integrations? =
+= Does WooApp have integration with Google sign-in? =
 
-No, WooApp does not currently have integration with Google sign-in or mail integrations. Customers will need to create an account through the app itself.
+No, WooApp does not currently have integration with Google sign-in. Customers will need to create an account through the app itself.
 
 = How to Publish my WooApp Mobile App? =
 
@@ -135,19 +129,19 @@ You can easily publish WooApp Android App to Google Play Store.
 
 = What if I am facing an issue(bug) in WooApp Mobile App ? =
 
-If you are experiencing any issues or bugs with the WooApp mobile app, you can contact the WooApp team by emailing them at [mail.liilab@gmail.com](mail.liilab@gmail.com). The team will work with you to resolve any issues you may be experiencing with the app. It is recommended to include as much detail as possible in your email, including any error messages or issues you are experiencing, as this will help the team better understand the problem and find a solution more quickly.
+If you are experiencing any issues or bugs with the WooApp mobile app, you can contact the WooApp team by emailing them at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com). The team will work with you to resolve any issues you may be experiencing with the app. It is recommended to include as much detail as possible in your email, including any error messages or issues you are experiencing, as this will help the team better understand the problem and find a solution more quickly.
 
 = Can I change the layout of the app? =
 
-Currently, WooApp does not offer the ability to change the layout of the app. The app's design and layout are fixed and cannot be altered by users. If you have any suggestions or ideas for improvements to the layout of the app, you can contact the WooApp team at [mail.liilab@gmail.com](mail.liilab@gmail.com) to share your thoughts. The team may consider your suggestions for future updates to the app.
+Currently, WooApp does not offer the ability to change the layout of the app. The app's design and layout are fixed and cannot be altered by users. If you have any suggestions or ideas for improvements to the layout of the app, you can contact the WooApp team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) to share your thoughts. The team may consider your suggestions for future updates to the app.
 
 = Can I make a native iOS app? =
 
-Currently, WooApp only supports the creation of a mobile app for Android devices. There is no support for creating a native iOS app at this time. However, the WooApp team is working on developing an iOS app and it is expected to be available shortly. If you are interested in using WooApp to create a native iOS app, you can contact the team at [mail.liilab@gmail.com](mail.liilab@gmail.com) to inquire about the availability of the iOS app and to stay up to date on any future developments.
+Currently, WooApp only supports the creation of a mobile app for Android devices. There is no support for creating a native iOS app at this time. However, the WooApp team is working on developing an iOS app and it is expected to be available shortly. If you are interested in using WooApp to create a native iOS app, you can contact the team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) to inquire about the availability of the iOS app and to stay up to date on any future developments.
 
 = How many WooApp mobile apps can be created? =
 
-With WooApp, you can only create one mobile app per WooCommerce website. This means that if you have multiple WooCommerce websites, you will need to install WooApp on each website in order to create a mobile app for each one. If you have any questions or concerns about using WooApp to create multiple mobile apps, you can contact the WooApp team at [mail.liilab@gmail.com](mail.liilab@gmail.com) for assistance.
+With WooApp, you can only create one mobile app per WooCommerce website. This means that if you have multiple WooCommerce websites, you will need to install WooApp on each website in order to create a mobile app for each one. ***Don't Worry! If the WooCommerce related issue arise you can create another new app.***  If you have any questions or concerns about using WooApp to create multiple mobile apps, you can contact the WooApp team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
 
 = What if I experience a build failure while using WooApp to create a mobile app? =
 
@@ -163,17 +157,17 @@ Clearing your cache may help resolve any issues with the app build process.
 Make sure you are using the latest version of WooApp and that your WordPress and WooCommerce websites are up to date.
 
 ***Contact the WooApp team:***
-If you are still experiencing issues after trying these steps, you can contact the WooApp team at [mail.liilab@gmail.com](mail.liilab@gmail.com) for assistance.
+If you are still experiencing issues after trying these steps, you can contact the WooApp team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
 
 If you are unable to resolve the build failure issue, the WooApp team will be able to help you troubleshoot and find a solution.
 
 = Is there any GitHub repository for this plugin? =
 
-Yes, WooApp has a GitHub page at www.github.com/tsabbir007. On this page, you can find the latest version of the WooApp plugin, as well as access to the plugin's source code and documentation. You can also use the GitHub page to report any issues or bugs you may encounter while using the plugin and to collaborate with the WooApp team on improving the plugin.
+Yes, WooApp has a GitHub page at [github.com/liilab/wooapp](https://www.github.com/liilab/wooapp). On this page, you can find the latest version of the WooApp plugin, as well as access to the plugin's source code and documentation. You can also use the GitHub page to report any issues or bugs you may encounter while using the plugin and to collaborate with the WooApp team on improving the plugin.
 
 = Is there any website for documentation of this plugin? =
 
-Yes, WooApp has a website at www.liilab.com. On this website, you can learn more about the WooApp plugin and its features, as well as find resources and support for using the plugin. You can also contact the WooApp team through the website if you have any questions or need assistance with the plugin.
+Yes, WooApp has a website at [wooapp.liilab.com/documentation.html](https://wooapp.liilab.com/documentation.html). On this website, you can learn more about the WooApp plugin and its features, as well as find resources and support for using the plugin. You can also contact the WooApp team through the website if you have any questions or need assistance with the plugin.
 
 
 == Screenshots ==
