@@ -1,4 +1,4 @@
-<div class="wooapp-main-container mt-5">
+<div class="wooapp-main-container mt-2">
 
     <?php do_action('wooapp_main_content_before'); ?>
 
@@ -32,15 +32,8 @@
                     if (!class_exists('WooCommerce')) {
                     ?>
                         <div class="alert alert-danger" role="alert">
-                            <h6>WooApp plugin requires WooCommerce installed and activate to work properly.</h6>
-                            <a id="reactivate-button" href="<?php echo $page_url = admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>">Install WooCommerce</a>
-                           <?php activate_plugin( 'wooapp/wooapp.php' ); ?>
-
-                            <script>
-                                document.getElementById('reactivate-button').addEventListener('click', function() {
-                                    window.location = '<?php echo admin_url("admin.php?page=wooapp"); ?>';
-                                });
-                            </script>
+                            <h6><?php esc_html_e('WooApp plugin requires WooCommerce installed and activate to work properly.', 'wooapp'); ?></h6>
+                            <a href="<?php echo $page_url = admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>"> <?php esc_html_e('Install WooCommerce', 'wooapp'); ?></a>
                         </div>
                     <?php
                     } else {
@@ -106,16 +99,14 @@
                                     $custom_logo_id = get_theme_mod('custom_logo');
                                     $logo = wp_get_attachment_image_src($custom_logo_id, 'full');
 
-                                    $dummy_logo = 'https://play-lh.googleusercontent.com/BUB9hjJqtkBjHekgrqsINgzNMzA-G34nyZQDRmzmQdw6_qbpO8E9l78Z9wS0eCp8QFKE';
-
                                     $field = array(
                                         'section' => 'wta_custom_section',
-                                        'label' => 'Logo',
+                                        'label' => 'Logo ( jpg | png )',
                                         'id' => 'wooapp-icon',
                                         'type' => 'media',
                                         'returnvalue' => 'url',
                                         'editable' => 'true',
-                                        'default' => $logo ? $logo[0] : $dummy_logo,
+                                        'default' => $logo ? $logo[0] : '',
                                     );
 
                                     $value = $field['default'];
@@ -126,14 +117,15 @@
                                     <?php
 
                                     printf(
-                                        '<label for="%s" class="form-label text-secondary wooapp-build-card-title">App Logo</label><br>
-                                        <input required style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
-                    <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#fafafa;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
-                    </div>
-                    <br>
-                    <input style="margin-right:5px;" class="button menutitle-media" id="%s_button" name="%s_button" type="button" value="Select" />
-                    <input style="" class="button remove-media d-none" id="%s_buttonremove" name="%s_buttonremove" type="button" value="Clear" />',
+                                        '<label for="%s" class="form-label text-secondary wooapp-build-card-title">%s</label><br>
+                                        <input style="display:none;" id="%s" name="%s" type="text" value="%s"  data-return="%s">
+                                        <div id="preview%s" style="margin-right:10px;border:1px solid #e2e4e7;background-color:#fafafa;display:inline-block;width: 100px;height:100px;background-image:url(%s);background-size:cover;background-repeat:no-repeat;background-position:center;">
+                                        </div>
+                                        <br>
+                                        <input style="margin-right:5px;" class="button menutitle-media" id="%s_button" name="%s_button" type="button" value="Select" />
+                                        <input style="" class="button remove-media d-none" id="%s_buttonremove" name="%s_buttonremove" type="button" value="Clear" />',
                                         $field['id'],
+                                        $field['label'],
                                         $field['id'],
                                         $field['id'],
                                         $value,
