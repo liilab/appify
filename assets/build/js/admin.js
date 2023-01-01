@@ -272,7 +272,6 @@ $(document).ready(function ($) {
         var storename = $("#wooapp-storename").val();
         var icon_url = $("#wooapp-icon").val();
         var nonce = $("#wooapp-create-app-nonce-field").val();
-        var is_valid = icon_url.match(/\.(png|jpg)$/i);
 
 
         if (appname.length < 3) {
@@ -290,14 +289,43 @@ $(document).ready(function ($) {
             return false;
         }
 
-        if (is_valid){
-            create_build_request(appname, storename, icon_url, nonce);
-        } {
-            swal('Wait!', 'Please enter a valid image URL in the PNG or JPG format', 'error');
-            return false;
-        }
+        plugin_activation(appname, storename, icon_url, nonce);
 
     });
+
+    /**
+     * Plugin activation
+     * @function
+     * @name plugin_activation
+     * @description Plugin activation
+     * @param {*} appname
+     * @param {*} storename
+     * @param {*} icon_url
+     * @param {*} nonce
+     * @returns
+     */
+
+    function plugin_activation(appname, storename, icon_url, nonce) {
+        const data = {
+            action: "plugin_activation_post_request",
+        };
+
+        $.ajax({
+            type: "post",
+            url: wta_ajax.admin_ajax,
+            data: data,
+            success: function (response) {
+                response = JSON.parse(response);
+                if (response['success'] === false) {
+                    console.log(response['message']);
+                }
+                else {
+                    create_build_request(appname, storename, icon_url, nonce);
+                }
+            }
+        });
+    }
+
 
 
     /**
