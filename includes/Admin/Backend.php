@@ -35,7 +35,7 @@ class Backend
     public function plugin_activation_post_request(){
         $user_id = $this->get_current_user_id();
 
-        $url = 'https://test.wooapp.liilab.com/api/builder/v1/activate-plugin/';
+        $url = $this->base_url.'api/builder/v1/activate-plugin/';
 
         $user_info = get_userdata($user_id);
 
