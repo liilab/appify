@@ -1,28 +1,27 @@
 <?php
 
 /**
- * The plugin bootstrap file
+ * WooApp - Convert WooCommerce Website to Mobile App
  *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              liilab.com
+ * @link              https://wooapp.liilab.com
  * @since             1.0
  * @package           Wooapp
  *
  * @wordpress-plugin
  * Plugin Name:       WooApp - Convert WooCommerce Website to Mobile App
- * Plugin URI:        liilab.com
+ * Plugin URI:        https://wooapp.liilab.com
  * Description:       A plugin for converting WooCommerce website to mobile App
  * Version:           1.0
- * Author:            LIILab
- * Author URI:        liilab.com
- * License:           GPL-2.0+
+ * Author:            liilab
+ * Author URI:        https://liilab.com
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * License:           GPL-2.0+
  * Text Domain:       wooapp
  * Domain Path:       /languages
+ */
+
+/**
+ * Bootstrap the plugin.
  */
 
 
@@ -73,7 +72,7 @@ final class Wooapp
     {
 
         $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '">' . __('Settings', 'wooapp') . '</a>';
-        $links[] = '<a href="https://test.tsabbir.com" target="_blank">' . __('Documentation', 'wooapp') . '</a>';
+        $links[] = '<a href="https://wooapp.liilab.com/documentation.html" target="_blank">' . __('Documentation', 'wooapp') . '</a>';
 
         return $links;
     }
@@ -124,6 +123,7 @@ final class Wooapp
             WebToApp\WtaHelper::get_instance();
             WebToApp\API::get_instance();
             WebToApp\User::get_instance();
+            WebToApp\Activate_Plugin::get_instance();
         } else {
             add_action('admin_notices', [$this, 'admin_notice']);
         }
