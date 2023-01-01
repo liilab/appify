@@ -36,16 +36,6 @@ class Package
                 'slug'               => 'woocommerce', // The plugin slug (typically the folder name).
                 'required'           => true, // If false, the plugin is only 'recommended' instead of required.
             ),
-
-            // array(
-            //     'name'      => 'JSON Basic Authentication',
-            //     'slug'      => 'basic-auth',
-            //     'source'    => 'https://github.com/WP-API/Basic-Auth/archive/refs/heads/master.zip',
-            //     'required'  => true,
-            // ),
-
-
-            // <snip />
         );
 
         /*

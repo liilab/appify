@@ -384,7 +384,6 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'notify_backorder_label' => __('On backorder', 'woocommerce'),
 			'attributes'             => array_values($attributes),
 			'default_attributes'     => array_values($attributes),
-			//'labels'                      => 'attention here///////',
 		];
 
 		if ($product->managing_stock() && $product->is_on_backorder(1) && $product->backorders_require_notification() && $product->get_type() === 'simple') {

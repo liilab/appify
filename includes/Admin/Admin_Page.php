@@ -17,8 +17,6 @@ class Admin_Page
         add_action('admin_menu', array($this, 'create_settings'));
         add_action('admin_enqueue_scripts', array($this, 'wta_enqueue_scripts'));
         add_action('admin_enqueue_scripts', 'wp_enqueue_media');
-        // add_action('admin_init', array($this, 'wta_setup_sections'));
-        // add_action('admin_init', array($this, 'wta_setup_fields'));
     }
 
     public function wta_enqueue_scripts()
@@ -38,7 +36,6 @@ class Admin_Page
 
     public function create_settings()
     {
-        //$parent_slug = 'woocommerce';
         $page_title  = 'WooApp';
         $menu_title  = 'WooApp';
         $capability  = 'manage_options';

@@ -106,8 +106,6 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
 		$cart_items['coupons_applied'] = WC()->cart->get_applied_coupons();
 		$cart_items['coupon_discounted'] = WC()->cart->get_coupon_discount_totals();
-		//$cart_items['show_apply_coupon'] = WC()->cart->show_coupon_form();
-		//$cart_items['enable_guest_checkout'] = WC()->cart->enable_guest_checkout();
 		$cart_items['count'] = WC()->cart->get_cart_contents_count();
 		$cart_items['shipping_fee'] = WC()->cart->get_shipping_total();
 		$cart_items['shipping_fee_display'] = WC()->cart->get_shipping_total();
@@ -125,7 +123,6 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 		$cart_items['product_subtotal_display'] = WC()->cart->get_cart_subtotal();
 		$cart_items['header_message'] = WC()->cart->get_cart_subtotal();
 		$cart_items['price_format'] = get_woocommerce_price_format();
-		//$cart_items['timezone'] = WC()->cart->get_timezone();
 		$cart_items['tax_included'] = WC()->cart->tax_display_cart === 'incl';
 		$cart_items['weight_unit'] = get_option( 'woocommerce_weight_unit' );
 		$cart_items['dimension_unit'] = get_option( 'woocommerce_dimension_unit' );
@@ -152,7 +149,6 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			$product['line_subtotal_tax'] = $cart_item['line_subtotal_tax'];
 			$product['line_total'] = $cart_item['line_total'];
 			$product['line_tax'] = $cart_item['line_tax'];
-			//$product['variation_string'] = $cart_item['variation_string'];
 			$product['product_title'] = $_product->get_title();
 			$product['short_description'] = $_product->get_short_description();
 			$product['featured_src'] = wp_get_attachment_image_src( $_product->get_image_id(), 'woocommerce_thumbnail' )[0];
@@ -163,7 +159,6 @@ class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			$product['product_regular_price_display'] = $_product->get_regular_price();
 			$product['product_sale_price_display'] = $_product->get_sale_price();
 			$product['on_sale'] = $_product->is_on_sale();
-			//$product['sale_percentage'] = $_product->get_sale_percentage();
 			$product['product_in_webview'] = false;
 			$product['qty_config'] = array(
 				'type' => 'normal',
