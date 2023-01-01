@@ -54,10 +54,12 @@ final class Wooapp
         $this->define_constants();
 
         register_activation_hook(__FILE__, [$this, 'activate']);
+        register_uninstall_hook(__FILE__, [$this, 'uninstall_confirmation']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
     }
+
 
     /**
      * Plugin action links
@@ -123,7 +125,6 @@ final class Wooapp
             WebToApp\WtaHelper::get_instance();
             WebToApp\API::get_instance();
             WebToApp\User::get_instance();
-            WebToApp\Activate_Plugin::get_instance();
         } else {
             add_action('admin_notices', [$this, 'admin_notice']);
         }
@@ -141,14 +142,45 @@ final class Wooapp
         if (!$installed) {
             update_option('wta_installed', time());
         }
-
         update_option('wta_version', WTA_VERSION);
-
-
-        if (class_exists('WooCommerce')) {
-            WebToApp\Activate_Plugin::get_instance();
-        }
     }
+
+
+    /**
+     * Do stuff upon plugin deactivation
+     *
+     * @return void
+     */
+
+
+    public function uninstall_confirmation()
+    {
+        // Show the confirmation message using Sweet Alert
+        echo '
+  <script>
+    swal({
+      title: "Are you sure?",
+      text: "This will uninstall the plugin and delete all data associated with it.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, uninstall it!",
+      closeOnConfirm: false
+    },
+    function(){
+      // Uninstall the plugin and delete all data
+      // ...
+      swal("Uninstalled!", "The plugin has been uninstalled.", "success");
+    });
+  </script>
+  ';
+        wp_die();
+    }
+
+    /**
+     * Show warning if WooCommerce is not installed
+     * @return void
+     */
 
     public function admin_notice()
     {
