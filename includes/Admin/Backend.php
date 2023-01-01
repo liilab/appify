@@ -22,7 +22,7 @@ class Backend
     }
 
 
-    private $base_url = 'https://wooapp.liilab.com/';
+    private $base_url = 'https://test.wooapp.liilab.com/';
 
     private $website_id_meta_key = 'wta_website_id';
     private $build_id_meta_key = 'wta_build_id';
@@ -92,9 +92,14 @@ class Backend
             wp_die();
         }
 
-        $appname = sanitize_text_field($_POST['app_name']);
-        $storename = sanitize_text_field($_POST['store_name']);
-        $icon =  'https://picsum.photos/200'; //$_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : 'https://picsum.photos/200'; 
+        if ( isset( $_POST['app_name'] ) ){
+            $appname = sanitize_text_field( $_POST['app_name'] );
+        }
+        if ( isset( $_POST['store_name'] ) ){
+            $storename = sanitize_text_field( $_POST['store_name'] );
+        }
+
+        $icon = 'https://picsum.photos/200'; // $_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : 'https://picsum.photos/200'; 
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
