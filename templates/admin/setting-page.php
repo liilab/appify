@@ -41,7 +41,7 @@
                     ?>
                         <div class="wooapp-body-right">
                             <!-- Initial Loader-->
-                            <div id="wooapp-loader" class="wooapp-loader d-none">
+                            <div id="wooapp-loader" class="wooapp-loader">
                                 <div class="spinner-border text-primary" role="status">
                                     <span class="visually-hidden"><?php esc_html_e('Loading', 'wooapp'); ?>...</span>
                                 </div>
