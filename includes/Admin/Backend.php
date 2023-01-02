@@ -167,7 +167,7 @@ class Backend
             $storename = sanitize_text_field( $_POST['store_name'] );
         }
 
-        $icon = 'https://picsum.photos/200'; // $_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : 'https://picsum.photos/200'; 
+        $icon = $_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : sanitize_url('https://picsum.photos/200'); 
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
