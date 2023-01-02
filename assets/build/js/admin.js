@@ -27,7 +27,7 @@ $(document).ready(function ($) {
 
                 if (response["build_found"]) {
                     if (response["is_building"] === true) {
-                        get_build_progress().then();
+                        get_build_progress();
                     } else {
                         $("#wooapp-build-history-card").removeClass("d-none");
                         get_build_history_card();
@@ -154,9 +154,6 @@ $(document).ready(function ($) {
      */
 
     function create_build_request($appname, $storename, $icon_url, $nonce) {
-        $("#wooapp-form-wrap").addClass("d-none");
-        $("#wooapp-progressbar-section").removeClass("d-none");
-
         const data = {
             action: "create_build_request",
             app_name: $appname,
@@ -220,6 +217,7 @@ $(document).ready(function ($) {
                 });
 
                 let jsonResponse = JSON.parse(response);
+                console.log(jsonResponse);
 
                 if (jsonResponse["id"] === undefined) {
                     //Show this error when system return
@@ -289,9 +287,19 @@ $(document).ready(function ($) {
             return false;
         }
 
+        if (isValidImageUrl(icon_url)==false) {
+            swal('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
+            return false;
+        }
+
         plugin_activation(appname, storename, icon_url, nonce);
 
     });
+
+    function isValidImageUrl(url) {
+        return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+    }
+    
 
     /**
      * Plugin activation
@@ -306,6 +314,9 @@ $(document).ready(function ($) {
      */
 
     function plugin_activation(appname, storename, icon_url, nonce) {
+        $("#wooapp-form-wrap").addClass("d-none");
+        $("#wooapp-progressbar-section").removeClass("d-none");
+
         const data = {
             action: "plugin_activation_post_request",
         };
