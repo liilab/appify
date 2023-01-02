@@ -96,6 +96,15 @@ class Backend
         update_user_meta($user_id, 'wta_user_id', $userid);
         update_user_meta($user_id, 'wta_access_token', $token);
         update_user_meta($user_id, 'wta_website_id', $website_id);
+
+        $response = array(
+            'status' => 'success',
+            'message' => 'Plugin activated successfully',
+        );
+
+        echo json_encode($response);
+
+        wp_die();
     }
 
     public function get_build_history_card()
@@ -167,7 +176,7 @@ class Backend
             $storename = sanitize_text_field( $_POST['store_name'] );
         }
 
-        $icon = $_POST['icon_url'] ? sanitize_url($_POST['icon_url']) : sanitize_url('https://picsum.photos/200'); 
+        $icon = $_POST['icon_url']; 
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 

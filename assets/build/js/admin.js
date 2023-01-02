@@ -217,7 +217,7 @@ $(document).ready(function ($) {
                 });
 
                 let jsonResponse = JSON.parse(response);
-                console.log(jsonResponse);
+                //console.log(jsonResponse);
 
                 if (jsonResponse["id"] === undefined) {
                     //Show this error when system return
@@ -299,7 +299,7 @@ $(document).ready(function ($) {
     function isValidImageUrl(url) {
         return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
     }
-    
+
 
     /**
      * Plugin activation
@@ -327,11 +327,12 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                if (response['success'] === false) {
-                    console.log(response['message']);
+
+                if (response["status"] == "success") {
+                    create_build_request(appname, storename, icon_url, nonce);
                 }
                 else {
-                    create_build_request(appname, storename, icon_url, nonce);
+                    swal("Error!", "Something went wrong", "error");
                 }
             }
         });
