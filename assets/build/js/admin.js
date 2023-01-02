@@ -168,20 +168,14 @@ $(document).ready(function ($) {
             data: data,
             success: function (response) {
                 response = JSON.parse(response);
-                if (response['success'] === false) {
-                    swal("Error!", response['message'], "error");
-                    $("#wooapp-progressbar-section").addClass("d-none");
-                    $("#wooapp-form-wrap").removeClass("d-none");
+                if (response['id']) {
+                    get_build_progress();
                 }
                 else {
-                    get_build_progress();
-                    if (response["id"] === undefined) {
-                        swal("Error!", "Response if undifined", "error");
-                        console.log("response id undefined : " + response['detail']);
-                    }
+                    swal("Error!", "Response ID undifined", "error");
                 }
             },
-            error: function (request, status, error) {
+            error: function () {
                 swal("Error!", "Something went wrong", "error");
             }
         });
@@ -287,7 +281,7 @@ $(document).ready(function ($) {
             return false;
         }
 
-        if (isValidImageUrl(icon_url)==false) {
+        if (isValidImageUrl(icon_url) == false) {
             swal('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
             return false;
         }
