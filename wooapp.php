@@ -55,7 +55,6 @@ final class Wooapp
 
         register_activation_hook(__FILE__, [$this, 'activate']);
         register_deactivation_hook( __FILE__, [$this, 'deactivate'] );
-		register_uninstall_hook( __FILE__,  [$this, 'uninstall']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
@@ -156,30 +155,6 @@ final class Wooapp
     public function deactivate()
     {
         do_action( 'Wooapp_WC_Plugin_deactivate' );
-    }
-
-    /**
-     * Do stuff upon plugin uninstall
-     *
-     * @return void
-     */
-
-    public function uninstall()
-    {
-        $current_user = wp_get_current_user();
-        $user_id = $current_user->ID;
-
-        $build_id_meta_key = 'wta_build_id';
-        $is_build_meta_key = 'wta_is_building';
-        $binary_url_meta_key = 'wta_binary_url';
-        $preview_url_meta_key = 'wta_preview_url';
-
-        delete_user_meta($user_id, $build_id_meta_key);
-        delete_user_meta($user_id, $is_build_meta_key);
-        delete_user_meta($user_id, $binary_url_meta_key);
-        delete_user_meta($user_id, $preview_url_meta_key);
-
-        do_action( 'Wooapp_WC_Plugin_uninstall' );
     }
 
     /**
