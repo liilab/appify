@@ -32,8 +32,11 @@ $(document).ready(function ($) {
                         $("#wooapp-build-history-card").removeClass("d-none");
                         get_build_history_card();
                     }
-                } else {
+                }
+
+                else {
                     $("#wooapp-form-wrap").removeClass("d-none");
+                    // return_error('No build history found!');
                 }
             },
             error: function (request, status, error) {
@@ -80,27 +83,42 @@ $(document).ready(function ($) {
                     count++;
                     var build_link = `
                     <div class="ms-auto">
-                        <h6 class="text-danger mt-2 fw-bold align-middle wooapp-build-error-msg">Build error!</h6>
-                </div>
+                        <h6 class="text-danger mt-2 fw-bold align-middle wooapp-build-error-msg">Failed!</h6>
+                   </div>
                     `;
 
                     if (response['results'][key]['status'] === 'SUCCESS') {
-                        build_link = `<div class="ms-auto">
+
+                        var preview = response['results'][key]['preview'];
+                        var binary = response['results'][key]['binary'];
+
+                        if ([null, undefined, ''].includes(preview) || [null, undefined, ''].includes(binary)) {
+                            build_link = `
+                    <div class="ms-auto">
+                        <h6 class="text-warning mt-2 fw-bold align-middle wooapp-build-error-msg">Expired!</h6>
+                    </div>
+                    `;
+                        }
+                        else {
+                            build_link =
+                                `<div class="ms-auto">
                         <button class="btn">
                             <div class="wooapp-build-history-card-icon"
                                 style="background-color: rgb(244, 246, 252);">
-                                <a href="`+ response['results'][key]['preview'] + `"><i class="bi bi-save"></i></a>
+                                <a href="`+ preview + `"><i class="bi bi-save"></i></a>
                             </div>
                         </button>
                         <button class="btn">
                             <div class="wooapp-build-history-card-icon"
                                 style="background-color: rgb(244, 246, 252);">
-                                <a href="`+ response['results'][key]['binary'] + `"><i class="bi bi-app-indicator"></i></a>
+                                <a href="`+ binary + `"><i class="bi bi-app-indicator"></i></a>
                             </div>
                         </button>
                     </div>`;
+                        }
 
                     }
+
                     var html = `
                     <li>
                     <div class="d-flex">
@@ -171,8 +189,11 @@ $(document).ready(function ($) {
                 if (response['id']) {
                     get_build_progress();
                 }
+                else if (response["status"] == "error") {
+                    return_error(response["message"]);
+                }
                 else {
-                    swal("Error!", "Response ID undifined", "error");
+                    return_error();
                 }
             },
             error: function () {
@@ -211,17 +232,17 @@ $(document).ready(function ($) {
                 });
 
                 let jsonResponse = JSON.parse(response);
-                //console.log(jsonResponse);
 
                 if (jsonResponse["id"] === undefined) {
                     //Show this error when system return
                     // build id not found error in the database
                     buildIdError = true;
                     break;
-                } else {
-                    isBuilding = jsonResponse["is_building"];
-                    buildStatus = jsonResponse["status"];
                 }
+
+                isBuilding = jsonResponse["is_building"];
+                buildStatus = jsonResponse["status"];
+
             } catch (e) {
                 console.log(e);
             }
@@ -237,15 +258,18 @@ $(document).ready(function ($) {
             $("#wooapp-build-history-card").removeClass("d-none");
             get_build_history();
         } else if (buildIdError) {
-            swal("Oh noes!", "Build Error. Please try again.", "error");
+            return_error('Build Error. Please try again.');
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
             location.reload(true);
         }
         else if (count >= 20 && buildStatus != "SUCCESS") {
-            swal("Oh noes!", "Build status error!", "error");
+            return_error('Build status error!. Please try again.');
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
+            location.reload(true);
+        }
+        else{
             location.reload(true);
         }
 
@@ -325,8 +349,11 @@ $(document).ready(function ($) {
                 if (response["status"] == "success") {
                     create_build_request(appname, storename, icon_url, nonce);
                 }
+                else if (response["status"] == "error") {
+                    return_error(response["message"]);
+                }
                 else {
-                    swal("Error!", "Something went wrong", "error");
+                    return_error();
                 }
             }
         });
@@ -367,6 +394,11 @@ $(document).ready(function ($) {
     $(window).bind("load", function () {
         get_build_history();
     });
+
+
+    function return_error($message = 'Something error!') {
+        swal('Error!', $message, 'error');
+    }
 
     // Media Uploader for App Icon start
 
