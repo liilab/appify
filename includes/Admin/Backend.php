@@ -20,7 +20,6 @@ class Backend
         add_action('wp_ajax_get_build_progress', [$this, 'get_build_progress']);
         add_action('wp_ajax_get_build_history_card', [$this, 'get_build_history_card']);
         add_action('wp_ajax_plugin_activation_post_request', [$this, 'plugin_activation_post_request']);
-
     }
 
 
@@ -32,17 +31,18 @@ class Backend
     private $binary_url_meta_key = 'wta_binary_url';
     private $preview_url_meta_key = 'wta_preview_url';
 
-    public function plugin_activation_post_request(){
+    public function plugin_activation_post_request()
+    {
         $user_id = $this->get_current_user_id();
 
-        $url = $this->base_url.'api/builder/v1/activate-plugin/';
+        $url = $this->base_url . 'api/builder/v1/activate-plugin/';
 
         $user_info = get_userdata($user_id);
 
         $first_name = $user_info->first_name ? $user_info->first_name : 'default';
         $last_name = $user_info->last_name ? $user_info->last_name : 'default';
         $user_email = $user_info->user_email ? $user_info->user_email : 'default@gmail.com';
-        $site_name = get_bloginfo('name')? get_bloginfo('name') : 'default';
+        $site_name = get_bloginfo('name') ? get_bloginfo('name') : 'default';
         $state_name = WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()] ? WC()->countries->get_states(WC()->countries->get_base_country())[WC()->countries->get_base_state()] : 'Sylhet';
         $country =  WC()->countries->get_base_country() ? WC()->countries->get_base_country() : 'Bangladesh';
         $city = WC()->countries->get_base_city() ? WC()->countries->get_base_city() : 'Sylhet Sadar';
@@ -79,13 +79,18 @@ class Backend
         );
 
         $response = wp_remote_post($url, $data);
+
+        if ($response['response']['code'] == 404) {
+            $this->return_error("Plugin activation post request error!");
+        }
+
         $json_response = json_decode($response['body'], true);
 
-        if(!isset($json_response)){
+        if (!isset($json_response)) {
             return;
         }
 
-        if(empty($json_response['token']) || empty($json_response['user_id']) || empty($json_response['website_id'])){
+        if (empty($json_response['token']) || empty($json_response['user_id']) || empty($json_response['website_id'])) {
             return;
         }
 
@@ -121,6 +126,10 @@ class Backend
         );
 
         $response = wp_remote_get($url, $config);
+
+        if ($response['response']['code'] == 404) {
+            $this->return_error("Get build history card error!");
+        }
 
         $json_response = json_decode($response['body'], true);
         echo json_encode($json_response);
@@ -161,7 +170,7 @@ class Backend
         $nonce = $_POST['app_create_nonce'];
         if (!wp_verify_nonce($nonce, 'wooapp-create-app-nonce-action')) {
             $response = array(
-               
+
                 "success" => false,
                 "message" => "Nonce not verified",
             );
@@ -169,14 +178,16 @@ class Backend
             wp_die();
         }
 
-        if ( isset( $_POST['app_name'] ) ){
-            $appname = sanitize_text_field( $_POST['app_name'] );
+        if (isset($_POST['app_name'])) {
+            $appname = sanitize_text_field($_POST['app_name']);
         }
-        if ( isset( $_POST['store_name'] ) ){
-            $storename = sanitize_text_field( $_POST['store_name'] );
+        if (isset($_POST['store_name'])) {
+            $storename = sanitize_text_field($_POST['store_name']);
         }
 
-        $icon = $_POST['icon_url']; 
+        $icon = $_POST['icon_url'] ?$_POST['icon_url'] : "https://picsum.photos/200/300";
+
+        $icon = sanitize_url($icon);
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
@@ -201,6 +212,10 @@ class Backend
         );
 
         $response = wp_remote_post($url, $config);
+
+        if ($response['response']['code'] == 404) {
+            $this->return_error("Create build request error!");
+        }
 
         $json_response = json_decode($response['body'], true);
 
@@ -241,6 +256,10 @@ class Backend
 
             $response = wp_remote_get($url, $args);
 
+            if ($response['response']['code'] == 404) {
+                $this->return_error("Build progress error!");
+            }
+
             $json_response = json_decode($response['body'], true);
 
             update_user_meta($user_id, $this->is_build_meta_key, $json_response['is_building']);
@@ -264,5 +283,16 @@ class Backend
     {
         $user_id = $this->get_current_user_id();
         return "Token " . get_user_meta($user_id, 'wta_access_token', true);
+    }
+
+    public function return_error($message = "Something Error!")
+    {
+        $response = array(
+            "status" => "error",
+            "message" => $message,
+        );
+
+        echo json_encode($response);
+        wp_die();
     }
 }
