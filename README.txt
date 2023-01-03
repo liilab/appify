@@ -18,7 +18,7 @@ One of the major benefits of WooApp is its user-friendly interface and excellent
 
 However, there are some limitations to WooApp. Currently, the plugin only supports simple, variable, and grouped products. It does not have integration with Google sign-in, so customers will have to create an account through the app itself.
 
-Privacy is also a major concern for many users, and WooApp takes this seriously. The plugin does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.
+***Privacy is also a major concern for many users, and WooApp takes this seriously. The plugin does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.***
 
 Overall, WooApp is a great plugin for anyone looking to turn their WooCommerce website into a mobile app. It is easy to use, has a cool UI and UX, and is totally free and safe to use. While it does have some limitations, it is still a valuable tool for any online store looking to expand their reach and increase sales through mobile app usage.
 
