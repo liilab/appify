@@ -54,7 +54,6 @@ final class Wooapp
         $this->define_constants();
 
         register_activation_hook(__FILE__, [$this, 'activate']);
-        register_uninstall_hook(__FILE__, [$this, 'uninstall_confirmation']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
@@ -73,9 +72,7 @@ final class Wooapp
     public function plugin_action_links($links)
     {
 
-        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '">' . __('Settings', 'wooapp') . '</a>';
-        $links[] = '<a href="https://wooapp.liilab.com/documentation.html" target="_blank">' . __('Documentation', 'wooapp') . '</a>';
-
+        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '" class="text-warning fw-bold">' . __('Open Wooapp Tools', 'wooapp') . '</a>';
         return $links;
     }
 
@@ -118,7 +115,7 @@ final class Wooapp
      */
     public function init_plugin()
     {
-        if (is_admin()) {
+        if (current_user_can('manage_options')) {
             WebToApp\Admin::get_instance();
         }
         if (class_exists('WooCommerce')) {
@@ -126,7 +123,7 @@ final class Wooapp
             WebToApp\API::get_instance();
             WebToApp\User::get_instance();
         } else {
-            add_action('admin_notices', [$this, 'admin_notice']);
+            add_action('admin_notices', [$this, 'admin_notice'], 100);
         }
     }
 
@@ -145,38 +142,6 @@ final class Wooapp
         update_option('wta_version', WTA_VERSION);
     }
 
-
-    /**
-     * Do stuff upon plugin deactivation
-     *
-     * @return void
-     */
-
-
-    public function uninstall_confirmation()
-    {
-        // Show the confirmation message using Sweet Alert
-        echo '
-  <script>
-    swal({
-      title: "Are you sure?",
-      text: "This will uninstall the plugin and delete all data associated with it.",
-      type: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes, uninstall it!",
-      closeOnConfirm: false
-    },
-    function(){
-      // Uninstall the plugin and delete all data
-      // ...
-      swal("Uninstalled!", "The plugin has been uninstalled.", "success");
-    });
-  </script>
-  ';
-        wp_die();
-    }
-
     /**
      * Show warning if WooCommerce is not installed
      * @return void
@@ -185,8 +150,8 @@ final class Wooapp
     public function admin_notice()
     {
 ?>
-        <div class="notice notice-error is-dismissible">
-            <p><?php _e('WooApp requires WooCommerce to be installed and activated!', 'wooapp'); ?></p>
+        <div class="notice notice-error is-dismissible alert alert-danger" role="alert">
+            <span class="fw-bold">WooApp </span><?php _e('requires ', 'wooapp'); ?><span class="fw-bold">WooCommerce </span><?php _e('to be installed and activated!', 'wooapp'); ?>
         </div>
 <?php
     }
