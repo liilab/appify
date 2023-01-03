@@ -36,7 +36,6 @@ $(document).ready(function ($) {
 
                 else {
                     $("#wooapp-form-wrap").removeClass("d-none");
-                    // return_error('No build history found!');
                 }
             },
             error: function (request, status, error) {
@@ -257,7 +256,14 @@ $(document).ready(function ($) {
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
             get_build_history();
-        } else if (buildIdError) {
+        }
+        else if (buildStatus === "FAILURE") {
+            return_error('Build failed!. Please try again.');
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-build-history-card").removeClass("d-none");
+            get_build_history();
+        }
+        else if (buildIdError) {
             return_error('Build Error. Please try again.');
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
@@ -269,12 +275,14 @@ $(document).ready(function ($) {
             $("#wooapp-build-history-card").removeClass("d-none");
             location.reload(true);
         }
-        else{
-            location.reload(true);
+        else {
+            swal("Oh no!", `${buildStatus}, Please try again.`, "error");
+            $("#wooapp-progressbar-section").addClass("d-none");
+            $("#wooapp-build-history-card").removeClass("d-none");
+            get_build_history();
         }
-
-
     }
+}
 
 
     /**
@@ -283,158 +291,158 @@ $(document).ready(function ($) {
      */
 
     $("#wooapp-form").submit(function (e) {
-        e.preventDefault();
-        var appname = $("#wooapp-appname").val();
-        var storename = $("#wooapp-storename").val();
-        var icon_url = $("#wooapp-icon").val();
-        var nonce = $("#wooapp-create-app-nonce-field").val();
+    e.preventDefault();
+    var appname = $("#wooapp-appname").val();
+    var storename = $("#wooapp-storename").val();
+    var icon_url = $("#wooapp-icon").val();
+    var nonce = $("#wooapp-create-app-nonce-field").val();
 
 
-        if (appname.length < 3) {
-            swal('Wait!', 'Please enter Appname with at least 3 charecters', 'error');
-            return false;
-        }
-
-        if (storename.length < 3) {
-            swal('Wait!', 'Please enter Storename with at least 3 charecters', 'error');
-            return false;
-        }
-
-        if (icon_url == '') {
-            swal('Wait!', 'Please upload an icon', 'error');
-            return false;
-        }
-
-        if (isValidImageUrl(icon_url) == false) {
-            swal('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
-            return false;
-        }
-
-        plugin_activation(appname, storename, icon_url, nonce);
-
-    });
-
-    function isValidImageUrl(url) {
-        return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+    if (appname.length < 3) {
+        swal('Wait!', 'Please enter Appname with at least 3 charecters', 'error');
+        return false;
     }
 
+    if (storename.length < 3) {
+        swal('Wait!', 'Please enter Storename with at least 3 charecters', 'error');
+        return false;
+    }
 
-    /**
-     * Plugin activation
-     * @function
-     * @name plugin_activation
-     * @description Plugin activation
-     * @param {*} appname
-     * @param {*} storename
-     * @param {*} icon_url
-     * @param {*} nonce
-     * @returns
-     */
+    if (icon_url == '') {
+        swal('Wait!', 'Please upload an icon', 'error');
+        return false;
+    }
 
-    function plugin_activation(appname, storename, icon_url, nonce) {
-        $("#wooapp-form-wrap").addClass("d-none");
-        $("#wooapp-progressbar-section").removeClass("d-none");
+    if (isValidImageUrl(icon_url) == false) {
+        swal('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
+        return false;
+    }
 
-        const data = {
-            action: "plugin_activation_post_request",
-        };
+    plugin_activation(appname, storename, icon_url, nonce);
 
-        $.ajax({
-            type: "post",
-            url: wta_ajax.admin_ajax,
-            data: data,
-            success: function (response) {
-                response = JSON.parse(response);
+});
 
-                if (response["status"] == "success") {
-                    create_build_request(appname, storename, icon_url, nonce);
-                }
-                else if (response["status"] == "error") {
-                    return_error(response["message"]);
-                }
-                else {
-                    return_error();
-                }
+function isValidImageUrl(url) {
+    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+}
+
+
+/**
+ * Plugin activation
+ * @function
+ * @name plugin_activation
+ * @description Plugin activation
+ * @param {*} appname
+ * @param {*} storename
+ * @param {*} icon_url
+ * @param {*} nonce
+ * @returns
+ */
+
+function plugin_activation(appname, storename, icon_url, nonce) {
+    $("#wooapp-form-wrap").addClass("d-none");
+    $("#wooapp-progressbar-section").removeClass("d-none");
+
+    const data = {
+        action: "plugin_activation_post_request",
+    };
+
+    $.ajax({
+        type: "post",
+        url: wta_ajax.admin_ajax,
+        data: data,
+        success: function (response) {
+            response = JSON.parse(response);
+
+            if (response["status"] == "success") {
+                create_build_request(appname, storename, icon_url, nonce);
             }
-        });
-    }
+            else if (response["status"] == "error") {
+                return_error(response["message"]);
+            }
+            else {
+                return_error();
+            }
+        }
+    });
+}
 
 
 
-    /**
-     * wooapp-get-app-rebuild-btn
-     */
+/**
+ * wooapp-get-app-rebuild-btn
+ */
 
 
-    $click = 0;
-    $("#wooapp-get-app-rebuild-btn").click(function (e) {
-        $(".wooapp-build-history-card").addClass("d-none");
-        $html = `
+$click = 0;
+$("#wooapp-get-app-rebuild-btn").click(function (e) {
+    $(".wooapp-build-history-card").addClass("d-none");
+    $html = `
         <div class="d-flex flex-row-reverse bd-highlight wooapp-buildhistory-btn">
             <p class="wooapp-prev">Build history<i class="bi bi-arrow-right-square ms-2"></i></p>
         </div>
         `;
-        if ($click == 0) {
-            $("#wooapp-form-wrap").prepend($html);
-            $click++;
-        }
-        $("#wooapp-form-wrap").removeClass("d-none");
-
-        $(".wooapp-prev").click(function (e) {
-            $("#wooapp-form-wrap").addClass("d-none");
-            $(".wooapp-build-history-card").removeClass("d-none");
-        });
-    });
-
-
-    /**
-     * Wooapp build history
-     */
-
-    $(window).bind("load", function () {
-        get_build_history();
-    });
-
-
-    function return_error($message = 'Something error!') {
-        swal('Error!', $message, 'error');
+    if ($click == 0) {
+        $("#wooapp-form-wrap").prepend($html);
+        $click++;
     }
+    $("#wooapp-form-wrap").removeClass("d-none");
 
-    // Media Uploader for App Icon start
+    $(".wooapp-prev").click(function (e) {
+        $("#wooapp-form-wrap").addClass("d-none");
+        $(".wooapp-build-history-card").removeClass("d-none");
+    });
+});
 
-    if (typeof wp.media !== 'undefined') {
-        var _custom_media = true,
-            _orig_send_attachment = wp.media.editor.send.attachment;
-        $('.menutitle-media').click(function (e) {
-            var send_attachment_bkp = wp.media.editor.send.attachment;
-            var button = $(this);
-            var id = button.attr('id').replace('_button', '');
-            _custom_media = true;
-            wp.media.editor.send.attachment = function (props, attachment) {
-                if (_custom_media) {
-                    if ($('input#' + id).data('return') == 'url') {
-                        $('input#' + id).val(attachment.url);
-                    } else {
-                        $('input#' + id).val(attachment.id);
-                    }
-                    $('div#preview' + id).css('background-image', 'url(' + attachment.url + ')');
+
+/**
+ * Wooapp build history
+ */
+
+$(window).bind("load", function () {
+    get_build_history();
+});
+
+
+function return_error($message = 'Something error!') {
+    swal('Error!', $message, 'error');
+}
+
+// Media Uploader for App Icon start
+
+if (typeof wp.media !== 'undefined') {
+    var _custom_media = true,
+        _orig_send_attachment = wp.media.editor.send.attachment;
+    $('.menutitle-media').click(function (e) {
+        var send_attachment_bkp = wp.media.editor.send.attachment;
+        var button = $(this);
+        var id = button.attr('id').replace('_button', '');
+        _custom_media = true;
+        wp.media.editor.send.attachment = function (props, attachment) {
+            if (_custom_media) {
+                if ($('input#' + id).data('return') == 'url') {
+                    $('input#' + id).val(attachment.url);
                 } else {
-                    return _orig_send_attachment.apply(this, [props, attachment]);
+                    $('input#' + id).val(attachment.id);
                 }
-                ;
+                $('div#preview' + id).css('background-image', 'url(' + attachment.url + ')');
+            } else {
+                return _orig_send_attachment.apply(this, [props, attachment]);
             }
-            wp.media.editor.open(button);
-            return false;
-        });
-        $('.add_media').on('click', function () {
-            _custom_media = false;
-        });
-        $('.remove-media').on('click', function () {
-            var parent = $(this).parents('td');
-            parent.find('input[type="text"]').val('');
-            parent.find('div').css('background-image', 'url()');
-        });
-    }
+            ;
+        }
+        wp.media.editor.open(button);
+        return false;
+    });
+    $('.add_media').on('click', function () {
+        _custom_media = false;
+    });
+    $('.remove-media').on('click', function () {
+        var parent = $(this).parents('td');
+        parent.find('input[type="text"]').val('');
+        parent.find('div').css('background-image', 'url()');
+    });
+}
 
     // Media Uploader for App Icon end
 });
