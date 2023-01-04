@@ -4,7 +4,7 @@
 
     <div class="wooapp-container">
         <div class="wooapp-header">
-            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/build/img/appify-logo-467x100.png" alt="appify-logo" />
+            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/build/img/appify-logo.png" alt="appify-logo" />
             <h1 class="wooapp-title mt-4"><?php esc_html_e('Welcome to Appify', 'appify'); ?></h1>
             <h2 class="wooapp-subtitle mt-1"><?php esc_html_e('Appify helps you to connect your WooCommerce website with your mobile app.', 'appify'); ?></h2>
         </div>
