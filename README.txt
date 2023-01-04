@@ -161,10 +161,6 @@ If you are still experiencing issues after trying these steps, you can contact t
 
 If you are unable to resolve the build failure issue, the Appify team will be able to help you troubleshoot and find a solution.
 
-= Is there any GitHub repository for this plugin? =
-
-Yes, Appify has a GitHub page at [github.com/liilab/appify](https://www.github.com/liilab/appify). On this page, you can find the latest version of the Appify plugin, as well as access to the plugin's source code and documentation. You can also use the GitHub page to report any issues or bugs you may encounter while using the plugin and to collaborate with the Appify team on improving the plugin.
-
 
 == Screenshots ==
 
