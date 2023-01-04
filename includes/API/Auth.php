@@ -4,7 +4,7 @@ namespace WebToApp\API;
 
 /**
  * Class Auth
- * @package WebToApp\API
+ * @package Appify\API
  */
 
 class Auth extends \WebToApp\Abstracts\WTA_WC_REST_Controller
@@ -158,6 +158,6 @@ class Auth extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
     public function auth_check_permissions($request)
     {
-       return true;
+        return true;
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
 namespace WebToApp;
+
 use WebToApp\Traits\Singleton;
 
 /**
  * Class API
- * @package WebToApp
+ * @package Appify
  */
 
 class API

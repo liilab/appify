@@ -5,18 +5,18 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 }
 
 /**
- * Wooapp Uninstall
+ * Appify Uninstall
  *
- * Uninstalling Wooapp deletes some user meta data.
+ * Uninstalling Appify deletes some user meta data.
  *
- * @package Wooapp\Uninstaller
+ * @package Appify\Uninstaller
  *
  * @since 1.0.0
  */
-class Wooapp_Uninstaller
+class Appify_Uninstaller
 {
     /**
-     * Constructor for the class Wooapp_Uninstaller
+     * Constructor for the class Appify_Uninstaller
      *
      * @since 1.0.0
      */
@@ -35,4 +35,4 @@ class Wooapp_Uninstaller
     }
 }
 
-new Wooapp_Uninstaller();
+new Appify_Uninstaller();

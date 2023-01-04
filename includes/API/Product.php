@@ -4,7 +4,7 @@ namespace WebToApp\API;
 
 /**
  * Class Product
- * @package WebToApp\API
+ * @package Appify\API
  */
 
 class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
@@ -266,8 +266,8 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
 			if ($image_meta) {
 				$image_meta = array(
-					'width'  => $image_meta['width']? $image_meta['width'] : 0,
-					'height' => $image_meta['height']? $image_meta['height'] : 0,
+					'width'  => $image_meta['width'] ? $image_meta['width'] : 0,
+					'height' => $image_meta['height'] ? $image_meta['height'] : 0,
 				);
 			} else {
 				$image_meta = array(

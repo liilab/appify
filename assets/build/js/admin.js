@@ -287,7 +287,7 @@ $(document).ready(function ($) {
 
 
     /**
-     * Wooapp form submit
+     * Appify form submit
      * 
      */
 
@@ -371,7 +371,7 @@ $(document).ready(function ($) {
 
 
     /**
-     * wooapp-get-app-rebuild-btn
+     * Appify get build button
      */
 
 
@@ -397,7 +397,7 @@ $(document).ready(function ($) {
 
 
     /**
-     * Wooapp build history
+     * Appify build history
      */
 
     $(window).bind("load", function () {

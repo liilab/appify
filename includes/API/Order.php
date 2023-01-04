@@ -4,7 +4,7 @@ namespace WebToApp\API;
 
 /**
  * Class Order
- * @package WebToApp\API
+ * @package Appify\API
  */
 
 class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
@@ -134,8 +134,7 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
             $order->add_order_note(
                 $this->order_notes
             );
-        }
-        else {
+        } else {
             $order->add_order_note(
                 ''
             );
@@ -239,12 +238,13 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
      * @return string
      */
 
-    public function get_order_notes($order){
+    public function get_order_notes($order)
+    {
         $notes = wc_get_order_notes([
             'order_id' => $order->get_id()
-         ]);
+        ]);
 
-         return $notes[0]->content;
+        return $notes[0]->content;
     }
 
 

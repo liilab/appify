@@ -1,22 +1,22 @@
 <?php
 
 /**
- * WooApp - Convert WooCommerce Website to Mobile App
+ * Appify - Convert WooCommerce Website to Mobile App
  *
  * @link              https://wooapp.liilab.com
  * @since             1.0
- * @package           Wooapp
+ * @package           Appify
  *
  * @wordpress-plugin
- * Plugin Name:       WooApp - Convert WooCommerce Website to Mobile App
+ * Plugin Name:       Appify
  * Plugin URI:        https://wooapp.liilab.com
- * Description:       A plugin for converting WooCommerce website to mobile App
+ * Description:       A plugin for converting WooCommerce website to mobile app
  * Version:           1.0
  * Author:            liilab
  * Author URI:        https://liilab.com
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * License:           GPL-2.0+
- * Text Domain:       wooapp
+ * Text Domain:       appify
  * Domain Path:       /languages
  */
 
@@ -36,7 +36,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  */
 
 
-final class Wooapp
+final class Appify
 {
 
     /**
@@ -73,14 +73,14 @@ final class Wooapp
     public function plugin_action_links($links)
     {
 
-        $links[] = '<a href="' . admin_url('admin.php?page=wooapp') . '" class="text-warning fw-bold">' . __('Open Wooapp Tools', 'wooapp') . '</a>';
+        $links[] = '<a href="' . admin_url('admin.php?page=appify') . '" class="text-warning fw-bold">' . __('Open Appify Tools', 'appify') . '</a>';
         return $links;
     }
 
     /**
      * Initializes a singleton instance
      *
-     * @return \Wooapp
+     * @return \Appify
      */
 
     public static function init()
@@ -142,7 +142,7 @@ final class Wooapp
         }
         update_option('wta_version', WTA_VERSION);
         
-        do_action( 'Wooapp_WC_Plugin_activate' );
+        do_action( 'Appify_WC_Plugin_activate' );
     }
 
 
@@ -154,7 +154,7 @@ final class Wooapp
 
     public function deactivate()
     {
-        do_action( 'Wooapp_WC_Plugin_deactivate' );
+        do_action( 'Appify_WC_Plugin_deactivate' );
     }
 
     /**
@@ -166,7 +166,7 @@ final class Wooapp
     {
 ?>
         <div class="notice notice-error is-dismissible alert alert-danger" role="alert">
-            <span class="fw-bold">WooApp </span><?php _e('requires ', 'wooapp'); ?><span class="fw-bold">WooCommerce </span><?php _e('to be installed and activated!', 'wooapp'); ?>
+            <span class="fw-bold">Appify </span><?php _e('requires ', 'appify'); ?><span class="fw-bold">WooCommerce </span><?php _e('to be installed and activated!', 'appify'); ?>
         </div>
 <?php
     }
@@ -176,13 +176,13 @@ final class Wooapp
 /**
  * Initializes the main plugin
  *
- * @return \Wooapp
+ * @return \Appify
  */
 
-function Wooapp()
+function Appify()
 {
-    return Wooapp::init();
+    return Appify::init();
 }
 
 // kick-off the plugin
-Wooapp();
+Appify();

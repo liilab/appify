@@ -4,7 +4,7 @@ namespace WebToApp\API;
 
 /**
  * Class StoreInfo
- * @package WebToApp\API
+ * @package Appify\API
  */
 
 class Store_Info extends \WebToApp\Abstracts\WTA_WC_REST_Controller

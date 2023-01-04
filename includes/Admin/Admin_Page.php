@@ -6,7 +6,7 @@ use WebToApp\Traits\Singleton;
 
 /**
  * Class Admin
- * @package WebToApp
+ * @package Appify
  */
 class Admin_Page
 {
@@ -36,14 +36,14 @@ class Admin_Page
 
     public function create_settings()
     {
-        $page_title  = 'WooApp';
-        $menu_title  = 'WooApp';
+        $page_title  = 'Appify';
+        $menu_title  = 'Appify';
         $capability  = 'manage_options';
-        $slug        = 'wooapp';
+        $slug        = 'appify';
         $callback    = array($this, 'wta_settings_content');
-        $icon        = WTA_ASSETS . '/build/img/wooapp-icon-20x20.png';
+        $icon        = WTA_ASSETS . '/build/img/appify-icon-20x20.png';
         $position    = 100;
-        add_menu_page($page_title, $menu_title, $capability, $slug, $callback, $icon , $position);
+        add_menu_page($page_title, $menu_title, $capability, $slug, $callback, $icon, $position);
     }
 
     public function wta_settings_content()

@@ -1,16 +1,17 @@
 <?php
+
 namespace WebToApp;
 
 use WebToApp\Traits\Singleton;
 
 /**
  * Class Admin
- * @package WebToApp
+ * @package Appify
  */
 
 class Admin
 {
-    use Singleton;
+	use Singleton;
 
 	public function __construct()
 	{
@@ -18,5 +19,4 @@ class Admin
 		Admin\Package::get_instance();
 		Admin\Backend::get_instance();
 	}
-
 }
