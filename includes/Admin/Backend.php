@@ -4,6 +4,11 @@ namespace WebToApp\Admin;
 
 use WebToApp\Traits\Singleton;
 
+/**
+ * Class Backend
+ * @package Appify\Admin
+ */
+
 class Backend
 {
     use Singleton;
@@ -141,12 +146,6 @@ class Backend
     {
         $user_id = $this->get_current_user_id();
 
-        // delete_user_meta($user_id, $this->build_id_meta_key);
-        // delete_user_meta($user_id, $this->is_build_meta_key);
-        // delete_user_meta($user_id, $this->binary_url_meta_key);
-        // delete_user_meta($user_id, $this->preview_url_meta_key);
-
-
         $build_id = get_user_meta($user_id, $this->build_id_meta_key, true);
         $is_building = get_user_meta($user_id, $this->is_build_meta_key, true);
         $binary_url = get_user_meta($user_id, $this->binary_url_meta_key, true);
@@ -185,7 +184,7 @@ class Backend
             $storename = sanitize_text_field($_POST['store_name']);
         }
 
-        $icon = $_POST['icon_url'] ?$_POST['icon_url'] : "https://picsum.photos/200/300";
+        $icon = $_POST['icon_url'] ? $_POST['icon_url'] : "https://picsum.photos/200/300";
 
         $icon = sanitize_url($icon);
 

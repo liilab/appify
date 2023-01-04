@@ -32,9 +32,9 @@ if (!defined('ABSPATH')) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 /**
- * The main plugin class
+ * Main initiation class
+ * @since  1.0.0
  */
-
 
 final class Appify
 {

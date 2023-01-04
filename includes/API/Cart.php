@@ -2,6 +2,11 @@
 
 namespace WebToApp\API;
 
+/**
+ * Class Cart
+ * @package Appify\API
+ */
+
 
 class Cart extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {

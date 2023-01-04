@@ -5,8 +5,8 @@ namespace WebToApp\Admin;
 use WebToApp\Traits\Singleton;
 
 /**
- * Class Admin
- * @package Appify
+ * Class Admin Page
+ * @package Appify\Admin
  */
 class Admin_Page
 {

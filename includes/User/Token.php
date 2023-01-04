@@ -2,6 +2,11 @@
 
 namespace WebToApp\User;
 
+/**
+ * Class Token
+ * @package Appify\User
+ */
+
 class Token
 {
 

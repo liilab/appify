@@ -2,6 +2,11 @@
 
 namespace WebToApp\API;
 
+/**
+ * Class Address
+ * @package Appify\API
+ */
+
 class Address extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 {
 

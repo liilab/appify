@@ -4,6 +4,11 @@ namespace WebToApp;
 
 use WebToApp\Traits\Singleton;
 
+/**
+ * Class WtaHelper
+ * @package Appify
+ */
+
 class WtaHelper
 {
 

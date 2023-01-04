@@ -5,6 +5,11 @@ use WebToApp\Traits\Singleton;
 
 require_once WTA_DIR . '/libs/tgm/tgm.php';
 
+/**
+ * Class Package
+ * @package Appify\Admin
+ */
+
 class Package
 {
 
@@ -58,14 +63,6 @@ class Package
             'dismiss_msg'  => '',                      // If 'dismissable' is false, this message will be output at top of nag.
             'is_automatic' => false,                   // Automatically activate plugins after installation or not.
             'message'      => '',                      // Message to output right before the plugins table.
-            /*
-            'strings'      => array(
-                'page_title'                      => __( 'Install Required Plugins', 'theme-slug' ),
-                'menu_title'                      => __( 'Install Plugins', 'theme-slug' ),
-                // <snip>...</snip>
-                'nag_type'                        => 'updated', // Determines admin notice type - can only be 'updated', 'update-nag' or 'error'.
-            )
-            */
         );
 
         tgmpa($plugins, $config);

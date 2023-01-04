@@ -2,6 +2,11 @@
 
 namespace WebToApp\Abstracts;
 
+/**
+ * Class WTA_WC_REST_Controller
+ * @package Appify\Abstracts
+ */
+
 abstract class WTA_WC_REST_Controller extends \WP_REST_Controller
 {
     /**
