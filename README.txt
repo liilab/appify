@@ -1,6 +1,6 @@
 === Appify - Convert WooCommerce Website to Mobile App ===
 Contributors: tsabbir007, asmwasim, htabir, sheikhsiyam
-Tags: app-maker, create-app, web-to-app, app-builder, convert-app
+Tags: app maker, create app, web to app, app builder, convert app
 Requires at least: 4.7
 Tested up to: 6.1.1
 Stable tag: trunk
@@ -91,7 +91,7 @@ Clearing your cache may help resolve any issues with the app build process.
 Make sure you are using the latest version of Appify and that your WordPress and WooCommerce websites are up to date.
 
 - ###Contact the Appify team:
-If you are still experiencing issues after trying these steps, you can contact the Appify team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
+If you are still experiencing issues after trying these steps, you can contact the Appify team at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com) for assistance.
 
 == Installation ==
 
@@ -129,19 +129,19 @@ You can easily publish Appify Android App to Google Play Store.
 
 = What if I am facing an issue(bug) in Appify Mobile App ? =
 
-If you are experiencing any issues or bugs with the Appify mobile app, you can contact the Appify team by emailing them at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com). The team will work with you to resolve any issues you may be experiencing with the app. It is recommended to include as much detail as possible in your email, including any error messages or issues you are experiencing, as this will help the team better understand the problem and find a solution more quickly.
+If you are experiencing any issues or bugs with the Appify mobile app, you can contact the Appify team by emailing them at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com). The team will work with you to resolve any issues you may be experiencing with the app. It is recommended to include as much detail as possible in your email, including any error messages or issues you are experiencing, as this will help the team better understand the problem and find a solution more quickly.
 
 = Can I change the layout of the app? =
 
-Currently, Appify does not offer the ability to change the layout of the app. The app's design and layout are fixed and cannot be altered by users. If you have any suggestions or ideas for improvements to the layout of the app, you can contact the Appify team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) to share your thoughts. The team may consider your suggestions for future updates to the app.
+Currently, Appify does not offer the ability to change the layout of the app. The app's design and layout are fixed and cannot be altered by users. If you have any suggestions or ideas for improvements to the layout of the app, you can contact the Appify team at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com) to share your thoughts. The team may consider your suggestions for future updates to the app.
 
 = Can I make a native iOS app? =
 
-Currently, Appify only supports the creation of a mobile app for Android devices. There is no support for creating a native iOS app at this time. However, the Appify team is working on developing an iOS app and it is expected to be available shortly. If you are interested in using Appify to create a native iOS app, you can contact the team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) to inquire about the availability of the iOS app and to stay up to date on any future developments.
+Currently, Appify only supports the creation of a mobile app for Android devices. There is no support for creating a native iOS app at this time. However, the Appify team is working on developing an iOS app and it is expected to be available shortly. If you are interested in using Appify to create a native iOS app, you can contact the team at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com) to inquire about the availability of the iOS app and to stay up to date on any future developments.
 
 = How many Appify mobile apps can be created? =
 
-With Appify, you can only create one mobile app per WooCommerce website. This means that if you have multiple WooCommerce websites, you will need to install Appify on each website in order to create a mobile app for each one. ***Don't Worry! If the WooCommerce related issue arise you can create another new app.***  If you have any questions or concerns about using Appify to create multiple mobile apps, you can contact the Appify team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
+With Appify, you can only create one mobile app per WooCommerce website. This means that if you have multiple WooCommerce websites, you will need to install Appify on each website in order to create a mobile app for each one. ***Don't Worry! If the WooCommerce related issue arise you can create another new app.***  If you have any questions or concerns about using Appify to create multiple mobile apps, you can contact the Appify team at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com) for assistance.
 
 = What if I experience a build failure while using Appify to create a mobile app? =
 
@@ -157,7 +157,7 @@ Clearing your cache may help resolve any issues with the app build process.
 Make sure you are using the latest version of Appify and that your WordPress and WooCommerce websites are up to date.
 
 ***Contact the Appify team:***
-If you are still experiencing issues after trying these steps, you can contact the Appify team at [mail.liilab@gmail.com](malito:mail.liilab@gmail.com) for assistance.
+If you are still experiencing issues after trying these steps, you can contact the Appify team at [mail.liilab@gmail.com](Malito:mail.liilab@gmail.com) for assistance.
 
 If you are unable to resolve the build failure issue, the Appify team will be able to help you troubleshoot and find a solution.
 
