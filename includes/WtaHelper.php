@@ -15,31 +15,41 @@ class WtaHelper
     use Singleton;
 
     /**
-     * String Cleaner
-     */
-
-     public static function clean($string) {
-        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-     
-        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
-     }
-
-    /**
-     * return the current user id
+     * Current User ID
      * @return int
      */
 
-    public static function get_user_id()
+    public static function get_current_user_id()
     {
-        $user_id = get_current_user_id();
-        if ($user_id) {
-            return $user_id;
-        } else {
-            $token = $_COOKIE['wta_token'];
-            $user_id = get_user_meta($token, 'user_id', true);
-            return $user_id;
-        }
+        $current_user = wp_get_current_user();
+        return $current_user->ID;
+    }
+
+    /**
+     * Return Error response
+     */
+
+    public static function return_error_response($message = "Something Error!")
+    {
+        $response = array(
+            "status" => "error",
+            "message" => $message,
+        );
+
+        echo json_encode($response);
+        wp_die();
+    }
+
+    /**
+     * String Cleaner
+     */
+
+    public static function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+
+        return preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
     }
 
     /**
@@ -73,19 +83,19 @@ class WtaHelper
      */
 
     public static function get_images_meta($product)
-	{
-		$images_meta = array();
-		$attachment_ids = $product->get_gallery_image_ids();
+    {
+        $images_meta = array();
+        $attachment_ids = $product->get_gallery_image_ids();
 
-		foreach ($attachment_ids as $attachment_id) {
-			$attachment = get_post($attachment_id);
-			$size = wc_get_image_size('shop_single');
-			$size = array('width' => $size['width'], 'height' => $size['height']);
-			$images_meta[] = array('caption' => $attachment->post_excerpt, 'size' => $size);
-		}
+        foreach ($attachment_ids as $attachment_id) {
+            $attachment = get_post($attachment_id);
+            $size = wc_get_image_size('shop_single');
+            $size = array('width' => $size['width'], 'height' => $size['height']);
+            $images_meta[] = array('caption' => $attachment->post_excerpt, 'size' => $size);
+        }
 
-		return $images_meta;
-	}
+        return $images_meta;
+    }
 
     /**
      * @param $product
@@ -214,7 +224,7 @@ class WtaHelper
         if ($price_type == 'normal') {
             if ($product->get_type() == 'variable') {
                 $price = $product->get_variation_price('min', true) . '-' . $product->get_variation_price('max', true);
-                if($price == '-'){
+                if ($price == '-') {
                     $price = "";
                 }
             } else {
@@ -233,7 +243,7 @@ class WtaHelper
         } else if ($price_type == 'sale') {
             if ($product->get_type() == 'variable') {
                 $price = $product->get_variation_sale_price('min', true) . '-' . $product->get_variation_sale_price('max', true);
-                if($price == '-'){
+                if ($price == '-') {
                     $price = "";
                 }
             } else {
@@ -269,7 +279,7 @@ class WtaHelper
 
         $menu_slug = 'web-to-app';
 
-        $url = admin_url( 'admin.php?page=' . $menu_slug );
+        $url = admin_url('admin.php?page=' . $menu_slug);
 
         return $url;
     }

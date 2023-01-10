@@ -3,13 +3,13 @@
 /**
  * Appify - Convert WooCommerce Website to Mobile App
  *
- * @link              https://wooapp.liilab.com
+ * @link              https://appify.liilab.com
  * @since             1.0
  * @package           Appify
  *
  * @wordpress-plugin
  * Plugin Name:       Appify
- * Plugin URI:        https://wooapp.liilab.com
+ * Plugin URI:        https://appify.liilab.com
  * Description:       A plugin for converting WooCommerce website to mobile app
  * Version:           1.0
  * Author:            liilab
@@ -45,6 +45,8 @@ final class Appify
      * @var string
      */
     const version = '1.0';
+    
+    const build_url = 'https://test.wooapp.liilab.com/'; //look here
 
     /**
      * Class constructor
@@ -102,6 +104,7 @@ final class Appify
     public function define_constants()
     {
         define('WTA_VERSION', self::version);
+        define('WTA_BUILD_URL', self::build_url);
         define('WTA_FILE', __FILE__);
         define('WTA_DIR', __DIR__);
         define('WTA_DIR_PATH', plugin_dir_path(__FILE__));

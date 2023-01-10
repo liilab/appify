@@ -4,7 +4,7 @@
 
     <div class="wooapp-container">
         <div class="wooapp-header">
-            <img class="wooapp-logo" src="<?php echo WTA_ASSETS ?>/build/img/appify-logo.png" alt="appify-logo" />
+            <img class="wooapp-logo" src="<?php echo WTA_ASSETS . '/build/img/appify-logo.png' ?>" alt="appify-logo" />
             <h1 class="wooapp-title mt-4"><?php esc_html_e('Welcome to Appify', 'appify'); ?></h1>
             <h2 class="wooapp-subtitle mt-1"><?php esc_html_e('Appify helps you to connect your WooCommerce website with your mobile app.', 'appify'); ?></h2>
         </div>
@@ -33,7 +33,7 @@
                     ?>
                         <div class="alert alert-danger" role="alert">
                             <h6><?php esc_html_e('Appify plugin requires WooCommerce installed and activate to work properly.', 'appify'); ?></h6>
-                            <a href="<?php echo $page_url = admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>"> <?php esc_html_e('Install WooCommerce', 'appify'); ?></a>
+                            <a href="<?php echo admin_url('themes.php?page=tgmpa-install-plugins&plugin_status=activate'); ?>"> <?php esc_html_e('Install WooCommerce', 'appify'); ?></a>
                         </div>
                     <?php
                     } else {
@@ -43,9 +43,9 @@
                             <!-- Initial Loader-->
                             <div id="wooapp-loader" class="wooapp-loader">
                                 <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden"><?php esc_html_e('Loading', 'appify'); ?>...</span>
+                                    <span class="visually-hidden"><?php esc_html_e('Loading...', 'appify'); ?></span>
                                 </div>
-                                <p class="mt-2"><?php esc_html_e('Loading', 'appify'); ?>...</p>
+                                <p class="mt-2"><?php esc_html_e('Loading...', 'appify'); ?></p>
                             </div>
                             <!-- Build History Card -->
                             <div id="wooapp-build-history-card" class="wooapp-build-history-card d-none">
@@ -76,7 +76,7 @@
                             <!-- Build Progress Loader  -->
                             <div id="wooapp-progressbar-section" class="wooapp-progressbar-section d-none">
                                 <p id="wooapp-progressbar-msg" class="text-center wooapp-progressbar-msg">
-                                    <?php esc_html_e('Building in progress.', 'appify'); ?><br><?php esc_html_e('It takes 3 to 7 minutes.', 'appify'); ?>
+                                    <?php esc_html_e('Building in progress', 'appify'); ?><br><?php esc_html_e('It takes 3 to 7 minutes', 'appify'); ?>
                                 </p>
                                 <div id="wooapp-progressbar" class="my-3 me-3 progress">
                                     <div id="wooapp-progressbar-loader" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>

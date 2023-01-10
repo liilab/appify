@@ -39,7 +39,7 @@ $(document).ready(function ($) {
                 }
             },
             error: function (request, status, error) {
-                swal("Error!", "Something went wrong!", "error");
+                swal.fire("Error!", "Something went wrong!", "error");
             }
         });
     }
@@ -153,7 +153,7 @@ $(document).ready(function ($) {
                 }
             },
             error: function (request, status, error) {
-                swal("Error!", "Something went wrong!", "error");
+                swal.fire("Error!", "Something went wrong!", "error");
             }
         });
     }
@@ -196,7 +196,7 @@ $(document).ready(function ($) {
                 }
             },
             error: function () {
-                swal("Error!", "Something went wrong", "error");
+                swal.fire("Error!", "Something went wrong", "error");
             }
         });
     }
@@ -252,7 +252,7 @@ $(document).ready(function ($) {
 
 
         if (buildStatus === "SUCCESS") {
-            swal("Congratulations!", "Your app is successfully created!", "success");
+            swal.fire("Congratulations!", "Your app is successfully created!", "success");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
             get_build_history();
@@ -276,7 +276,7 @@ $(document).ready(function ($) {
             location.reload(true);
         }
         else {
-            swal("Oh no!", `${buildStatus}, Please try again.`, "error");
+            swal.fire("Oh no!", `${buildStatus}, Please try again.`, "error");
             $("#wooapp-progressbar-section").addClass("d-none");
             $("#wooapp-build-history-card").removeClass("d-none");
             get_build_history();
@@ -300,22 +300,22 @@ $(document).ready(function ($) {
 
 
         if (appname.length < 3) {
-            swal('Wait!', 'Please enter Appname with at least 3 charecters', 'error');
+            swal.fire('Wait!', 'Please enter Appname with at least 3 charecters', 'error');
             return false;
         }
 
         if (storename.length < 3) {
-            swal('Wait!', 'Please enter Storename with at least 3 charecters', 'error');
+            swal.fire('Wait!', 'Please enter Storename with at least 3 charecters', 'error');
             return false;
         }
 
         if (icon_url == '') {
-            swal('Wait!', 'Please upload an icon', 'error');
+            swal.fire('Wait!', 'Please upload an icon', 'error');
             return false;
         }
 
         if (isValidImageUrl(icon_url) == false) {
-            swal('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
+            swal.fire('Wait!', 'Please upload a png or jpg forrmat icon', 'error');
             return false;
         }
 
@@ -406,7 +406,7 @@ $(document).ready(function ($) {
 
 
     function return_error($message = 'Something went wrong!') {
-        swal('Error!', $message, 'error');
+        swal.fire('Error!', $message, 'error');
     }
 
     // Media Uploader for App Icon start
