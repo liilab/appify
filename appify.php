@@ -45,8 +45,8 @@ final class Appify
      * @var string
      */
     const version = '1.0';
-    
-    const build_url = 'https://test.wooapp.liilab.com/'; //look here
+
+    private $build_url = 'https://test.wooapp.liilab.com/'; //look here
 
     /**
      * Class constructor
@@ -56,7 +56,7 @@ final class Appify
         $this->define_constants();
 
         register_activation_hook(__FILE__, [$this, 'activate']);
-        register_deactivation_hook( __FILE__, [$this, 'deactivate'] );
+        register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
@@ -68,21 +68,21 @@ final class Appify
      *
      * @param array $links
      *
-     * @since  1.0.0
-     *
      * @return array
+     *@since  1.0.0
+     *
      */
-    public function plugin_action_links($links)
+    public function plugin_action_links(array $links): array
     {
 
-        $links[] = '<a href="' . admin_url('admin.php?page=appify') . '" class="text-warning fw-bold">' . __('Open Appify Tools', 'appify') . '</a>';
+        $links[] = '<a href="' . admin_url('admin.php?page=appify') . '" class="fw-bold">' . __('Open tools', 'appify') . '</a>';
         return $links;
     }
 
     /**
      * Initializes a singleton instance
      *
-     * @return \Appify
+     * @return Appify
      */
 
     public static function init()
@@ -104,7 +104,7 @@ final class Appify
     public function define_constants()
     {
         define('WTA_VERSION', self::version);
-        define('WTA_BUILD_URL', self::build_url);
+        define('WTA_BUILD_URL', $this->build_url);
         define('WTA_FILE', __FILE__);
         define('WTA_DIR', __DIR__);
         define('WTA_DIR_PATH', plugin_dir_path(__FILE__));
@@ -144,8 +144,8 @@ final class Appify
             update_option('wta_installed', time());
         }
         update_option('wta_version', WTA_VERSION);
-        
-        do_action( 'Appify_WC_Plugin_activate' );
+
+        do_action('Appify_WC_Plugin_activate');
     }
 
 
@@ -157,7 +157,7 @@ final class Appify
 
     public function deactivate()
     {
-        do_action( 'Appify_WC_Plugin_deactivate' );
+        do_action('Appify_WC_Plugin_deactivate');
     }
 
     /**
@@ -179,7 +179,7 @@ final class Appify
 /**
  * Initializes the main plugin
  *
- * @return \Appify
+ * @return Appify
  */
 
 function Appify()

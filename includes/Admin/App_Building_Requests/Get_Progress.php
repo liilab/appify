@@ -3,6 +3,7 @@
 namespace WebToApp\Admin\App_Building_Requests;
 
 use WebToApp\Traits\Singleton;
+use WebToApp\WtaHelper;
 
 /**
  * Class Get_Progress
@@ -35,7 +36,7 @@ class Get_Progress
 
     public function get_build_progress()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
 
         $build_id = get_user_meta($user_id, $this->build_id_meta_key, true);
 
@@ -55,7 +56,7 @@ class Get_Progress
             $response = wp_remote_get($url, $args);
 
             if ($response['response']['code'] == 404) {
-                \WebToApp\WtaHelper::return_error_response("Build progress error!");
+                WtaHelper::return_error_response("Build progress error!");
             }
 
             $json_response = json_decode($response['body'], true);
@@ -73,7 +74,7 @@ class Get_Progress
 
     public function get_token()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
         return "Token " . get_user_meta($user_id, 'wta_access_token', true);
     }
 }

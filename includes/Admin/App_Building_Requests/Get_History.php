@@ -3,6 +3,7 @@
 namespace WebToApp\Admin\App_Building_Requests;
 
 use WebToApp\Traits\Singleton;
+use WebToApp\WtaHelper;
 
 /**
  * Class Get_History
@@ -34,7 +35,7 @@ class Get_History
 
     public function get_build_history()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
 
         $build_id = get_user_meta($user_id, $this->build_id_meta_key, true);
         $is_building = get_user_meta($user_id, $this->is_build_meta_key, true);
@@ -58,7 +59,7 @@ class Get_History
 
     public function get_token()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
         return "Token " . get_user_meta($user_id, 'wta_access_token', true);
     }
 }

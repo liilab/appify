@@ -3,6 +3,7 @@
 namespace WebToApp\Admin\App_Building_Requests;
 
 use WebToApp\Traits\Singleton;
+use WebToApp\WtaHelper;
 
 /**
  * Class Get_History_Card
@@ -35,7 +36,7 @@ class Get_History_Card
 
     public function get_build_history_card()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
         $website_id = get_user_meta($user_id, $this->website_id_meta_key, true);
 
         $url = $this->base_url . "api/builder/v1/build-requests/?page_size=5&&website=" . $website_id;
@@ -49,7 +50,7 @@ class Get_History_Card
         $response = wp_remote_get($url, $config);
 
         if ($response['response']['code'] == 404) {
-            \WebToApp\WtaHelper::return_error_response("Get build history card error!");
+            WtaHelper::return_error_response("Get build history card error!");
         }
 
         $json_response = json_decode($response['body'], true);
@@ -59,7 +60,7 @@ class Get_History_Card
 
     public function get_token()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
         return "Token " . get_user_meta($user_id, 'wta_access_token', true);
     }
 }

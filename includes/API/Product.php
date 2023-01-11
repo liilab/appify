@@ -1,6 +1,7 @@
 <?php
 
 namespace WebToApp\API;
+use WebToApp\WtaHelper;
 
 /**
  * Class Product
@@ -276,7 +277,7 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 				);
 			}
 
-			$sale_percentage  = \WebToApp\WtaHelper::get_sale_percentage($variation);
+			$sale_percentage  = WtaHelper::get_sale_percentage($variation);
 			$sale_price       = $variation->get_sale_price();
 			$price            = ((get_option('woocommerce_prices_include_tax', 'no') == 'no') && (get_option('woocommerce_tax_display_shop', 'inc') == 'incl')) ? $variation->get_price_including_tax() : $variation->get_price();
 			$regular_price    = ((get_option('woocommerce_prices_include_tax', 'no') == 'no') && (get_option('woocommerce_tax_display_shop', 'inc') == 'incl')) ? wc_get_price_including_tax($variation, array('price' => $variation->get_regular_price())) : $variation->get_regular_price();
@@ -289,16 +290,16 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 					'price'                 => $price ? $price : "",
 					'regular_price'         => $regular_price ? $regular_price : "",
 					'sale_price'            => $sale_price ? $sale_price : "",
-					'price_display'          => $price ? (\WebToApp\WtaHelper::get_price_display($price)) : "",
-					'regular_price_display'  => $regular_price ? (\WebToApp\WtaHelper::get_price_display($regular_price)) : "",
-					'sale_price_display'     => $sale_price ? (\WebToApp\WtaHelper::get_price_display($sale_price)) : "",
+					'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "",
+					'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "",
+					'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "",
 					'on_sale'               => $variation->is_on_sale(),
 					'downloadable'          => $variation->is_downloadable(),
 					'in_stock'              => $variation->is_in_stock(),
 					'status'                => $variation_status,
 					'sale_percentage'       => ($sale_percentage != 0) ? $sale_percentage . '%' : false,
 					'purchasable'           => $product->is_purchasable(),
-					'dimensions'            => \WebToApp\WtaHelper::get_product_dimensions($variation),
+					'dimensions'            => WtaHelper::get_product_dimensions($variation),
 					'image'                 => $images,
 					'image_meta'            => $image_meta,
 					'attributes'            => array_values($this->get_attributes($variation)),
@@ -327,8 +328,8 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'step'        => apply_filters('woocommerce_quantity_input_step', '1', $product),
 		);
 
-		$thumbnail      = \WebToApp\WtaHelper::get_thumbnail($product);
-		$thumbnail_meta = \WebToApp\WtaHelper::get_thumbnail_meta($product);
+		$thumbnail      = WtaHelper::get_thumbnail($product);
+		$thumbnail_meta = WtaHelper::get_thumbnail_meta($product);
 		if ($thumbnail_meta) {
 			$thumbnail_meta = array(
 				'width'  => $thumbnail_meta['width'] ? $thumbnail_meta['width'] : 0,
@@ -342,15 +343,15 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 		}
 
 		$attributes    = $this->get_attributes($product, true, false);
-		$price         = \WebToApp\WtaHelper::get_price($product);
-		$regular_price = \WebToApp\WtaHelper::get_price($product, 'regular');
-		$sale_price    = \WebToApp\WtaHelper::get_price($product, 'sale');
+		$price         = WtaHelper::get_price($product);
+		$regular_price = WtaHelper::get_price($product, 'regular');
+		$sale_price    = WtaHelper::get_price($product, 'sale');
 
 		$data = [
 			'id'                     => $product->get_id(),
 			'name'                   => $product->get_name(),
 			'slug'                   => $product->get_slug(),
-			'permalink'              => \WebToApp\WtaHelper::ensure_absolute_link($product->get_permalink()),
+			'permalink'              => WtaHelper::ensure_absolute_link($product->get_permalink()),
 			'type'                   => $product->get_type(),
 			'featured'               => $product->get_featured(),
 			'short_description'      => $product->get_short_description(),
@@ -360,11 +361,11 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'price'                  => $price ? $price : "",
 			'regular_price'          => $regular_price ? $regular_price : "",
 			'sale_price'             => $sale_price ? $sale_price : "",
-			'price_display'          => $price ? (\WebToApp\WtaHelper::get_price_display($price)) : "",
-			'regular_price_display'  => $regular_price ? (\WebToApp\WtaHelper::get_price_display($regular_price)) : "",
-			'sale_price_display'     => $sale_price ? (\WebToApp\WtaHelper::get_price_display($sale_price)) : "",
+			'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "",
+			'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "",
+			'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "",
 			'on_sale'                => $product->is_on_sale(),
-			'sale_percentage'        => \WebToApp\WtaHelper::get_sale_percentage($product),
+			'sale_percentage'        => WtaHelper::get_sale_percentage($product),
 			'purchasable'            => $product->is_purchasable(),
 			'downloadable'           => $product->is_downloadable(),
 			'display_add_to_cart'    => $product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple'),
@@ -372,7 +373,7 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'stock_quantity'         => $product->get_stock_quantity(),
 			'in_stock'               => $product->is_in_stock(),
 			'weight'                 => $product->get_weight(),
-			'dimensions'             => \WebToApp\WtaHelper::get_product_dimensions($product),
+			'dimensions'             => WtaHelper::get_product_dimensions($product),
 			'reviews_allowed'        => $product->get_reviews_allowed(),
 			'display_rating'         => (get_option('woocommerce_enable_review_rating') === 'no') ? false : true,
 			'average_rating'         => wc_format_decimal($product->get_average_rating(), 2),
@@ -395,7 +396,7 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 		}
 
 		$images      = $this->get_images($product);
-		$images_meta = \WebToApp\WtaHelper::get_images_meta($product);
+		$images_meta = WtaHelper::get_images_meta($product);
 
 		$data['images']      = $images;
 		$data['images_meta'] = $images_meta;
@@ -521,7 +522,7 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 		}
 
 		if (isset($attribute['is_taxonomy']) && $attribute['is_taxonomy']) {
-			$terms  = wc_get_product_terms(\WebToApp\WtaHelper::get_id($product), $attribute['name'], array('fields' => 'all'));
+			$terms  = wc_get_product_terms(WtaHelper::get_id($product), $attribute['name'], array('fields' => 'all'));
 			$return = array();
 			foreach ($terms as $term) {
 				$in_variation = $this->check_option_in_variation($variation_attrs, $term->slug);

@@ -58,7 +58,7 @@
                                     <div class="mx-2 ps-0">
                                         <p class="wooapp-build-card-title">
                                             <?php esc_html_e('Appify App Builder', 'appify'); ?>
-                                            </span>
+                                            </p>
                                         <p class="fw-normal wooapp-build-card-version"><?php esc_html_e('Last build histories', 'appify'); ?></p>
                                     </div>
                                     <div class="ms-auto">

@@ -3,6 +3,7 @@
 namespace WebToApp\Admin\App_Building_Requests;
 
 use WebToApp\Traits\Singleton;
+use WebToApp\WtaHelper;
 
 /**
  * Class Create_Request
@@ -63,7 +64,7 @@ class Create_Request
 
         $url = $this->base_url . 'api/builder/v1/create-build-request/';
 
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
 
         $website_id = get_user_meta($user_id, $this->website_id_meta_key, true);
 
@@ -72,7 +73,7 @@ class Create_Request
                 'Authorization' => $this->get_token(),
             ),
 
-            'body' => array(
+            'body' => [
                 'success' => true,
                 'app_name' => $this->clean($appname),
                 'app_logo' =>  $icon,
@@ -80,13 +81,13 @@ class Create_Request
                 'store_logo' => $icon,
                 "template" => 1,
                 "website" => $website_id
-            ),
+            ],
         );
 
         $response = wp_remote_post($url, $config);
 
         if ($response['response']['code'] == 404) {
-            \WebToApp\WtaHelper::return_error_response("Create build request error!");
+            WtaHelper::return_error_response("Create build request error!");
         }
 
         $json_response = json_decode($response['body'], true);
@@ -102,7 +103,7 @@ class Create_Request
 
     public function get_token()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
         return "Token " . get_user_meta($user_id, 'wta_access_token', true);
     }
 

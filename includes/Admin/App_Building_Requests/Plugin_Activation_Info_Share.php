@@ -3,6 +3,7 @@
 namespace WebToApp\Admin\App_Building_Requests;
 
 use WebToApp\Traits\Singleton;
+use WebToApp\WtaHelper;
 
 /**
  * Class Plugin_Activation_Info_Share
@@ -27,7 +28,7 @@ class Plugin_Activation_Info_Share
 
     public function plugin_activation_post_request()
     {
-        $user_id = \WebToApp\WtaHelper::get_current_user_id();
+        $user_id = WtaHelper::get_current_user_id();
 
         $url = $this->base_url . 'api/builder/v1/activate-plugin/';
 
@@ -66,7 +67,7 @@ class Plugin_Activation_Info_Share
                         'name' =>  $first_name . ' ' . $last_name,
                         'state' => $state_name,
                         'organization' => $site_name,
-                        'organizational_unit' => \WebToApp\WtaHelper::clean(strtolower($site_name)) . '-e-commerce',
+                        'organizational_unit' => WtaHelper::clean(strtolower($site_name)) . '-e-commerce',
                     ),
                 )
             ),
@@ -75,7 +76,7 @@ class Plugin_Activation_Info_Share
         $response = wp_remote_post($url, $data);
 
         if ($response['response']['code'] == 404) {
-            \WebToApp\WtaHelper::return_error_response("Plugin activation post request error!");
+            WtaHelper::return_error_response("Plugin activation post request error!");
         }
 
         $json_response = json_decode($response['body'], true);
