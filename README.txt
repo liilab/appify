@@ -123,7 +123,7 @@ Appify integrates with your WooCommerce website and allows you to manage your on
 
 No, Appify does not currently have integration with Google sign-in. Customers will need to create an account through the app itself.
 
-= How to Publish my Appify Mobile App? =
+= How to publish my Appify Mobile App? =
 
 You can easily publish Appify Android App to Google Play Store.
 
