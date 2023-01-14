@@ -17,7 +17,7 @@ $(document).ready(function ($) {
         };
 
         $.ajax({
-            type: "post",
+            type: "get",
             url: wta_ajax.admin_ajax,
             data: data,
             success: function (response) {
@@ -57,7 +57,7 @@ $(document).ready(function ($) {
         };
 
         $.ajax({
-            type: "post",
+            type: "get",
             url: wta_ajax.admin_ajax,
             data: data,
 
@@ -225,7 +225,7 @@ $(document).ready(function ($) {
             if (count == 20) break;
             try {
                 let response = await $.ajax({
-                    type: "post",
+                    type: "get",
                     url: wta_ajax.admin_ajax,
                     data: data,
                 });
