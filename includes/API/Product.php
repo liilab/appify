@@ -311,6 +311,25 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 	}
 
 	/**
+	 * Get the max order product value
+	 *
+	 * @return array
+	 */
+
+	public function get_max_value($product){
+		$max_value = 100000;
+		apply_filters('wta_wc_product_max_value', $max_value, $product);
+		if($product->managing_stock()){
+			if($product->backorders_allowed()){
+				return $max_value;
+			}else{
+				return $product->get_stock_quantity();
+			}
+		}
+		return $max_value;
+	}
+
+	/**
 	 * Get the query params for collections
 	 *
 	 * @return array
@@ -323,7 +342,7 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'label'       => __('Quantity', 'woocommerce'),
 			'display'     => !$product->is_sold_individually(),
 			'input_value' => '1',
-			'max_value'   => apply_filters('woocommerce_quantity_input_max', $product->backorders_allowed() ? '' : (int)$product->get_stock_quantity(), $product),
+			'max_value'   => apply_filters('woocommerce_quantity_input_max',  $this->get_max_value($product) , $product),
 			'min_value'   => apply_filters('woocommerce_quantity_input_min', 1, $product),
 			'step'        => apply_filters('woocommerce_quantity_input_step', '1', $product),
 		);
