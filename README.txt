@@ -12,11 +12,18 @@ Appify is a plugin for WordPress that allows you to create a mobile app for your
 
 == Description ==
 
-**Appify** is a WordPress plugin that allows you to turn your WooCommerce website into a mobile app. With this plugin, you can easily manage your online store through your mobile device, allowing you to take orders, view order lists, update addresses, and track orders all from the convenience of your phone or tablet.
+= APPIFY - CONVERT WOOCOMMERCE WEBSITE TO MOBILE APP =
+	
+👉 Learn More About Appify: [All The Features of Appify](https://appify.liilab.com/)
+👉 See Our Official GitHub page: [Official Appify GitHub](https://github.com/liilab/appify)
+
+= POWERED BY WooCommerce =
+
+[Appify](https://appify.liilab.com/) is a WordPress plugin that allows you to turn your WooCommerce website into a mobile app. With this plugin, you can easily manage your online store through your mobile device, allowing you to take orders, view order lists, update addresses, and track orders all from the convenience of your phone or tablet.
 
 One of the major benefits of Appify is its user-friendly interface and excellent user experience. The app is easy to navigate and use, making it simple for customers to shop and purchase items on the go. Additionally, the app has a cool and modern design that is sure to attract customers and keep them coming back for more.
 
-However, there are some limitations to Appify. Currently, the plugin only supports simple, variable, and grouped products. It does not have integration with Google sign-in, so customers will have to create an account through the app itself.
+However, there are some limitations to Appify. Currently, the plugin only supports simple and variable products. It does not have integration with Google sign-in, so customers will have to create an account through the app itself.
 
 ***Privacy is also a major concern for many users, and Appify takes this seriously. The plugin does not use any of your data for any purpose, ensuring that your personal information is kept safe and secure.***
 
@@ -33,8 +40,8 @@ Appify has a user-friendly interface and excellent user experience, making it ea
 - ###Real-time updates:
 Appify provides real-time updates on orders and shipping status, so you and your customers can stay up to date on the status of their orders.
 
-- ###Support for simple, variable, and grouped products:
-Appify supports simple, variable, and grouped products, allowing you to sell a wide range of products through the app.
+- ###Support for simple and variable products:
+Appify supports simple and variable products, allowing you to sell a wide range of products through the app.
 
 - ###Free and safe to use:
 Appify is completely free to use and is a safe and secure plugin, ensuring that your personal information is kept private.
@@ -164,8 +171,8 @@ If you are unable to resolve the build failure issue, the Appify team will be ab
 
 == Screenshots ==
 
-1-Convert your WooCommerce website to a beautiful Android App. screenshot-1.png
-2-Easily upload and update your WooCommerce app on the go and receive real-time updates. screenshot-2.png
+1. Convert your WooCommerce website to a beautiful Android App
+2. Easily upload and update your WooCommerce app on the go and receive real-time updates
 
 == Changelog ==
 
