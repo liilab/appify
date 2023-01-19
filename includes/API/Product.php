@@ -257,11 +257,11 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 				continue;
 			}
 
-			$images = array();
+			$images = "";
 
 			if (has_post_thumbnail($variation->get_id())) {
 				$images = wp_get_attachment_image_src(get_post_thumbnail_id($variation->get_id()), 'full')[0];
-			}
+			} 
 
 			$image_meta = wp_get_attachment_metadata(get_post_thumbnail_id($variation->get_id()));
 
@@ -287,17 +287,17 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 					'id'                    => $variation->get_variation_id(),
 					'permalink'             => $variation->get_permalink(),
 					'sku'                   => $variation->get_sku(),
-					'price'                 => $price ? $price : "",
-					'regular_price'         => $regular_price ? $regular_price : "",
-					'sale_price'            => $sale_price ? $sale_price : "",
-					'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "",
-					'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "",
-					'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "",
+					'price'                 => $price ? $price : "0.00",
+					'regular_price'         => $regular_price ? $regular_price : "0.00",
+					'sale_price'            => $sale_price ? $sale_price : "0.00",
+					'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "0.00",
+					'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "0.00",
+					'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "0.00",
 					'on_sale'               => $variation->is_on_sale(),
 					'downloadable'          => $variation->is_downloadable(),
 					'in_stock'              => $variation->is_in_stock(),
 					'status'                => $variation_status,
-					'sale_percentage'       => ($sale_percentage != 0) ? $sale_percentage . '%' : false,
+					'sale_percentage'       => ($sale_percentage != 0) ? $sale_percentage . '%' : 0 . '%',
 					'purchasable'           => $product->is_purchasable(),
 					'dimensions'            => WtaHelper::get_product_dimensions($variation),
 					'image'                 => $images,
@@ -377,19 +377,19 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'sku'                    => $product->get_sku(),
 			'currency'               => get_woocommerce_currency(),
 			'currency_symbol'        => html_entity_decode(get_woocommerce_currency_symbol(), ENT_QUOTES, 'UTF-8'),
-			'price'                  => $price ? $price : "",
-			'regular_price'          => $regular_price ? $regular_price : "",
+			'price'                  => $price ? $price : "0.00",
+			'regular_price'          => $regular_price ? $regular_price : "0.00",
 			'sale_price'             => $sale_price ? $sale_price : "",
-			'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "",
-			'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "",
-			'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "",
+			'price_display'          => $price ? (WtaHelper::get_price_display($price)) : "0.00",
+			'regular_price_display'  => $regular_price ? (WtaHelper::get_price_display($regular_price)) : "0.00",
+			'sale_price_display'     => $sale_price ? (WtaHelper::get_price_display($sale_price)) : "0.00",
 			'on_sale'                => $product->is_on_sale(),
 			'sale_percentage'        => WtaHelper::get_sale_percentage($product),
 			'purchasable'            => $product->is_purchasable(),
 			'downloadable'           => $product->is_downloadable(),
 			'display_add_to_cart'    => $product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple'),
 			'qty_config'             => $default_config,
-			'stock_quantity'         => $product->get_stock_quantity(),
+			'stock_quantity'         => (int)$product->get_stock_quantity(),
 			'in_stock'               => $product->is_in_stock(),
 			'weight'                 => $product->get_weight(),
 			'dimensions'             => WtaHelper::get_product_dimensions($product),
@@ -398,12 +398,12 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			'average_rating'         => wc_format_decimal($product->get_average_rating(), 2),
 			'rating_count'           => $product->get_rating_count(),
 			'images'                 => array(),
-			'thumbnail'              => $thumbnail,
+			'thumbnail'              => (string)$thumbnail,
 			'thumbnail_meta'         => $thumbnail_meta,
 			'images_meta'            => array(),
-			'notify_backorder_label' => __('On backorder', 'woocommerce'),
 			'attributes'             => array_values($attributes),
 			'default_attributes'     => array_values($attributes),
+			'notify_backorder_label' => __('On backorder', 'woocommerce'),
 		];
 
 		if ($product->managing_stock() && $product->is_on_backorder(1) && $product->backorders_require_notification() && $product->get_type() === 'simple') {
@@ -425,6 +425,9 @@ class Product extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 			$size                  = $thumbnail_meta;
 			$data['images_meta'][] = array('caption' => '', 'size' => $size);
 		}
+
+		
+
 
 		return $data;
 	}

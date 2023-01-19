@@ -207,8 +207,8 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
             'items'         => $this->get_order_items($order),
             'currency'      => method_exists($order, 'get_currency') ? $order->get_currency() : $order->order_currency,
             'version'       => method_exists($order, 'get_version') ? $order->get_version() : $order->order_version,
-            'date_created'  => $order->get_date_created() ? wc_rest_prepare_date_response($order->get_date_created()) : null,
-            'date_modified' => $order->get_date_modified() ? wc_rest_prepare_date_response($order->get_date_modified()) : null,
+            'date_created'  => $order->get_date_created() ? wc_rest_prepare_date_response($order->get_date_created()) : '',
+            'date_modified' => $order->get_date_modified() ? wc_rest_prepare_date_response($order->get_date_modified()) : '',
             'discount_total' =>  $order->get_total_discount(),
             'shipping_total' =>  $order->get_total_shipping(),
             'shipping_tax'   =>  $order->get_shipping_tax(),
@@ -220,7 +220,7 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
             'billing'              => $this->get_address('billing', $request),
             'shipping'             => $this->get_address('shipping', $request),
             'payment_method_title' => method_exists($order, 'get_payment_method_title') ? $order->get_payment_method_title() : $order->payment_method_title,
-            'date_completed'       => $this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
+            'date_completed'       => (string)$this->wc_rest_prepare_date_response(method_exists($order, 'get_date_completed') ? $order->get_date_completed() : $order->completed_date),
             'can_cancel_order'     => $user_can_cancel && $order_can_cancel,
             'can_repeat_order'     => $order_can_repeat && $enable_order_repeat,
             'repeat_order_title'   => __('Order again', 'woocommerce'),
@@ -328,7 +328,7 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
 
         foreach ($items as $item) {
             $product = $item->get_product();
-            $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($product->get_id()));
+            $featured_image = (string)wp_get_attachment_image_src(get_post_thumbnail_id($product->get_id()))[0];
             $product_sku = $product->get_sku();
             $product_id = $product->get_id();
             $variation_id = $item->get_variation_id();
@@ -409,7 +409,7 @@ class Order extends \WebToApp\Abstracts\WTA_WC_REST_Controller
             'status' => $order->get_status(),
             'total_items' => $order->get_item_count(),
             'currency' => $order->get_currency(),
-            'date_created' => $order->get_date_created() ? wc_rest_prepare_date_response($order->get_date_created()) : null,
+            'date_created' => $order->get_date_created() ? (string)wc_rest_prepare_date_response($order->get_date_created()) : '',
             'order_key' => $order->get_order_key(),
         );
         return $data;
