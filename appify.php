@@ -46,7 +46,7 @@ final class Appify
      */
     const version = '1.0';
 
-    private $build_url = 'https://test.wooapp.liilab.com/'; //look here
+    private $build_url = 'https://appify.liilab.com/';
 
     /**
      * Class constructor
