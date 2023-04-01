@@ -10,9 +10,9 @@
  * @wordpress-plugin
  * Plugin Name:       Appify
  * Plugin URI:        https://appify.liilab.com
- * Description:       A plugin for converting WooCommerce website to mobile app
+ * Description:       Convert WooCommerce website to mobile app
  * Version:           1.0
- * Author:            liilab
+ * Author:            LII Lab
  * Author URI:        https://liilab.com
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * License:           GPL-2.0+
@@ -59,7 +59,26 @@ final class Appify
         register_deactivation_hook(__FILE__, [$this, 'deactivate']);
 
         add_action('plugins_loaded', [$this, 'init_plugin']);
+        add_action('admin_init', [$this, 'plugin_redirect']);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links']);
+    }
+
+    /**
+     * Plugin redirect
+     *
+     * @return void
+     *@since  1.0.0
+     *
+     */
+
+    public function plugin_redirect()
+    {
+        if (get_option('Appify_do_activation_redirect', false)) {
+            delete_option('Appify_do_activation_redirect');
+            if (!isset($_GET['activate-multi'])) {
+                wp_redirect("admin.php?page=appify");
+            }
+        }
     }
 
 
@@ -144,6 +163,8 @@ final class Appify
             update_option('wta_installed', time());
         }
         update_option('wta_version', WTA_VERSION);
+
+        add_option('Appify_do_activation_redirect', true);
 
         do_action('Appify_WC_Plugin_activate');
     }
