@@ -1,8 +1,10 @@
 === Appify - Convert WooCommerce Website to Mobile App ===
 Contributors: tsabbir007, asmwasim, htabir, sheikhsiyam
 Tags: app maker, create app, web to app, app builder, convert app
-Requires at least: 4.7
-Tested up to: 6.1.1
+Requires at least: 5.4
+Tested up to: 6.2
+WC requires at least: 5.0.0
+WC tested up to: 7.5.1
 Stable tag: 1.0
 Requires PHP: 5.4 or later
 License: GPLv2 or later
@@ -16,6 +18,8 @@ Appify is a plugin for WordPress that allows you to create a mobile app for your
 	
 👉 Learn More About Appify: [All The Features of Appify](https://appify.liilab.com/)
 👉 See Our Official GitHub page: [Official Appify GitHub](https://github.com/liilab/appify)
+
+[vimeo https://vimeo.com/813782127]
 
 = POWERED BY WooCommerce =
 
